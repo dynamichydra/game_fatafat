@@ -1,0 +1,97 @@
+<style type="text/css">
+  
+  .methodBox .gameButton{
+    padding: 5px 15px !important;
+  }
+  .methodBox p{
+    margin-bottom: 5px;
+  }
+  .small{
+    color: #a6a6a7;
+    margin: 0px;
+  }
+  .small span{
+    border-radius: 50%;
+    background: #ff4605;
+    color: #fff;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 1;
+    margin-right: 5px;
+  }
+  .imgWrapper div{
+    text-align: center;
+  }
+  .exImg{
+    width: 100%;
+    border: #409ef5 1px solid;
+    margin: 10px auto;
+  }
+  .imgBig{
+    width: 100%;
+  }
+</style>
+<div class="container mt-3">
+  <div class="row">
+    <h5>Step 1. Copy UPI Information </h5>
+    <div class="col-12  mt-3">
+      <div class="methodBox conBox">
+        <div class="row">
+          <div class="col-9">
+            <p>Order Number</p>
+            <p class="orderNo"></p>
+          </div>
+          <div class="col-3">
+            <span class="gameButton copyBtn" data-type="order_no"> Copy </span>
+          </div>
+          <div class="col-9 mt-3">
+            <p>Amount</p>
+            <p class="amount"></p>
+          </div>
+          <div class="col-3 mt-3">
+            <span class="gameButton copyBtn" data-type="amt"> Copy </span>
+          </div>
+          <div class="col-9 mt-3">
+            <p>Upi Account</p>
+            <p class="upiAccount"></p>
+          </div>
+          <div class="col-3 mt-3">
+            <span class="gameButton copyBtn" data-type="upi_acc"> Copy </span>
+          </div>
+          <div class="col-12 mt-3" style="text-align: center;">
+            <img class="qrImg" src="" style="width: 200px;"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h5 class="mt-3">Step 2. Open online banking or wallet, transfer to the UPI account</h5>
+    <p class="small">Transfer the money to the UPI account</p>
+    <p class="small"><span>i</span>The UPI account may be changed at any time, please do not save The UPI account.</p>
+    
+    <h5 class="mt-3">Step 3. After successful make a transfer Please fill 12 digit of Ref No</h5>
+    <p class="small">See the Ref No. example at the bottom</p>
+    <p class="small"><span>i</span> Please enter Ref No. to complete the recharge</p>
+    <p class="small">Ref No. format: 1074xxxxxxxx</p>
+
+    <div class="col-12  mt-5 input-container">
+      <i class="bi bi-file-binary"></i>
+      <input type="text" id="refNo" placeholder="Reference number">
+    </div>
+    <div class="col-12  mt-3" style="text-align: center;">
+      <span class="gameButton saveBtn"> Submit </span>
+    </div>
+
+    <p class="small mt-5">Ref No. Example</p>
+    <p class="small">Click on the picture to view details</p>
+    <div class="col-12  mt-3">
+      <div class="row imgWrapper">
+
+      </div>
+    </div>
+  </div>
+  
+</div>
+<script src="APPS/profile/modules/upi.js"></script>

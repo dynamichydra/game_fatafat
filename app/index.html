@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-bs-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+  <meta name="theme-color" content="#333a54">
+
+  <title>Fatafat</title>
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+
+  <link href="plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+
+  <link rel="stylesheet" href="fonts/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="plugins/animate-css/animate.compat.css">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js"></script>
+  
+
+  <script src="https://browser.sentry-cdn.com/5.9.1/bundle.min.js"
+    integrity="sha384-/x1aHz0nKRd6zVUazsV6CbQvjJvr6zQL2CHbQZf3yoLkezyEtZUpqUNnOLW9Nt3v"
+    crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <div id="dmLoadingDIV">
+    <img src="whitelabel/game/img/logo.png">
+    <h3>Loading...</h3>
+  </div>
+
+  <nav id="mainNavbar" class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="display:none">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="whitelabel/game/img/logo.png">
+      </a>
+
+      <div class="topIcon">
+        <a class="notificationTop" href="javascript:void(0);"><i class="bi bi-bell"></i></a>
+        <a class="walletTop" href="javascript:void(0);">
+          <i class="bi bi-wallet"></i>&nbsp;&nbsp;<span class="walletBalance"></span>
+        </a>
+      </div>
+      
+    </div>
+  </nav>
+
+  <nav id="subNavbar" class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="display:none">
+    <div class="container-fluid">
+      <button id="goBackBTN" class="btn">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <div id="pageTitle"></div>
+      <div class="topIcon">
+        <a class="walletTop" href="javascript:void(0);">
+          <i class="bi bi-wallet"></i>&nbsp;&nbsp;<span class="walletBalance"></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main role="main">
+    <div id="DM_LIVE_TOAST_WRAPPER" class="position-absolute top-0 start-50 translate-middle-x p-3"
+      style="z-index: 99999999999">
+
+    </div>
+    <div class="pull-to-refresh text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div id="mainContent" class="mian"></div>
+
+  </main>
+
+  <div id="footer" class="fixed-bottom d-flex justify-content-around">
+    <a href="#/record">
+      <i class="bi bi-activity"></i>
+      <small>Bet History</small>
+    </a>
+    <a href="#/record/win">
+      <i class="bi bi-trophy"></i>
+      <small>Win History</small>
+    </a>
+    <a href="#/home">
+      <i class="bi bi-house"></i>
+      <small>Home</small>
+    </a>
+    <a href="#/result">
+      <i class="bi bi-bar-chart-steps"></i>
+      <small>Results</small>
+    </a>
+    <a href="#/profile">
+      <i class="bi bi-people"></i>
+      <small>profile</small>
+    </a>
+  </div>
+
+  <div id="sitePopup" class="popup"></div>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+  
+  <script src="plugins/jquery/jquery-3.5.1.min.js"></script>
+  <script src="plugins/bootstrap/bootstrap.bundle.min.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/template.js"></script>
+
+  <!-- build:js dokumeframework.js -->
+  <!---------Plugins--------->
+  <link rel="stylesheet" href="plugins/flatpickr/flatpickr.min.css">
+  <script src="plugins/flatpickr/flatpickr.min.js"></script>
+  <script src="plugins/moment/moment-with-locales.js"></script>
+  <script src="plugins/rejectBrowser/js/jquery.reject.js"></script>
+  <!---------Plugins--------->
+
+
+  <!---------DokuMe Core--------->
+  <script src="dokume/js/localBackend.js"></script>
+  <script src="dokume/js/auth.js"></script>
+
+  <script src="dokume/js/modules/pubsub.js"></script>
+  <script src="dokume/js/reconnecting-websocket.min.js"></script>
+  <script src="dokume/js/websocket.js"></script>
+
+  <script src="dokume/js/utils.js"></script>
+  <script src="dokume/js/modules/utilities.js"></script>
+  <!---------/DokuMe Core--------->
+
+  <script src="dokume/js/modules/whitelabel.js"></script>
+
+  <!------------------API------->
+  <script src="js/api/general.js"></script>
+
+  <!---------ROUTING--------->
+  <script src="dokume/js/routing/signals.js"></script>
+  <script src="dokume/js/routing/hasher.min.js"></script>
+  <script src="dokume/js/routing/crossroads.min.js"></script>
+  <script src="dokume/js/routing/routing.js"></script>
+  <!---------/ROUTING--------->
+
+  <script src="dokume/js/db/idb.js"></script>
+  <script src="dokume/js/db/db.js"></script>
+
+  <script src="dokume/js/core.js"></script>
+  <script src="js/cms_templates.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/common.js"></script>
+
+  <!-- /build -->
+
+</body>
+
+</html>

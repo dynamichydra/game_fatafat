@@ -1,0 +1,44 @@
+{
+  "name": "Fatafat",
+  "short_name": "MR",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f0f5f9",
+  "theme_color": "#333a54",
+  "description": "Fatafat",
+  "icons": [{
+    "src": "whitelabel/game/img/icons/48.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }, {
+    "src": "whitelabel/game/img/icons/72.png",
+    "sizes": "72x72",
+    "type": "image/png"
+  }, {
+    "src": "whitelabel/game/img/icons/96.png",
+    "sizes": "96x96",
+    "type": "image/png"
+  }, {
+    "src": "whitelabel/game/img/icons/144.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {
+    "src": "whitelabel/game/img/icons/168.png",
+    "sizes": "168x168",
+    "type": "image/png"
+  }, {
+    "src": "whitelabel/game/img/icons/192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }],
+  "related_applications": [{
+    "platform": "Web",
+    "url": "https://app.siliguriFatafat.com"
+  }, {
+    "platform": "play",
+    "url": "https://app.siliguriFatafat.com"
+  }, {
+    "platform": "itunes",
+    "url": "https://app.siliguriFatafat.com"
+  }]
+}

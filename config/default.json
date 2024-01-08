@@ -1,0 +1,47 @@
+{
+  "IP":"localhost",
+  "PORT":"3005",
+  "TABLE_DEFINITION":{
+    "banner":["id","name","path","subdomain"],
+    "notification":["id","notification","category","subdomain"],
+    "category":["id","name","icon","small_icon","subdomain","show_count"],
+    "game":["id","name","rule","category","subdomain","bg_type","bg"],
+    "user":["id","name","ph","email","pid","pwd","access_token","login_time","type","status","balance","percentage"],
+    "game_inplay":["id","name", "game_code", "start", "end", "duration","result_one","result_two","result_three", "status"],
+    "user_bank":["id","bank_name","name","acc_no","city","ifsc","email","ph","branch","user_id"],
+    "settings":["id","upi_acc","upi_qr"],
+    "payment":["id","user_id","pdate","ref_no","pamt","upi_acc","order_no","status","amt","type"],
+    "withdraw":["id","user_id","wdate","status","amt"],
+    "motka_bet":["id","user_id","game_id","amt","service","number","size","color","bdate","btype","bname", "status","price"],
+    "fatafat":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
+    "fatafatSuper":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
+    "transaction_log":["id","user_id","amt","tdate","type","ref_no","description"],
+    "transfer_log":["id","fid","amt","tdate","tid","type"]
+  },
+  "SYNC_DOKUME":false,
+  "SQLight_PATH": "./server/database/db/tournament_manager.db",
+  "RABBITMQ": {
+    "hostname": "rabbitmq.dokume.net",
+    "port": 5671,
+    "username": "DokuMe_judo",
+    "password": "kewsam-9Zuvra-beqzob",
+    "vhost": "judo_results",
+    "protocol": "amqps"
+  },
+  "db": {
+    "mysql": {
+        "host": "localhost",
+        "user": "root",
+        "pass": "",
+        "dbname": "game_fatafat",
+        "port":3306
+    },
+    "mysql_": {
+      "host": "localhost",
+      "user": "fatafat",
+      "pass": "DokuMe@123$",
+      "dbname": "fatafat",
+      "port":3306
+  }
+  }
+}
