@@ -6,7 +6,7 @@
     "notification":["id","notification","category","subdomain"],
     "category":["id","name","icon","small_icon","subdomain","show_count"],
     "game":["id","name","rule","category","subdomain","bg_type","bg"],
-    "user":["id","name","ph","email","pid","pwd","access_token","login_time","type","status","balance","percentage"],
+    "user":["id","name","ph","email","pid","pwd","access_token","login_time","change_pwd","type","status","balance","percentage"],
     "game_inplay":["id","name", "game_code", "start", "end", "duration","result_one","result_two","result_three", "status"],
     "user_bank":["id","bank_name","name","acc_no","city","ifsc","email","ph","branch","user_id"],
     "settings":["id","upi_acc","upi_qr"],
@@ -29,14 +29,14 @@
     "protocol": "amqps"
   },
   "db": {
-    "mysql": {
+    "mysql_": {
         "host": "localhost",
         "user": "root",
         "pass": "",
         "dbname": "game_fatafat",
         "port":3306
     },
-    "mysql_": {
+    "mysql": {
       "host": "localhost",
       "user": "fatafat",
       "pass": "DokuMe@123$",

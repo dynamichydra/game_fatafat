@@ -9,8 +9,8 @@
   let paramType = null;
   let gameCode = null;
   let baji = {
-    'fatafat':['All','Bazi1','MR2','MR3','MR4','MR5','MR6','MR7','MR8'],
-    'fatafatSuper':['All','MS1','MS2','MS3','MS4','MS5','MS6','MS7','MS8']
+    'fatafat':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
+    'fatafatSuper':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8']
   };
 
   init();

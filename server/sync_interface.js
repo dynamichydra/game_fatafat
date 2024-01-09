@@ -21,12 +21,18 @@ DokuMe_SyncInterface.prototype.start = function(){
 
     _.app.get('/game/generate/fatafat', function (req, res) {
       const gObj = new game();
-      gObj.generateGame(['fatafat']);
+      gObj.generateGame(['fatafat','fatafatSuper']);
       res.json({STATUS:true,MESSAGE:'done'});
-  });
+    });
+
     _.app.get('/game/start/fatafat', function (req, res) {
       const gObj = new game();
       gObj.startGame(['fatafat']);
+      res.json({STATUS:true,MESSAGE:'done'});
+  });
+    _.app.get('/game/start/fatafatSuper', function (req, res) {
+      const gObj = new game();
+      gObj.startGame(['fatafatSuper']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
 

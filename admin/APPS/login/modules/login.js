@@ -59,7 +59,7 @@
       btn.getElementsByClassName('spinner-border')[0].remove();
       btn.disabled = false;
 
-      if (!data.access_token) {
+      if (!data.access_token || data.change_pwd == 2 || data.status != 1) {
 
         el('errorMsg').style.display = 'block';
         el('loginDIV').classList.add('shake');
@@ -71,9 +71,12 @@
       }
 
       auth.loggedIn = true;
-
-      if (typeof DM_CORE !== 'undefined') {
-        DM_CORE.authCheck();
+      if(data.change_pwd == 1){
+        if (typeof DM_CORE !== 'undefined') {
+          DM_CORE.authCheck();
+        }
+      }else{
+        window.location = '#/profile/changepwd';
       }
 
     });

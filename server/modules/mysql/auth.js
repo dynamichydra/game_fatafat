@@ -43,6 +43,7 @@ exports.init = {
                     percentage: user.MESSAGE[0].percentage,
                     ph: user.MESSAGE[0].ph,
                     login_time: user.MESSAGE[0].login_time,
+                    change_pwd: user.MESSAGE[0].change_pwd,
                     status: user.MESSAGE[0].status
                   }});
                 }
@@ -124,6 +125,7 @@ exports.init = {
                     ph: user.MESSAGE[0].ph,
                     status: user.MESSAGE[0].status,
                     login_time: user.MESSAGE[0].login_time,
+                    change_pwd: user.MESSAGE[0].change_pwd,
                     name: user.MESSAGE[0].name
                   }});
                 }
@@ -155,7 +157,8 @@ exports.init = {
               if(user.SUCCESS){
                 const nPwd = _.base64UrlEncode(_.secretKey+data.nPwd);
                 let t = await commonObj.setData('user', {id:data.id, 
-                  pwd:nPwd
+                  pwd:nPwd,
+                  change_pwd:1,
                 });
                 result({SUCCESS:true,MESSAGE:'Password changed successfully!'});
               }else{
@@ -268,10 +271,10 @@ exports.init = {
 
     createAccessToken(userId, expiresIn = '15m') {
       let _ = this;
-      // Define the header and payload
+      
       const header = {
         typ: 'JWT',
-        alg: 'HS256', // HMAC SHA-256 algorithm
+        alg: 'HS256', 
       };
     
       const payload = {

@@ -142,8 +142,13 @@ var DM_ROUTING = (function () {
     let loadingUrl = appUrl !== undefined ? `APPS/${appUrl}/${url}.html` : `APPS/${url}/index.html`;
     loadingUrl += '?v=' + Date.now();
 
-    if((!auth || !auth.config.id || auth.config.id == 'null' || auth.config.type =='user') && app_name != 'login'){
+    if((!auth || !auth.config.id || auth.config.id == 'null' || auth.config.type =='user' || auth.config.change_pwd ==2) && app_name != 'login'){
       window.location = "#/login";
+      return;
+    }
+
+    if(auth.config.change_pwd !=1 && page_name != 'changepwd' && app_name != 'login'){
+      window.location = "#/profile/changepwd";
       return;
     }
 

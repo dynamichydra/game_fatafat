@@ -72,7 +72,8 @@
     let year = $(this).attr('data-year');
     let htm = `<p>No data found.</p>`;
     let gameCode = $('#gameName').val();
-    let gameName = gameCode=='fatafat'?'MR':'MS';
+    // let gameName = gameCode=='fatafat'?'MR':'MS';
+    let gameName = 'Bazi';
     
     backendSource.getObject('game_inplay', null, {where:[
       {'key':'game_code','operator':'is','value':gameCode},
@@ -134,7 +135,8 @@
   async function getLiveResult(){
     let toDay = moment().format('YYYY-MM-DD');
     let gameCode = $('#gameName').val();
-    let gameName = gameCode=='fatafat'?'MR':'MS';
+    // let gameName = gameCode=='fatafat'?'MR':'MS';
+    let gameName = 'Bazi';
     let game = await DM_GENERAL.fetchInplayGame([
       {'key':'game_code','operator':'is','value':gameCode},
       {'key':'start','operator':'higher','value':toDay+' 00:00:00'},

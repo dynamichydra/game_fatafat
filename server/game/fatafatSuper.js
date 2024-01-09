@@ -61,14 +61,14 @@ fatafatSuper.prototype.generateGame = async function (data) {
   }
 
   let gameStartTime = [
-    {'name':"MS1",start:"07:10:00",end:"09:40:00",duration:150},
-    {'name':"MS2",start:"09:40:00",end:"11:10:00",duration:90},
-    {'name':"MS3",start:"11:10:00",end:"12:40:00",duration:90},
-    {'name':"MS4",start:"12:40:00",end:"14:10:00",duration:90},
-    {'name':"MS5",start:"14:10:00",end:"15:40:00",duration:90},
-    {'name':"MS6",start:"15:40:00",end:"17:10:00",duration:90},
-    {'name':"MS7",start:"17:10:00",end:"18:40:00",duration:90},
-    {'name':"MS8",start:"18:40:00",end:"20:10:00",duration:90}
+    {'name':"Bazi1",start:"07:10:00",end:"09:40:00",duration:150},
+    {'name':"Bazi2",start:"09:40:00",end:"11:10:00",duration:90},
+    {'name':"Bazi3",start:"11:10:00",end:"12:40:00",duration:90},
+    {'name':"Bazi4",start:"12:40:00",end:"14:10:00",duration:90},
+    {'name':"Bazi5",start:"14:10:00",end:"15:40:00",duration:90},
+    {'name':"Bazi6",start:"15:40:00",end:"17:10:00",duration:90},
+    {'name':"Bazi7",start:"17:10:00",end:"18:40:00",duration:90},
+    {'name':"Bazi8",start:"18:40:00",end:"20:10:00",duration:90}
   ];
   let _ = this;
   return new Promise(async function (result) {

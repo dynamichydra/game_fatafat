@@ -32,6 +32,7 @@
     DM_GENERAL.changePassword(auth.config.id, oPwd,nPwd,cPwd, function (data) {
       if(data.SUCCESS){
         DM_TEMPLATE.showSystemNotification(1, `Password change successfully!!!`);
+        DM_CORE.logout();
       }else{
         DM_TEMPLATE.showSystemNotification(0, data.MESSAGE);
       }

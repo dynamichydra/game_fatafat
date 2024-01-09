@@ -29,6 +29,7 @@
       status: (authConfig && authConfig.status) ? authConfig.status : null,
       type: (authConfig && authConfig.type) ? authConfig.type : null,
       login_time: (authConfig && authConfig.login_time) ? authConfig.login_time : null,
+      change_pwd: (authConfig && authConfig.change_pwd) ? authConfig.change_pwd : null,
       user: (authConfig && authConfig.user) ? authConfig.user : null
     };
 
@@ -55,6 +56,7 @@
           type: data.MESSAGE.type,
           ph: data.MESSAGE.ph,
           login_time: data.MESSAGE.login_time,
+          change_pwd: data.MESSAGE.change_pwd,
           status: data.MESSAGE.status,
           user: encodeURIComponent(data.MESSAGE.name)
         };

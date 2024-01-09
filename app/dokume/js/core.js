@@ -168,6 +168,7 @@ var DM_CORE = (function () {
         ph: data.MESSAGE.ph,
         status: data.MESSAGE.status,
         login_time: data.MESSAGE.login_time,
+        change_pwd: data.MESSAGE.change_pwd,
         user: encodeURIComponent(data.MESSAGE.name)
       };
 
