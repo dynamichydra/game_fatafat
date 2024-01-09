@@ -18,8 +18,9 @@
   let allGame = null;
   let selectedGameType = null;
   let serverTime = null;
+  let resultTime = 5;
   let gameType = {
-    'single':{name:'Single',text:'Siliguti Fatafat Super Single : 10 points win prize: 91 Points'},
+    'single':{name:'Single',text:'Siliguti Fatafat Single : 10 points win prize: 91 Points'},
     'patti':{name:'Patti', text: 'Siliguti Fatafat Patti: 1 points win prize: 125 Points'}
   };
   let sortCutAmt = {
@@ -33,7 +34,7 @@
 
   function init() {
     getGameDetails();
-    $('#pageTitle').html('Siliguti Fatafat Super');
+    $('#pageTitle').html('Siliguti Fatafat');
     DM_COMMON.fetchUserData();
     bindEvents();
   }
@@ -130,7 +131,6 @@
     if(selectedGameType == 'single'){
       $( "#gameBody .inputAmt" ).each(function( idx ) {
         let amt = $(this).val();
-        console.log(amt)
         if(amt != '' && amt != '0'){
           drawBetAmount($(this).attr('data-no'),amt);
         }
@@ -184,7 +184,7 @@
       DM_TEMPLATE.showSystemNotification(0, `Please provide 3/4 digit number.`);
       return;
     }
-    if(amt=='' || parseInt(amt)<5){
+    if(amt=='' || parseInt(amt)<1){
       DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
       return;
     }
@@ -287,7 +287,7 @@
     }
     let amt = $('.cppatiAmount').val();
 
-    if(amt=='' || parseInt(amt)<5){
+    if(amt=='' || parseInt(amt)<1){
       DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
       return;
     }
@@ -300,16 +300,16 @@
     //   return;
     // }
 
-    let timeRemain = $('#gameHead').find('.secStore').attr('data-src');
-    if(parseInt(timeRemain) < 600){
-      if(selectedGameType == 'single' && parseInt(amt)>100){
-        DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100 for Single.`);
-        return;
-      }else if(selectedGameType != 'single' && parseInt(amt)>10){
-        DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 10 for Patti.`);
-        return;
-      }
-    }
+    // let timeRemain = $('#gameHead').find('.secStore').attr('data-src');
+    // if(parseInt(timeRemain) < 600){
+    //   if(selectedGameType == 'single' && parseInt(amt)>100){
+    //     DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100 for Single.`);
+    //     return;
+    //   }else if(selectedGameType != 'single' && parseInt(amt)>10){
+    //     DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 10 for Patti.`);
+    //     return;
+    //   }
+    // }
     
     let found = false;
     for(let i in gameSet){
@@ -350,7 +350,7 @@
     }
     let amt = $('.cppatiAmount').val();
 
-    if(amt=='' || parseInt(amt)<5){
+    if(amt=='' || parseInt(amt)<1){
       DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
       DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
       return;
@@ -532,7 +532,7 @@
     const endTime = moment(playingGame.end, 'YYYY-MM-DD HH:mm:ss');
     const givenTime = moment();
     if (givenTime.isBefore(endTime)) {
-      $('#gameType .number').html('End - '+moment(playingGame.end).format('HH:mm')+', Result - '+moment(playingGame.end).add(18, 'minutes').format('HH:mm'));
+      $('#gameType .number').html('End - '+moment(playingGame.end).format('HH:mm')+', Result - '+moment(playingGame.end).add(resultTime, 'minutes').format('HH:mm'));
     }else{
       $('#gameType .number').html('close');
 
@@ -571,7 +571,7 @@
                       </div>
                       <div class="endTime">
                           <i class="bi bi-clock-fill"></i>
-                          <span class="txt">Result: ${moment(game.MESSAGE[i].end).add(18, 'minutes').format("HH:mm")}</span>
+                          <span class="txt">Result: ${moment(game.MESSAGE[i].end).add(resultTime, 'minutes').format("HH:mm")}</span>
                       </div>
                     </div>`;
           if(game.MESSAGE[i].status==1){

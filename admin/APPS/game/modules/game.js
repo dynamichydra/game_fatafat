@@ -13,7 +13,7 @@
       'nine':[9,900,234,333,180,360,270,450,199,117,469,126,667,478,135,225,144,379,559,289,388,577,568],
       'zero':[0,'000',127,190,280,370,460,550,235,118,578,145,479,668,299,334,488,389,226,569,677,136,244]
     };
-  let price = {'fatafat':{'patti':100,'single':9},'fatafatSuper':{'patti':125,'single':91}};
+  let price = {'fatafat':{'patti':100,'single':9},'fatafatSuper':{'patti':125,'single':9.1}};
   let curGame = null;
   let gameCode = null;
   const popup = document.getElementById("sitePopup");
@@ -213,7 +213,7 @@
     }
     $(`#sitePopup`).html(`<div class="popup-content pattiList" style="width: 98%; max-width: 98%;" data-id="${cGame.id}">
           <span class="close" id="closePopup">&times;</span>
-          <h2>Game: ${cGame.name} <span>${gameStatus}</span></h2>
+          <h2>Game: ${$('#gameName option:selected').text()} - ${cGame.name} <span>${gameStatus}</span></h2>
           <p>Game timing: ${moment(cGame.start).format("HH:mm")} to ${moment(cGame.end).format("HH:mm")}</p>
           <p>Total: <span id="totalBet">0</span></p>
           <div class="container">

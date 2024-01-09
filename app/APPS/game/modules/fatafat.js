@@ -19,21 +19,21 @@
   let selectedGameType = null;
   let serverTime = null;
   let gameType = {
-    'single':{name:'Single',text:'Siliguri Fatafat Single : 1 points win prize: 9 Points'},
-    'patti':{name:'Patti', text: 'Siliguri Fatafat Patti: 1 points win prize: 100 Points'}
+    'single':{name:'Single',text:'Kolkata Fatafat Single : 1 points win prize: 9 Points'},
+    'patti':{name:'Patti', text: 'Kolkata Fatafat Patti: 1 points win prize: 100 Points'}
   };
   let sortCutAmt = {
-    'single':[{amt:10,txt:'10'},{amt:50,txt:'50'},{amt:100,txt:'100'},{amt:250,txt:'250'},{amt:500,txt:'500'},{amt:1000,txt:'1k'},{amt:3000,txt:'3k'},{amt:5000,txt:'5k'}],
+    'single':[{amt:10,txt:'10'},{amt:50,txt:'50'},{amt:100,txt:'100'},{amt:250,txt:'250'},{amt:500,txt:'500'},{amt:1000,txt:'1k'},{amt:1500,txt:'1.5k'},{amt:2000,txt:'2k'}],
     'patti':[{amt:5,txt:'5'},{amt:10,txt:'10'},{amt:15,txt:'15'},{amt:20,txt:'20'},{amt:25,txt:'25'},{amt:30,txt:'30'},{amt:40,txt:'40'},{amt:50,txt:'50'}]
   };
-  // 'cppatti':{name:'Cp Patti', text :'Siliguri Fatafat CP patti: 1 points win prize: 100 Points'}
+  // 'cppatti':{name:'Cp Patti', text :'Kolkata Fatafat CP patti: 1 points win prize: 100 Points'}
   const popup = document.getElementById("sitePopup");
 
   init();
 
   function init() {
     getGameDetails();
-    $('#pageTitle').html('Siliguri Fatafat');
+    $('#pageTitle').html('Kolkata Fatafat');
     DM_COMMON.fetchUserData();
     bindEvents();
   }
@@ -131,7 +131,6 @@
       let timeRemain = $('#gameHead').find('.secStore').attr('data-src');
       $( "#gameBody .inputAmt" ).each(function( idx ) {
         let amt = $(this).val();
-        console.log(amt)
         
         if(amt != '' && amt != '0' && parseInt(amt)<5000 && (parseInt(timeRemain) > 600 || parseInt(amt)<100)){
           drawBetAmount($(this).attr('data-no'),amt);
@@ -186,7 +185,7 @@
       DM_TEMPLATE.showSystemNotification(0, `Please provide 3/4 digit number.`);
       return;
     }
-    if(amt=='' || parseInt(amt)<5){
+    if(amt=='' || parseInt(amt)<1){
       DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
       return;
     }
@@ -289,7 +288,7 @@
     }
     let amt = $('.cppatiAmount').val();
 
-    if(amt=='' || parseInt(amt)<5){
+    if(amt=='' || parseInt(amt)<1){
       DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
       return;
     }
@@ -352,7 +351,7 @@
     }
     let amt = $('.cppatiAmount').val();
 
-    if(amt=='' || parseInt(amt)<5){
+    if(amt=='' || parseInt(amt)<1){
       DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
       DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
       return;

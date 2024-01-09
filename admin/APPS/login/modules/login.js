@@ -22,7 +22,7 @@
   }
 
   function showWhiteLabel() {
-    el('loginLogo').src = elq('.navbar-brand img').src;
+    //el('loginLogo').src = elq('.navbar-brand img').src;
   }
 
   function bindEvents() {

@@ -68,7 +68,7 @@
     }
     let cat = category.find(a => a.id == catId);
     if(cat){
-      let htm = `<h5>
+      let htm = `<h5 style="display:none;">
         ${cat.small_icon && cat.small_icon!=''?`<img src="${cat.small_icon}"/>`:''}
         ${cat.name}
         </h5>

@@ -6,7 +6,7 @@ let sql = require('../modules/mysql/common').init;
 const fatafatSuper = function () {
   this.code = 'fatafatSuper';
   this.func = new libFunc();
-  this.price = {'patti':125,'single':91};
+  this.price = {'patti':125,'single':9.1};
   this.gameSet = {
     1:[1,100, 678, 777, 560, 470, 380, 290,119,137,236,146,669,579,399,588,489,245,155,227,344,335,128],
     2:[2,200,345,444,570,480,390,660,129,237,336,246,679,255,147,228,499,688,778,138,156,110,589],

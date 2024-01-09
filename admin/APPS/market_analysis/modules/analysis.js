@@ -192,7 +192,7 @@
     }
     $(`#sitePopup`).html(`<div class="popup-content pattiList" data-id="${cGame.id}">
           <span class="close" id="closePopup">&times;</span>
-          <h2>Game: ${cGame.name} <span>${gameStatus}</span></h2>
+          <h2>Game: ${$('#gameName option:selected').text()} -  ${cGame.name} <span>${gameStatus}</span></h2>
           <p>Game timing: ${moment(cGame.start).format("HH:mm")} to ${moment(cGame.end).format("HH:mm")} <span style="float:right;"><input type="checkbox" class="pctCalCk" value="1" checked>&nbsp;Calculate All</span></p>
           <p>Total: <span id="totalBet">0</span></p>
           <div class="container">

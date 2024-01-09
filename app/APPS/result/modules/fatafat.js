@@ -107,14 +107,14 @@
                     <td colspan="8" class="resultBg">${moment(year+'-'+month+'-'+arr[i].key).format('DD MMMM YYYY')}</td>
                   </tr>
                   <tr>
-                    <td class="resultBg">${gameName}1</td>
-                    <td class="resultBg">${gameName}2</td>
-                    <td class="resultBg">${gameName}3</td>
-                    <td class="resultBg">${gameName}4</td>
-                    <td class="resultBg">${gameName}5</td>
-                    <td class="resultBg">${gameName}6</td>
-                    <td class="resultBg">${gameName}7</td>
-                    <td class="resultBg">${gameName}8</td>
+                    <td class="resultBg gameName">${gameName}1</td>
+                    <td class="resultBg gameName">${gameName}2</td>
+                    <td class="resultBg gameName">${gameName}3</td>
+                    <td class="resultBg gameName">${gameName}4</td>
+                    <td class="resultBg gameName">${gameName}5</td>
+                    <td class="resultBg gameName">${gameName}6</td>
+                    <td class="resultBg gameName">${gameName}7</td>
+                    <td class="resultBg gameName">${gameName}8</td>
                   </tr>
                   <tr>
                     ${patti}
@@ -172,14 +172,14 @@
           <td colspan="8" class="resultBg">${moment().format('DD MMMM YYYY')}</td>
         </tr>
         <tr>
-          <td class="resultBg">${gameName}1</td>
-          <td class="resultBg">${gameName}2</td>
-          <td class="resultBg">${gameName}3</td>
-          <td class="resultBg">${gameName}4</td>
-          <td class="resultBg">${gameName}5</td>
-          <td class="resultBg">${gameName}6</td>
-          <td class="resultBg">${gameName}7</td>
-          <td class="resultBg">${gameName}8</td>
+          <td class="resultBg gameName">${gameName}1</td>
+          <td class="resultBg gameName">${gameName}2</td>
+          <td class="resultBg gameName">${gameName}3</td>
+          <td class="resultBg gameName">${gameName}4</td>
+          <td class="resultBg gameName">${gameName}5</td>
+          <td class="resultBg gameName">${gameName}6</td>
+          <td class="resultBg gameName">${gameName}7</td>
+          <td class="resultBg gameName">${gameName}8</td>
         </tr>
         <tr>
           ${patti}
