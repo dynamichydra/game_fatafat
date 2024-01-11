@@ -78,6 +78,10 @@ exports.init = {
                 cnd += ` AND (R.bdate BETWEEN '${fDate}' AND '${tDate}')`;
               }
 
+              if(data.gName && data.gName != ''){
+                cnd += ` AND GM.name= '${data.gName}' `;
+              }
+
               if(data.pType == 'admin'){
                 sql = "SELECT R.*, U1.name, U1.ph, U2.name pname, GM.name gname FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id "+cnd+" ORDER BY R.id DESC";
                 

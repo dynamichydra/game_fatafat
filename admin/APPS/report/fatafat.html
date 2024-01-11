@@ -22,26 +22,33 @@
           <label>To date</label>
           <input type="date" id="tDate" placeholder="Date"/>
         </div>
-        <div class=" col-3 input-containe">
-          <label>Win status</label>
-          <select type="text" id="uStatus" style="width: 100%;">
-            <option value="">All</option>
-            <option value="1">Only Win</option>
-            <option value="0">Only Loss</option>
-          </select>
-        </div>
-        <div class="col-12 mt-3"></div>
-        <div class=" col-3 input-containe">
-          <label>Name</label>
-          <input type="text" id="uName" placeholder="Name"/>
+        
+        <div class=" col-3 input-containe"> 
+          <label>User Name</label>
+          <input type="text" id="uName" placeholder="User Name"/>
         </div>
         <div class=" col-3 input-containe">
           <label>User ID</label>
           <input type="text" id="uId" placeholder="ID"/>
         </div>
+
+        <div class="col-12 mt-3"></div>
+        
         <div class=" col-3 input-containe">
+          <label>Win status</label>
+          <select class="form-control" id="uStatus">
+            <option value="">All</option>
+            <option value="1">Only Win</option>
+            <option value="0">Only Loss</option>
+          </select>
+        </div>
+        <div class=" col-3">
           <label>Game Type</label>
-          <select type="form-control" id="gCode"></select>
+          <select class="form-control" id="gCode"></select>
+        </div>
+        <div class=" col-3">
+          <label>Bazi</label>
+          <select class="form-control" id="gameBaji"></select>
         </div>
         
         <div class="col-2">

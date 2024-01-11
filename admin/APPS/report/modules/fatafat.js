@@ -2,6 +2,12 @@
 
 (function () {
 
+  let baji = {
+    'fatafat':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
+    'fatafatSuper':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8']
+  };
+  let gameCode = null;
+
   init();
 
   async function init() {
@@ -16,6 +22,10 @@
 
   function bindEvents() {
     $('.searchUser').on('click',getLog);
+    $('#gCode').on('change',function(){
+      gameCode = $('#gCode').val();
+      generateBajiOpt();
+    });
   }
 
   function getGameType(){
@@ -23,13 +33,22 @@
     backendSource.getObject('game', null, {where:[
       {'key':'status','operator':'is','value':1}
     ]}, function (data) {
-      console.log(data);
       data.MESSAGE.map(e=>{
         $('#gCode').append(`
           <option value="${e.code}">${e.name}</option>
         `);
       });
+      gameCode = $('#gCode').val();
+      generateBajiOpt();
     });
+  }
+
+  function generateBajiOpt(){
+    let htm = ``;
+    for(let i in baji[gameCode]){
+      htm += `<option value="${baji[gameCode][i]=='All'?'':baji[gameCode][i]}">${baji[gameCode][i]}</option>`;
+    }
+    $('#gameBaji').html(htm);
   }
 
   function getLog(){
@@ -49,6 +68,7 @@
       fdate: (fdate && fdate != '' ? fdate : ''),
       tdate: (tdate && tdate != '' ? tdate : ''),
       pType: auth.config.type,
+      gName :$('#gameBaji').val(),
       pId: auth.config.id,
       grant_type: 'bet_log'
     }, function (data) {

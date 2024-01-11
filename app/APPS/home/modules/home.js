@@ -28,7 +28,7 @@
   }
 
   async function shareBtn(){
-    let urlToShare = 'https://www.siliguriFatafat.com/';
+    let urlToShare = 'https://www.fatafat247.com/.com/';
     let whatsappLink = 'whatsapp://send?text=' + encodeURIComponent(urlToShare);
     window.location.href = whatsappLink;
   }
@@ -81,6 +81,7 @@
                       <div class="game">
                         <h3>${game[i].name}</h3>
                         <p>${game[i].sort_text}</p>
+                        ${game[i].logo && game[i].logo != ''?`<img class="game-logo" src="whitelabel/${subdomain}/img/${game[i].logo}"/>`:``}
                       </div>
               </div>`;
           }else{
