@@ -1,16 +1,3 @@
-@font-face {
-  font-family: 'BundesSans';
-  src: url('./BundesFonds/BundesSansWeb-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'BundesSerif';
-  src: url('./BundesFonds/BundesSerifWeb-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 [data-bs-theme="light"] {
   --bs-body-bg-rgb: 255, 255, 255;
@@ -31,7 +18,6 @@
 
 body {
   padding-top: 0px;
-  /*font-family: 'BundesSans', Calibri, Verdana, Arial, Helvetica, sans-serif!important;*/
 }
 
 html, body {
@@ -39,10 +25,6 @@ html, body {
   overscroll-behavior-y: contain;
 
 }
-
-/*b, i, h1, h2, h3, h4, h5, h6 {
-  font-family: 'BundesSerif', Cambria, Georgia, Times New Roman, serif!important;
-}*/
 
 [data-bs-theme="light"] .navbar {
   background: #0084ff !important;
@@ -115,7 +97,7 @@ input{
 }
 
 #homeNotification marquee{
-  background-color: #409ef5;
+  background-color: #ff5758;
   color: #be6c00;
   padding: 5px;
 }

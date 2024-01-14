@@ -20,7 +20,7 @@ body {
   padding-top: 4.7rem;
   padding-bottom: 4rem;
 
-  font-family: "Open Sans", sans-serif;
+  font-family: fantasy,cursive, fangsong;
 }
 
 b,
@@ -28,7 +28,7 @@ i,
 h1,
 h2,
 h3 {
-  font-family: 'Noto Serif', serif;
+  font-family: fantasy,cursive, fangsong;
 }
 
 #mainContent {
@@ -196,4 +196,8 @@ h3 {
 }
 .notificationTop{
   margin-right: 10px;
+}
+
+#footer i{
+  color: #000;
 }

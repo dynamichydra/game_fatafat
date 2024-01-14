@@ -4,7 +4,7 @@
   height: 100vh;
 }
 .loginWRAPPER > img, #loginLogo {
-  max-height: 100px;
+  max-height: 250px;
   margin-bottom: 20px;
 }
 .logoContainer {
@@ -110,3 +110,23 @@ a {
     border-bottom-left-radius: 10px;
   }
 }
+
+.loginDIV{
+  background-color: #000;
+  border: none;
+}
+.loginDIV .form-floating>label{
+  color: #fff;
+}
+.loginDIV .form-control{
+  background-color: #f00;
+  /* border: none; */
+  color: #fff;
+}
+.loginDIV .form-control::placeholder {
+  color: rgb(255, 255, 255);
+  opacity: 1; /* Firefox */
+}
+.loginDIV .form-control::-ms-input-placeholder { /* Edge 12 -18 */
+  color: rgb(255, 255, 255);
+} 

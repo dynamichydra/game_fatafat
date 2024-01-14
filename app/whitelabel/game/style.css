@@ -32,6 +32,8 @@
 body {
   padding-top: 4rem;
   /*font-family: 'BundesSans', Calibri, Verdana, Arial, Helvetica, sans-serif!important;*/
+  color:#fff;
+  background-color: rgb(0 0 0);
 }
 
 /*b, i, h1, h2, h3, h4, h5, h6 {
@@ -111,7 +113,7 @@ input{
 }
 
 #homeNotification marquee{
-  background-color: #409ef5;
+  background-color: #ff5758;
   color: #fff;
   padding: 5px;
 }
@@ -223,7 +225,7 @@ input{
 .profileMenu .menuItem{
   padding: 5px;
   margin: 5px auto;
-  color: #000;
+  color: #ffffff;
   border-bottom: 2px solid #efeeee;
   justify-content: space-between;
   display: flex;
@@ -241,6 +243,7 @@ input{
   padding: 20px;
   box-shadow: 0px 5px 5px 5px #e7e7e7;
   text-align: center;
+  color: #000;
 }
 .balanceTxt{
   font-size: 15px;
@@ -382,6 +385,7 @@ input{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-height: 80vh;
   overflow-y: auto;
+  color: #000;
 }
 .popup-content p{
   max-height: 300px;
@@ -426,12 +430,16 @@ input{
 }
 
 .conBox {
-  background: #fff;
+  background: #ffffff;
   border: 0.05333rem solid #409ef5;
   box-shadow: 0 0.21333rem 0.37333rem 0 rgba(4 161 76 / 27%);
   border-radius: 0.13333rem;
   padding: 10px;
   overflow-x: auto;
+}
+
+.monthResult, #liveResult{
+  background: #ef2525;
 }
 
 .input-container label{
@@ -482,6 +490,7 @@ input{
 }
 #resultArea table td{
   border: #000 1px solid;
+  color: #000;
 }
 .resultBg.gameName{
   font-size: 12px;

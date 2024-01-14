@@ -78,11 +78,7 @@
           htm += `<div class="col-${cat.show_count} game-wrapper" data-gameid="${game[i].code}">`;
           if(game[i].bg_type=='css'){
             htm += `<div class="${game[i].bg}">
-                      <div class="game">
-                        <h3>${game[i].name}</h3>
-                        <p>${game[i].sort_text}</p>
-                        ${game[i].logo && game[i].logo != ''?`<img class="game-logo" src="whitelabel/${subdomain}/img/${game[i].logo}"/>`:``}
-                      </div>
+                      <img class="game-logo" src="whitelabel/${subdomain}/img/${game[i].logo}"/>
               </div>`;
           }else{
             htm += `<div class="game-img"><img src="whitelabel/${subdomain}/img/${game[i].bg}"/></div>

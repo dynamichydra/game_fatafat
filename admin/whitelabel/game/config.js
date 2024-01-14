@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-  elq('.navbar-brand img').src = 'whitelabel/game/img/logo.png';
+  elq('.navbar-brand img').src = 'whitelabel/game/img/-login.jpeg';
 
   create('link', 'whitelabel/game/style.css');
 

@@ -131,10 +131,6 @@ color: #8f8f8f;
   position: relative;
 }
 #homeGame .game-logo{
-  position: absolute;
-    height: 75px !important;
-    top: 15px;
-    width: auto !important;
-    left: 10px;
-    border-radius: 15px;
+  width: 100% !important;
+    border-radius: 10px;
 }

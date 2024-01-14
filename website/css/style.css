@@ -110,7 +110,7 @@ input,
 button,
 textarea {
     line-height: normal;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: fantasy,cursive, fangsong;
 }
 
 input[type="search"]::-webkit-search-cancel-button,
@@ -436,7 +436,7 @@ a:active {
 }
 
 .textarea {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-family: fantasy,cursive, fangsong
 }
 
 .button {
@@ -444,7 +444,7 @@ a:active {
     background: #FF5757;
     height: 58px;
     border: 2px solid #FF5757;
-    font: 500 22px "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 500 22px fantasy,cursive, fangsong;
     padding: 0 21px;
     -moz-transition: color 0.1s linear, background-color 0.1s linear, border-color 0.1s linear;
     -ms-transition: color 0.1s linear, background-color 0.1s linear, border-color 0.1s linear;
