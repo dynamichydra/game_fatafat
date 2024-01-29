@@ -70,7 +70,6 @@
       pwd: el('pass').value,
       grant_type: 'register'
     }, function (data) {
-      console.log(data);
       btn.getElementsByClassName('spinner-border')[0].remove();
       btn.disabled = false;
       if (data.SUCCESS !== true) {
@@ -90,7 +89,6 @@
   function login() {
 
     auth.login(el('phone').value, el('pass').value, function (data) {
-      console.log(data)
       if (!data.access_token) {
 
         el('errorMsg').style.display = 'block';
@@ -116,7 +114,6 @@
           redirect = '#/home';
         }
       }
-      console.log('here')
       if (typeof DM_CORE !== 'undefined') {
         DM_CORE.authCheck();
       }

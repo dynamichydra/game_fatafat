@@ -45,7 +45,6 @@
       type: 'admin',
       grant_type: 'password'
     }, function (data) {
-      console.log(data)
 
       if (data.SUCCESS && data.MESSAGE.access_token) {
         _.loggedIn = true;

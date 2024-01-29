@@ -38,7 +38,6 @@ fatafat.prototype.startGame = async function () {
     }
   }
   let curDate = moment().format('YYYY-MM-DD H:mm')+':00';
-  console.log(curDate)
   let targetGame = await sql.getData('game_inplay', {'where':[
     {'key':'game_code','operator':'is','value':_.code},
     {'key':'status','operator':'is','value':0},

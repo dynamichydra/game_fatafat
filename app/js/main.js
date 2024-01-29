@@ -21,8 +21,6 @@ var DM_MAIN = (function () {
     elq('.navbar-brand').href = DM_CORE_CONFIG.LANDING_URL;
     elq('.navbar-brand-sm').href = DM_CORE_CONFIG.LANDING_URL;
 
-    initDatabase();
-
     bindEvents();
 
     DM_CORE.start();
@@ -79,58 +77,6 @@ var DM_MAIN = (function () {
       window.location = DM_CORE_CONFIG.LANDING_URL;
     }
   }
-
-  async function initDatabase() {
-    const databaseName = 'PushApp';
-    const databaseVersion = 2;
-
-
-    const objectStoreConfigs = [{
-      storeName: 'pinned_messages',
-      keyPath: 'ID',
-      indexes: null
-    }, {
-      storeName: 'messages',
-      keyPath: 'ID',
-      indexes: null
-    }, {
-      storeName: 'notification',
-      keyPath: 'ID',
-      indexes: null
-    }, {
-      storeName: 'menu',
-      keyPath: 'ID',
-      indexes: null
-    }, {
-      storeName: 'content',
-      keyPath: 'ID',
-      indexes: null
-    }, {
-      storeName: 'categories',
-      keyPath: 'ID',
-      indexes: null
-    }, {
-      storeName: 'subscription',
-      keyPath: 'ID',
-      indexes: null
-    }
-    ];
-
-    INDEXDB = new IndexedDBWrapper(databaseName, databaseVersion);
-
-    INDEXDB.openDatabase(objectStoreConfigs)
-      .then(() => {
-        // Database opened with dynamic object store creation
-        // ... perform other operations ...
-      })
-      .catch((error) => {
-        console.error('An error occurred:', error);
-      })
-      .finally(() => {
-        //dbWrapper.closeDatabase();
-      });
-  }
-
 
   return {
     logout

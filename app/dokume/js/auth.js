@@ -20,7 +20,6 @@
         }
       }
     }
-    console.log(authConfig)
     this.config = {
       token: (authConfig && authConfig.token) ? authConfig.token : null,
       refresh: (authConfig && authConfig.refresh) ? authConfig.refresh : null,
@@ -44,8 +43,6 @@
       type: 'user',
       grant_type: 'password'
     }, function (data) {
-      console.log(data)
-
       if (data.SUCCESS && data.MESSAGE.access_token) {
         _.loggedIn = true;
         

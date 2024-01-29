@@ -18,8 +18,6 @@
     let nPwd = $('#newPassword').val();
     let cPwd = $('#confirmPassword').val();
 
-    console.log({oPwd,nPwd,cPwd});
-
     if(!oPwd || oPwd=='' || !nPwd || nPwd=='' || !cPwd || cPwd==''){
       DM_TEMPLATE.showSystemNotification(0, `Please provide all information!!!`);
       return false;
@@ -36,7 +34,6 @@
       }else{
         DM_TEMPLATE.showSystemNotification(0, data.MESSAGE);
       }
-      console.log(data)
     });
 
   }

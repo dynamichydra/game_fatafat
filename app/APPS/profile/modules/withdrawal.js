@@ -84,7 +84,6 @@
           </div>
         `);
       }
-      console.log(data);
     });
   }
 

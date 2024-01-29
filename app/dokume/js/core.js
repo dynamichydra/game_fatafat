@@ -64,7 +64,6 @@ var DM_CORE = (function () {
 
   function initRoutes() {
     if (IS_INIT_ROUTES) {
-      // console.log('bin hier raus');
       return false;
     }
 
@@ -139,13 +138,11 @@ var DM_CORE = (function () {
       loginCheck();
       return false;
     }
-    console.log(auth)
     backendSource.customRequest('auth', null, {
       token: auth.config.token,
       ph: auth.config.ph,
       grant_type: 'check'
     }, function (data) {
-      console.log(data)
       el('dmLoadingDIV').style.display = 'none';
 
       if (data.SUCCESS !== true) {
@@ -297,7 +294,6 @@ var DM_CORE = (function () {
             page_name = null;
 
             if (window.location.hash === '' || window.location.hash === DM_CORE_CONFIG.AUTH_SUCCESS_URL) {
-              console.log('gehe zu success url');
               window.location = DM_CORE_CONFIG.AUTH_SUCCESS_URL;
             } else {
               window.location = window.location.href;
@@ -334,22 +330,9 @@ var DM_CORE = (function () {
 
           window.location = redirect;
 
-          if (typeof hasher !== 'undefined') {
-            //hasher.setHash(redirect)
-          }
         }
       }
-      /* else if (page_name !== 'onboarding') {console.log('he');
-        window.location = '#/login';
-        $('#mainContent').load('APPS/login/index.html');
-      }*/
-
-
-
-      /*************/
-
-
-
+      
     }
 
     el('dmLoadingDIV').style.display = 'none';

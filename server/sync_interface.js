@@ -12,10 +12,8 @@ DokuMe_SyncInterface.prototype.start = function(){
     let _ = this;
     
     _.app.get('/test',function (req, res) {
-      console.log(game)
       const a = new game();
         let b =a.generateGame();
-        console.log(b)
         res.json({SUCCESS:true, MESSAGE:b})
     });
 
@@ -47,7 +45,6 @@ DokuMe_SyncInterface.prototype.start = function(){
               res.json(result);
           }
       }).catch(function(error){
-          console.log(error);
           res.json(error);
       });
   });
@@ -55,7 +52,6 @@ DokuMe_SyncInterface.prototype.start = function(){
     _.app.post('/task/submit', function (req, res) {
         let obj = req.body;
         const ipAddress = req.socket.remoteAddress;
-      console.log(ipAddress)
         _.executor.executeTask(obj.SOURCE, obj.TYPE, obj.TASK, obj.DATA).then(function(result){
             if(result){
                 res.json(result);
@@ -63,7 +59,6 @@ DokuMe_SyncInterface.prototype.start = function(){
                 res.json(result);
             }
         }).catch(function(error){
-            console.log(error);
             res.json(error);
         });
     });

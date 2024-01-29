@@ -117,7 +117,6 @@
       grant_type: 'pl'
     }, function (data) {
       if(data.SUCCESS){
-        console.log(data)
         $('#tblUser tbody').html('');
         if(data.MESSAGE.length>0){
           let arr = {};
@@ -217,7 +216,6 @@
               arr[data.MESSAGE[i].u1id].price += data.MESSAGE[i].price;
             }
           }
-          console.log(arr)
           let totAmt= 0, totPrice = 0;
           for(const i in arr){
             $('#tblUser tbody').append(`

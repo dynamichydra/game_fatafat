@@ -484,7 +484,6 @@
 
   function amtHtml(){
     let htm = ``;
-    console.log(selectedGameType)
     for(let i in sortCutAmt[selectedGameType]){
       htm += `<div class="col-3">
         <div class="amtBox conBox" data-amt="${sortCutAmt[selectedGameType][i].amt}">${sortCutAmt[selectedGameType][i].txt}</div>

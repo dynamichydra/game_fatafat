@@ -11,9 +11,6 @@ global.imgeUrlToBase64 = function (url,cb) {
 
 global.findValue = function (data,key,val) {
   if(!data || data.length ==0) return null;
-  // if(typeof data == 'object')return
-  // console.log('=========')
-  // console.log(typeof data)
   return data.find(function(value) {
     if(value)return value[key] == val;
     else return null;

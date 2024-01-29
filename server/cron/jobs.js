@@ -6,7 +6,6 @@ const lib = new gameLib();
 
 
 let task1 = cron.schedule('* * * * *', () => {
-  console.log('Game generate log motka');
   lib.generateGame(['motka']);
 });
 task1.start();
@@ -24,11 +23,8 @@ task.start();
 
 //cron job to generate a game at 6 AM morning
 cron.schedule('0 6 * * *', () => {
-  console.log('Game generate log');
   lib.generateGame(['fatafat']);
 }, {
   scheduled: true,
   timezone: "Asia/Kolkata"
 });
-
-console.log('Cron job scheduled.');

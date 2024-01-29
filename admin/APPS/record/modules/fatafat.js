@@ -20,7 +20,7 @@
         {'key':'user_id','operator':'is','value':auth.config.id}
       ],
       limit:{'start':0,'end':100},
-      order:{'by':'id','type':'DESC'},
+      order:{'by':'bdate','type':'DESC'},
       }, function (data) {
         if(data.SUCCESS){
           let htm = ``;

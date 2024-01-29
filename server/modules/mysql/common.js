@@ -32,7 +32,6 @@ exports.init = {
     return new Promise(async function (result) {
       mysqlPool.getConnection(function (err, connection) {
         if (err){
-            console.log("error in");
             console.log(err);
             throw err;
         }
@@ -69,7 +68,6 @@ exports.init = {
       return new Promise(async function (result) {
         let isId = false;
         let cnd = " WHERE 1 ";
-        //console.log(data)
         if(data.where){
             for (const k in data.where) {
               if(!isId && data.where[k].key == 'id')isId=true;
@@ -139,8 +137,6 @@ exports.init = {
             if (err) {
               result({SUCCESS:false,MESSAGE:err.message});
             }
-            //console.log(rows)
-            // db.release();
             let curDate = moment().utcOffset("+05:30").format('YYYY-MM-DD HH:mm:ss');
             if (isId) {
               if(rows.length == 0){
@@ -151,7 +147,6 @@ exports.init = {
             }else{
               result({SUCCESS:true,MESSAGE:rows,current_time:curDate});
             }
-            // result({SUCCESS:true,MESSAGE:rows});
             
         });
       });
@@ -210,7 +205,6 @@ exports.init = {
           sql = `INSERT INTO ${type} (${key.toString()}) VALUES( ${val.toString()});`;
         }
         
-        console.log(sql)
         db.query(sql, function(err) {
             if (err) {
               result({SUCCESS:false,MESSAGE:err.message});
@@ -259,7 +253,6 @@ exports.init = {
         });
       }).then(res=>{
         if(type != 'dokume_sync' && type != 'events'){
-         // console.log({res});
           if(res.SUCCESS && doSync && dokumeId){
             __.setData('dokume_sync', {
               table_name: type,
@@ -281,7 +274,6 @@ exports.init = {
         let resMsg = [];
         for(let i in data){
           let tmp = {};
-          //console.log(data[i])
           switch (data[i].BACKEND_ACTION){
             case 'delete':
               tmp[data[i].ID_RESPONSE] = await __.setDelete(type,{id:data[i].id});
@@ -314,38 +306,14 @@ exports.init = {
           }
 
           let oldData = await __.getData(type,{where:cndArr});
-          // console.log(oldData);
           if(oldData.SUCCESS && oldData.MESSAGE.length>0){
-            //console.log( oldData.MESSAGE[0].ID);
             data.data[i]['id'] = oldData.MESSAGE[0].id;
-            //console.log(data.data[i]['ID'])
           }
           
           resMsg.push(await __.setData(type, data.data[i]));
         }
         result({SUCCESS:true,MESSAGE:resMsg});
       });
-    },
-
-    margeData : async function (dmData, sqlData, cb){
-      //console.log({dmData, sqlData})
-      if(dmData.SUCCESS == true && sqlData.SUCCESS == true){
-        let data = [];
-        if(dmData.MESSAGE.OWN) data = dmData.MESSAGE.OWN.concat(dmData.MESSAGE.SHARED);
-        else data = dmData.MESSAGE;
-        for(let i in data){
-          let val = findValue(sqlData.MESSAGE, 'DOKUME_ID',data[i].id);
-          //console.log(val,data[i].id)
-          if(!val) {
-            sqlData.MESSAGE.push(data[i]);
-          }
-            
-        }
-        // console.log(sqlData)
-        cb(sqlData)
-      }else{
-        cb(sqlData);
-      }
     },
 
     current_timestamp: function(){

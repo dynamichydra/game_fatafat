@@ -48,7 +48,6 @@
     backendSource.getObject('game', null, {where:[
       {'key':'status','operator':'is','value':1}
     ]}, function (data) {
-      console.log(data);
       data.MESSAGE.map(e=>{
         $('#gameName').append(`
           <option value="${e.code}">${e.name}</option>
@@ -103,11 +102,8 @@
             let totAll = 0;
             for(let i in data.MESSAGE){
               let pct = auth.config.percentage>0?auth.config.percentage:100;
-              console.log(data.MESSAGE[i])
               let amt = $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).attr('data-amt');
-              console.log(amt)
               let amtAll = $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).attr('data-amtall');
-              console.log(pct)
               // let pctTmp = 0;
               if(auth.config.type == 'master'){
                 if(data.MESSAGE[i].u3id != 0 && data.MESSAGE[i].u3id != auth.config.id){

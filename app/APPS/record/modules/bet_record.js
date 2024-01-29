@@ -45,7 +45,7 @@
     let gameCode = $('#gameName').val();
     backendSource.getObject(gameCode, null, {
       where:cnd,
-      order:{'by':'id','type':'DESC'},
+      order:{'by':'bdate','type':'DESC'},
       reference:[{obj:'game_inplay',a:'id',b:gameCode+'.game_id'}],
       select:"name, "+gameCode+".*"
       }, function (data) {

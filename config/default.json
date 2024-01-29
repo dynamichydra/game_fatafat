@@ -18,25 +18,15 @@
     "transaction_log":["id","user_id","amt","tdate","type","ref_no","description"],
     "transfer_log":["id","fid","amt","tdate","tid","type"]
   },
-  "SYNC_DOKUME":false,
-  "SQLight_PATH": "./server/database/db/tournament_manager.db",
-  "RABBITMQ": {
-    "hostname": "rabbitmq.dokume.net",
-    "port": 5671,
-    "username": "DokuMe_judo",
-    "password": "kewsam-9Zuvra-beqzob",
-    "vhost": "judo_results",
-    "protocol": "amqps"
-  },
   "db": {
-    "mysql_": {
+    "mysql": {
         "host": "localhost",
         "user": "root",
         "pass": "",
         "dbname": "game_fatafat",
         "port":3306
     },
-    "mysql": {
+    "mysql_": {
       "host": "localhost",
       "user": "fatafat",
       "pass": "DokuMe@123$",

@@ -7,7 +7,6 @@ exports.init = {
     call : async function(commonObj, data){
       let _ = this;
       return new Promise(async function (result) {
-        console.log(data)
         if(data){
           //type login
           if(data.grant_type == 'password'){

@@ -166,7 +166,6 @@ var DM_ROUTING = (function () {
       return;
     }
 
-    console.log(auth)
     $('#mainContent').load(loadingUrl, function (response, status, xhr) {
       if (status === 'error') {
         el('mainContent').innerHTML = `

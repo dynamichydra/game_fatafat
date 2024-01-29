@@ -54,10 +54,6 @@ const DM_GENERAL = (function () {
   async function updateUserInfo(){
     if(auth.config.id){
       USER_DATA = await userData(auth.config.id);
-      console.log(USER_DATA);
-      // const formattedCurrency = new Intl.NumberFormat('en-IN', { 
-      //   maximumSignificantDigits: 1 
-      //   }).format(USER_DATA.MESSAGE.balance);
       $('.walletBalance').html(Math.round(USER_DATA.MESSAGE.balance));
       $('.walletTop').on('click',function(){
         window.location.href = '#/wallet';

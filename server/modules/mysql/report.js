@@ -49,7 +49,6 @@ exports.init = {
             //   }
             //   sql = "SELECT T.id, T.amt, T.tdate,T.type, U.name fname, U1.name tname, U.ph fph, U1.ph tph FROM `transfer_log` AS T INNER JOIN `user` U ON U.id = T.fid INNER JOIN `user` U1 ON U1.id = T.tid "+cnd;
             // }
-            console.log(sql)
             let t = await commonObj.customSQL(sql);
             result(t);
           }else if(data.grant_type == 'bet_log'){
@@ -83,22 +82,21 @@ exports.init = {
               }
 
               if(data.pType == 'admin'){
-                sql = "SELECT R.*, U1.name, U1.ph, U2.name pname, GM.name gname FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id "+cnd+" ORDER BY R.id DESC";
+                sql = "SELECT R.*, U1.name, U1.ph, U2.name pname, GM.name gname FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id "+cnd+" ORDER BY R.bdate DESC";
                 
               }else{
-                sql = "(SELECT R.*, U1.name, U1.ph, U1.id u1id, U1.percentage u1percentage, U2.name pname, GM.name gname, U2.id u2id, U2.percentage u2percentage, 0 u3id, 0 u3percentage FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id INNER JOIN `user` U2 ON U1.pid = U2.id "+cnd+" AND U2.id ="+data.pId+" ORDER BY R.id DESC)";
+                sql = "(SELECT R.*, U1.name, U1.ph, U1.id u1id, U1.percentage u1percentage, U2.name pname, GM.name gname, U2.id u2id, U2.percentage u2percentage, 0 u3id, 0 u3percentage FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id INNER JOIN `user` U2 ON U1.pid = U2.id "+cnd+" AND U2.id ="+data.pId+" ORDER BY R.bdate DESC)";
                 if(data.pType != 'distributer'){
                   sql += " UNION ";
-                  sql += "(SELECT R.*, U1.name, U1.ph, U1.id u1id, U1.percentage u1percentage, U2.name pname, GM.name gname, U2.id u2id, U2.percentage u2percentage, 0 u3id, 0 u3percentage FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id INNER JOIN `user` U2 ON U1.pid = U2.id "+cnd+" AND U2.pid ="+data.pId+" ORDER BY R.id DESC)";
+                  sql += "(SELECT R.*, U1.name, U1.ph, U1.id u1id, U1.percentage u1percentage, U2.name pname, GM.name gname, U2.id u2id, U2.percentage u2percentage, 0 u3id, 0 u3percentage FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id INNER JOIN `user` U2 ON U1.pid = U2.id "+cnd+" AND U2.pid ="+data.pId+" ORDER BY R.bdate DESC)";
                   if(data.pType != 'super'){
                     sql += " UNION ";
-                    sql += "(SELECT R.*, U1.name, U1.ph, U1.id u1id, U1.percentage u1percentage, U2.name pname, GM.name gname, U2.id u2id, U2.percentage u2percentage, U3.id u3id, U3.percentage u3percentage FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id INNER JOIN `user` U2 ON U1.pid = U2.id INNER JOIN `user` U3 ON U2.pid = U3.id "+cnd+" AND U3.pid ="+data.pId+" ORDER BY R.id DESC)";
+                    sql += "(SELECT R.*, U1.name, U1.ph, U1.id u1id, U1.percentage u1percentage, U2.name pname, GM.name gname, U2.id u2id, U2.percentage u2percentage, U3.id u3id, U3.percentage u3percentage FROM `"+data.gCode+"` AS R INNER JOIN `game_inplay` AS GM ON GM.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id INNER JOIN `user` U2 ON U1.pid = U2.id INNER JOIN `user` U3 ON U2.pid = U3.id "+cnd+" AND U3.pid ="+data.pId+" ORDER BY R.bdate DESC)";
                     
                   }
                 }
               }
               
-              console.log(sql)
               let t = await commonObj.customSQL(sql);
               result(t);
             }else{
@@ -136,7 +134,6 @@ exports.init = {
                 }
               }
               
-              console.log(sql)
               let t = await commonObj.customSQL(sql);
               result(t);
             }else{
@@ -174,7 +171,6 @@ exports.init = {
                 }
               }
               
-              console.log(sql)
               let t = await commonObj.customSQL(sql);
               result(t);
             }else{
@@ -200,7 +196,6 @@ exports.init = {
 
               sql = "SELECT id,pid,name,ph,email,type,balance,status,percentage FROM `user`  "+cnd;
               
-              console.log(sql)
               let t = await commonObj.customSQL(sql);
               result(t);
             }else{

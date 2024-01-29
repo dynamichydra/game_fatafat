@@ -20,7 +20,7 @@ body {
   padding-top: 4.7rem;
   padding-bottom: 4rem;
 
-  font-family: fantasy,cursive, fangsong;
+  font-family: serif;
 }
 
 b,
@@ -28,7 +28,7 @@ i,
 h1,
 h2,
 h3 {
-  font-family: fantasy,cursive, fangsong;
+  font-family: serif;
 }
 
 #mainContent {

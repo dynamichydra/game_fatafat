@@ -53,7 +53,6 @@
     backendSource.getObject('game', null, {where:[
       {'key':'status','operator':'is','value':1}
     ]}, function (data) {
-      console.log(data);
       data.MESSAGE.map(e=>{
         $('#gameName').append(`
           <option value="${e.code}">${e.name}</option>
