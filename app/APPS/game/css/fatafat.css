@@ -82,3 +82,7 @@
 .inputAmt{
   text-align: center;
 }
+
+#gameList,#gameType,#gamePlay{
+  color: #000;
+}
