@@ -20,7 +20,7 @@ body {
   padding-top: 4.7rem;
   padding-bottom: 4rem;
 
-  font-family: serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 b,
@@ -28,12 +28,11 @@ i,
 h1,
 h2,
 h3 {
-  font-family: serif;
+  font-family: 'Noto Serif', serif;
 }
 
 #mainContent {
   padding-top: 0px;
-  background-color: #fff;
 }
 
 .DM_FULLSCREEN {
@@ -197,8 +196,4 @@ h3 {
 }
 .notificationTop{
   margin-right: 10px;
-}
-
-#footer i{
-  color: #000;
 }

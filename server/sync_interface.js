@@ -17,20 +17,24 @@ DokuMe_SyncInterface.prototype.start = function(){
         res.json({SUCCESS:true, MESSAGE:b})
     });
 
-    _.app.get('/game/generate/fatafat', function (req, res) {
+    _.app.get('/game/generate', function (req, res) {
       const gObj = new game();
-      gObj.generateGame(['fatafat','fatafatSuper']);
-      res.json({STATUS:true,MESSAGE:'done'});
-    });
-
-    _.app.get('/game/start/fatafat', function (req, res) {
-      const gObj = new game();
-      gObj.startGame(['fatafat']);
+      gObj.generateGame(['mumbaiSuper','motkaKing','thailandLottery']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
-    _.app.get('/game/start/fatafatSuper', function (req, res) {
+    _.app.get('/game/start/mumbai_super', function (req, res) {
       const gObj = new game();
-      gObj.startGame(['fatafatSuper']);
+      gObj.startGame(['mumbaiSuper']);
+      res.json({STATUS:true,MESSAGE:'done'});
+  });
+    _.app.get('/game/start/motka_king', function (req, res) {
+      const gObj = new game();
+      gObj.startGame(['motkaKing']);
+      res.json({STATUS:true,MESSAGE:'done'});
+  });
+    _.app.get('/game/start/thailand_lottery', function (req, res) {
+      const gObj = new game();
+      gObj.startGame(['thailandLottery']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
 
@@ -45,13 +49,13 @@ DokuMe_SyncInterface.prototype.start = function(){
               res.json(result);
           }
       }).catch(function(error){
+          console.log(error);
           res.json(error);
       });
   });
 
     _.app.post('/task/submit', function (req, res) {
         let obj = req.body;
-        const ipAddress = req.socket.remoteAddress;
         _.executor.executeTask(obj.SOURCE, obj.TYPE, obj.TASK, obj.DATA).then(function(result){
             if(result){
                 res.json(result);
@@ -59,6 +63,7 @@ DokuMe_SyncInterface.prototype.start = function(){
                 res.json(result);
             }
         }).catch(function(error){
+            console.log(error);
             res.json(error);
         });
     });

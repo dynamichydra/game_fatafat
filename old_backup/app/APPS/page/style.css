@@ -1,0 +1,69 @@
+.barCotainer{
+    background-color: #0084ff;
+    display: flex;
+}
+.barCotainer .barArrow{
+    color: aliceblue;
+    margin-left: 10px;
+    margin-top: 9px;
+}
+.barCotainer .barTxt{
+    color: aliceblue;
+    line-height: 40px;
+    margin-left: 131px;
+    font-size: 17px;
+}
+
+.bodyContainer{
+  background: url(/whitelabel/game/img/bg_about.png);
+  width: 100%;
+  height: 280px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding: 50px;
+  text-align: center;
+}
+ .txt{
+    color: aliceblue;
+    font-weight: bold;
+}
+.bodyContainer .version{
+    border: white 2px solid;
+    width: max-content;
+    margin: 10px auto;
+    padding: 5px 20px;
+    border-radius: 10px;
+}
+
+.pageMenu{
+    margin-top: 20px;
+}
+.menuList .bi{
+    margin-left: 220px;
+}
+.menuList1 .bi{
+    margin-left: 128px;
+}
+.menuList.txt{
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 15px;
+    padding: 10px;
+    margin-left: 10px;
+
+}
+.pageMenu .txt{
+    height: 40px;
+    width: 100%;
+}
+
+
+.serviceWrapper .pageBody{
+  background: url(/whitelabel/game/img/customerservice_title.png);
+  width: 100%;
+  height: 400px;
+  background-repeat: no-repeat;
+  padding: 50px;
+  text-align: center;
+  background-position: left;
+}

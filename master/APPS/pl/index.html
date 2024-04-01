@@ -1,0 +1,65 @@
+<style type="text/css">
+  .actionBtn{
+    margin: 0px 5px;
+    cursor: pointer;
+  }
+  .enable{
+    color: green !important;
+  }
+  .disable{
+    color: brown !important;
+  }
+</style>
+<div class="profile">
+  <div class="walletContainer">
+    <div class="container">
+      <div class="row">
+        <div class=" col-6 input-containe">
+          <label>From date</label>
+          <input type="date" id="fDate" placeholder="Date"/>
+        </div>
+        <div class=" col-6 input-containe">
+          <label>To date</label>
+          <input type="date" id="tDate" placeholder="Date"/>
+        </div>
+        <div class=" col-6">
+          <label></label>
+          <select class="form-control" id="gameName"></select>
+        </div>
+        <div class=" col-6">
+          <label></label>
+          <select class="form-control" id="gameBaji"></select>
+        </div>
+        <div class="col-6">
+          <label></label>
+          <div class="gameButton searchUser" style="width: 100%;"> <i class="bi bi-binoculars"></i> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row" style="justify-content: space-around;text-align: center;">
+    <div class="conBox col-12 my-5">
+      <h3><span id="backResult" style="float: left;display: none;"><i class="bi bi-arrow-left"></i></span>Profit / Loss : <span id="transUser"></span></h3>
+      <table class="table table-striped" id="tblUser">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User</th>
+            <th scope="col">Played</th>
+            <th scope="col">Win</th>
+            <th scope="col">P/L</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<script src="APPS/pl/modules/pl.js"></script>

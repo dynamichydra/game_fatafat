@@ -30,7 +30,6 @@ var DM_COMMON = (function () {
   }
 
   async function fetchUserData(){
-    DM_TEMPLATE.showBtnLoader(elq('.moneytxt'), true);
     let data = await DM_GENERAL.userData(auth.config.id);
     if(data && data.SUCCESS){
       userData = data.MESSAGE;
@@ -43,8 +42,9 @@ var DM_COMMON = (function () {
       //   maximumSignificantDigits: 3 
       //   }).format(userData.balance);
 
-      $('.walletBalance').html(Math.round(userData.balance));
+      // $('.walletBalance').html(Math.round(userData.balance));
       $('.moneytxt').html(Math.round(userData.balance));
+
       $('.profilePh').html('UID: '+userData.ph);
       $('.profileName').html(decodeURI(userData.name));
       $('.profileID').html('ID: 89'+auth.config.id.toString().padStart(6,"0"));
@@ -90,13 +90,25 @@ var DM_COMMON = (function () {
       </div>`);
 
       fetchUserData();
-      $('.refreshBalance').on('click',fetchUserData);
+      $('.refreshBalance').unbind('click');
+      $('.refreshBalance').on('click',updateUserBalance);
       $('.myProfileBtn').on('click',function(){
         window.location = '#/profile/myprofile'
       });
       $('.wallet').on('click',function(){
         window.location = '#/wallet'
       });
+      
+  }
+
+  async function updateUserBalance(){
+    DM_TEMPLATE.showBtnLoader(elq('.moneytxt'), true);
+    let data = await DM_GENERAL.updateUserBalance(auth.config.id);
+    if(data.SUCCESS){
+      $('.moneytxt').html(Math.round(data.MESSAGE[0].bal));
+    }else{
+      $('.moneytxt').html(0);
+    }
   }
 
   function getUserData(){
@@ -181,13 +193,19 @@ var DM_COMMON = (function () {
     }, interval);
   }
 
+  function splitArray(arr, index) {
+    return [arr.slice(0, index), arr.slice(index)];
+  }
+
   return {
     preSaleModal,
     userProfileBlock,
     getUserData,
     gameHead,
     startTimer,
-    fetchUserData
+    fetchUserData,
+    updateUserBalance,
+    splitArray
   }
 
 })();

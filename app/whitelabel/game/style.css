@@ -32,8 +32,6 @@
 body {
   padding-top: 4rem;
   /*font-family: 'BundesSans', Calibri, Verdana, Arial, Helvetica, sans-serif!important;*/
-  /* color:#fff; */
-  /* background-color: rgb(0 0 0); */
 }
 
 /*b, i, h1, h2, h3, h4, h5, h6 {
@@ -41,7 +39,7 @@ body {
 }*/
 
 [data-bs-theme="light"] .navbar {
-  background: #0084ff !important;
+  background: #027b5b !important;
   height: 66px;
   /*border-bottom: 5px solid green;*/
 }
@@ -105,7 +103,7 @@ input{
 }
 
 #footer{
-  background-color: #0084ff;
+  background-color: #027b5b;
   text-align: center;
 }
 #footer small{
@@ -113,7 +111,7 @@ input{
 }
 
 #homeNotification marquee{
-  background-color: #ff5758;
+  background-color: #0bcc99;
   color: #fff;
   padding: 5px;
 }
@@ -138,11 +136,12 @@ input{
   transition: .4s;
 }
 
-.win-go-wrapper,.fatafat,.fatafatSuper{
+.win-go-wrapper{
   width: 100%;
   color: #fff;
   box-shadow: 0 0.02667rem 0.48rem 0 rgba(203,202,220,.56);
   border-radius: 0.4rem;
+  /* background-image: linear-gradient(red, orange, yellow, green, violet); */
 }
 
 #homeGame .game{
@@ -153,24 +152,7 @@ input{
 }
 
 .win-go-wrapper .game{
-  background: linear-gradient(95.66deg,#61baff 4.12%,#2d61fe 97.56%);
-}
-
-.fatafat .game{
-  background: linear-gradient(to top, transparent, #b1b1b1 100%), #2d61fe repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 255, 255, 0.5) 35px, rgb(255 255 255 / 50%) 70px);
-  background-clip: padding-box;
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 0px 1px 3px 1px #2d61fe;
-}
-.fatafatSuper .game{
-  background: linear-gradient(to top, transparent, #b1b1b1 100%), #228a38 repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 255, 255, 0.5) 35px, rgb(255 255 255 / 50%) 70px);
-  background-clip: padding-box;
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 0px 1px 3px 1px #228a38;
+  background: linear-gradient(95.66deg, #8df6a0 0%, #027b5b 65.56%, #b3c008 97.56%);
 }
 
 #homeGame{
@@ -188,7 +170,7 @@ input{
 }
 
 .loginWRAPPER {
-  background-color: #000;
+  background-color: #027b5b;
 }
 
 .loginDIV > div:nth-child(2) {
@@ -198,9 +180,9 @@ input{
 
 
 .profile{
-  background-color: #409ef5;
-  padding: 15px 15px 0px 15px;
-  /* min-height: 250px; */
+  background-image: linear-gradient(to bottom right, #0bcc99, #008d68,#02e3a8, #008d68);
+  min-height: 30px;
+  border-radius: 0 0 20px 20px;
 }
 
 #blackJack .row1 ,#blackJack .row2{
@@ -210,7 +192,7 @@ input{
 }
 
 .gameButton{
-  background-color: #0084ff;
+  background-color: #027b5b;
   padding: 5px 15px;
   width: max-content;
   border-radius: 10px;
@@ -225,14 +207,14 @@ input{
 .profileMenu .menuItem{
   padding: 5px;
   margin: 5px auto;
-  /* color: #ffffff; */
+  color: #000;
   border-bottom: 2px solid #efeeee;
   justify-content: space-between;
   display: flex;
 }
 
 .profileMenu .menuItem i{
-  color: #0084ff;
+  color: #027b5b;
   font-size: 20px;
 }
 
@@ -243,7 +225,6 @@ input{
   padding: 20px;
   box-shadow: 0px 5px 5px 5px #e7e7e7;
   text-align: center;
-  color: #000;
 }
 .balanceTxt{
   font-size: 15px;
@@ -267,7 +248,7 @@ input{
 
 .container .time-box {
   border-radius: 0.26667rem;
-  background: #008e5e;
+  background: #4643d4;
   background-size: auto 100%;
   color: #fff;
 }
@@ -305,7 +286,7 @@ input{
 
 .container .time-box .out .number .item {
   padding: 0.13333rem;
-  background-color: #2020da;
+  background-color: #0400b4;
   font-size: 1.5rem;
   margin-left: 0.5rem;
   color: #fff;
@@ -345,13 +326,13 @@ input{
   background-color: red;
 }
 .pattiNumDiv.green{
-  background-color: #008e5e;
+  background-color: rgb(0, 92, 17);
 }
 .pattiNumDiv.blue{
   background-color: rgb(50, 44, 219);
 }
 .pattiNumDiv.sky{
-  background-color: #0084ff;
+  background-color: rgb(59, 154, 232);
 }
 .pattiNumDiv.yellow{
   background-color: rgb(182, 226, 21);
@@ -385,7 +366,6 @@ input{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-height: 80vh;
   overflow-y: auto;
-  color: #000;
 }
 .popup-content p{
   max-height: 300px;
@@ -418,28 +398,24 @@ input{
   padding: 5px 0px 5px 30px;
   width: 100%;
   border-radius: 5px;
-  border: #409ef5 2px solid;
+  border: #f90 2px solid;
 }
 
 .input-container i {
   position: absolute;
   top: 3px;
   left: 18px;
-  color: #409ef5;
+  color: #f90;
   font-size: 18px;
 }
 
 .conBox {
-  background: #ffffff;
-  border: 0.05333rem solid #409ef5;
-  box-shadow: 0 0.21333rem 0.37333rem 0 rgba(4 161 76 / 27%);
+  background: #fff;
+  border: 0.05333rem solid #f90;
+  box-shadow: 0 0.21333rem 0.37333rem 0 rgba(255,153,0,.27);
   border-radius: 0.13333rem;
   padding: 10px;
   overflow-x: auto;
-}
-
-.monthResult, #liveResult{
-  background: #ef2525;
 }
 
 .input-container label{
@@ -490,13 +466,61 @@ input{
 }
 #resultArea table td{
   border: #000 1px solid;
-  color: #000;
 }
-.resultBg.gameName{
-  font-size: 12px;
+
+.topRefreshBal{
+  color: #fff;
+  font-size: 20px;
+  margin: 10px;
 }
-.form-control{
-  -webkit-appearance: auto;
-  -moz-appearance: auto;
-  appearance: auto;
+
+#resultArea canvas{
+  width: 100%;
+  min-height: 300px;
+}
+
+#resultArea .lotteryWrapper{
+  border: #000 1px solid;
+  padding: 0px;
+  margin: 10px 0px 50px;
+}
+#resultArea h2{
+  border: #000 1px solid;
+  background-color: #027b5b;
+  padding: 10px;
+  margin: 0px;
+  color: #fff;
+}
+#resultArea h3{
+  border: #000 1px solid;
+  background-color: #fec59d;
+  padding: 10px;
+  margin: 0px;
+  cursor: pointer;
+}
+#resultArea h3 .blinkMe{
+  animation: blinker 1s linear infinite;
+  color: #ff1903;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+
+.utility-item{
+  background-color: #027b5b;
+  padding: 5px 0px 5px 20px;
+  width: 95%;
+  color: #fff;
+}
+.utility-item.left{
+  border-radius: 0px 15px 15px 0px;
+}
+.utility-item.right{
+  border-radius: 15px 0px 0px 15px;
+  float: right;
 }

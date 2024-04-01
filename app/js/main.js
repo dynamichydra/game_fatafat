@@ -32,7 +32,7 @@ var DM_MAIN = (function () {
     });
 
     el('goBackBTN').addEventListener('click', function () {
-      if(app_name ==  'game' && (page_name == 'fatafat' || page_name == 'fatafatSuper')){
+      if(app_name ==  'game' && (page_name == 'mumbaiSuper' || page_name == 'motkaKing' || page_name == 'thailandLottery')){
         if($("#gamePlay").css("display") == 'block'){
           $("#gamePlay").css("display",'none'); 
           $("#gameType").css("display",'block'); 
@@ -77,6 +77,7 @@ var DM_MAIN = (function () {
       window.location = DM_CORE_CONFIG.LANDING_URL;
     }
   }
+
 
   return {
     logout

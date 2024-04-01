@@ -47,7 +47,7 @@
       where:cnd,
       order:{'by':'bdate','type':'DESC'},
       reference:[{obj:'game_inplay',a:'id',b:gameCode+'.game_id'}],
-      select:"name, "+gameCode+".*"
+      select:"name,"+gameCode+".*"
       }, function (data) {
         if(data.SUCCESS){
           let htm = ``;
@@ -56,11 +56,11 @@
               let bgColor = item.status ==1? 'style="background-color: #a9ffb6;"':'';
   
               htm += `<tr ${bgColor}>
-              <td scope="col">${item.id}</td>
               <td scope="col">${item.name}</br>${'2'+item.game_id.toString().padStart(5, "0")}</td>
               <td scope="col">${moment(item.bdate).format('DD.MMM.YYYY H:mm')}</td>
               <td scope="col">${item.type}</br>${item.number??''}</td>
               <td scope="col">${item.amt}</td>
+              <td scope="col">${item.id}</td>
             </tr>`;
             }
           }else{

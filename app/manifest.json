@@ -1,11 +1,11 @@
 {
-  "name": "Fatafat",
-  "short_name": "MR",
+  "name": "UniPlay",
+  "short_name": "UP",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#f0f5f9",
   "theme_color": "#333a54",
-  "description": "Fatafat",
+  "description": "UniPlay",
   "icons": [{
     "src": "whitelabel/game/img/icons/48.png",
     "sizes": "48x48",
@@ -33,12 +33,12 @@
   }],
   "related_applications": [{
     "platform": "Web",
-    "url": "https://app.fatafat247.com"
+    "url": "https://app.uniplay.com"
   }, {
     "platform": "play",
-    "url": "https://app.fatafat247.com"
+    "url": "https://app.uniplay.com"
   }, {
     "platform": "itunes",
-    "url": "https://app.fatafat247.com"
+    "url": "https://app.uniplay.com"
   }]
 }

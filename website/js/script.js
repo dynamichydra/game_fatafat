@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     //nojs
     $("body").removeClass("no-js");
 

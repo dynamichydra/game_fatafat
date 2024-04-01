@@ -1,0 +1,330 @@
+
+/* Apply styles to the time  box */
+#motka .container {
+  padding: 10px; /* Add padding to the container for spacing */
+  width: 90%; /* Set the width of the container */
+  margin: 0 auto; /* Center the container horizontally on the page */
+}
+
+
+
+.container .content .time-box {
+    border-radius: 0.26667rem;
+    background-size: auto 100%;
+    background-image: url('');
+    border: #f2413b 2px;
+}
+.c-row-between {
+    justify-content: space-between;
+}
+.c-row {
+    display: flex;
+    padding: 10px;
+}
+.m-b-10 {
+    margin-bottom: 0.26667rem!important;
+}
+.info{
+    font-family: serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    position: relative;
+    font-size: .37333rem;
+}
+
+/* Apply styles to the container */
+
+  
+  /* Apply styles to the table */
+  #gameId {
+    width: 100%; /* Make the table width 100% of its container */
+    border-collapse: collapse; /* Collapse borders for a clean look */
+  }
+  
+  #gameId td {
+    padding: 8px; /* Add padding to the table cells for spacing */
+    border: 1px solid #000; /* Add borders to table cells, change color as needed */
+  }
+  /* Style the container */
+  .color-box {
+    display: flex;
+    justify-content: space-between;
+    width: 300px; /* Adjust the width as needed */
+    margin: 20px auto;
+  }
+  
+  /* Style the buttons */
+  .GreenBtn {
+    background-color: #5cba47;
+    border-radius: 0 0.4rem 0 0.4rem;
+    height: 40px;
+    width: 90px;
+    border: none;
+    box-shadow: 0 0 0.21333rem 0.02667rem rgba(92,186,71,.72)
+  }
+
+  .VioletBtn {
+    background-color: #db5fd1;
+    border-radius: .26667rem;
+    height: 40px;
+    width: 90px;
+    border: none;
+    box-shadow: 0 0 0.21333rem 0.02667rem rgba(219,95,209,.58);
+  }
+
+  .RedBtn {
+    background-color: #fb4e4e;
+    border-radius: .4rem 0 .4rem 0;
+    height: 40px;
+    width: 90px;
+    border: none;
+    box-shadow: 0 0 0.21333rem 0.02667rem rgba(251,78,78,.6);
+  }
+
+  /* Assign different colors to each button */
+  *
+  {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+  .button0 {
+    background-image: linear-gradient(to bottom right,#fb4e4e 50%,#eb43dd 0)!important;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    outline-offset: 1px;
+    outline-style: solid;
+    outline-color: #fb4e4e;
+    outline-width: 1px;
+  }
+
+  .button5 {
+    background-image: linear-gradient(to bottom right,#5cba47 50%,#eb43dd 0)!important;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    outline-offset: 1px;
+    outline-style: solid;
+    outline-color: rgb(77, 201, 77);
+    outline-width: 1px;
+  }
+
+  .button1,
+  .button3,
+  .button7,
+  .button9 {
+    background-color: rgb(77, 201, 77);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    outline-offset: 1px;
+    outline-style: solid;
+    outline-color: rgb(77, 201, 77);
+    outline-width: 1px;
+  }
+  
+  .button2,
+  .button4,
+  .button6,
+  .button8  {
+    background-color:#fb4e4e;
+    border-radius: 50%;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border: none;
+    outline-offset: 1px;
+    outline-style: solid;
+    outline-color: #fb4e4e;
+    outline-width: 1px;
+  }
+  
+  .number-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button0 {
+    background-color: jhg;
+    color: white;
+  }
+ 
+  .button5 {
+    background-color: blue;
+    color: white;
+  }
+  .randomBetting{
+    height: 40px;
+    max-width: 70px;
+    word-break: unset;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 7px;
+    margin-left: 5px;
+    background: 0 0;
+    color: #333;
+    padding: 0 0.05333rem;
+    border: 2px solid #f2413b;
+    border-radius: 0.26667rem
+  }
+  .x1item {
+    width: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 20%;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.x5item {
+    width: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 20%;
+    margin-right: 5px;
+}
+.x10item {
+    width: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 20%;
+    margin-right: 5px;
+    outline: #000 2px;
+}
+.x20item {
+    width: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 20%;
+    margin-right: 5px;
+}
+.x50item {
+    width: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 20%;
+    margin-right: 5px;
+}
+.x100item {
+    width: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 20%;
+    margin-right: 5px;
+}
+.itemYellow {
+    width: 160px;
+    height: 40px;
+    border: none;
+    margin-right: ;
+    background-color: #ffc511;
+    border-radius: 1.06667rem 0 0 1.06667rem;
+    box-shadow: 0 0 0.21333rem 0.02667rem rgba(255,197,17,.47);
+}
+.itemGreen {
+    width: 160px;
+    height: 40px;
+    border: none;
+    margin-right: ;
+    background-color: #5cba47;
+    border-radius: 0 1.06667rem 1.06667rem 0;
+    box-shadow: 0 0 0.21333rem 0.02667rem rgba(92,186,71,.72);
+}
+.txtAction {
+    background-color: #eaeefc;
+    border: 0.02667rem solid #747cc7;
+    border-radius: 10%;
+    box-shadow: 0.02667rem 0.02667rem 0.13333rem 0.13333rem #fbedf3;
+    display: block;
+    height: 45px;
+    width: 85px;;
+    text-align: center;
+    font-size: 14px;
+    word-break: all;
+}
+.txtChart {
+    background-color: #eaeefc;
+    border: 0.02667rem solid #747cc7;
+    border-radius: 10%;
+    display: block;
+    height: 45px;
+    width: 85px;;
+    text-align: center;
+    font-size: 14px;
+    word-break: all;
+}
+.txtRecord {
+    background-color: #eaeefc;
+    border: 0.02667rem solid #747cc7;
+    border-radius: 10%;
+    box-shadow: 0.02667rem 0.02667rem 0.13333rem 0.13333rem #fbedf3;
+    display: block;
+    height: 45px;
+    width: 85px;
+    text-align: center;
+    font-size: 14px;
+    word-break: all;
+    margin-right: 5px;
+}
+.game-list .list .wrap {
+    padding: 0.4rem;
+    width: 100%;
+    height: 20%;
+    background-color: #fbedf3;
+    border-top-right-radius: 0.26667rem;
+    border-top-left-radius: 0.26667rem;
+    font-weight: 600;
+    color: #000;
+    text-align: center;
+}
+.c-tc .van-row{
+    width: 30%;
+}
+
+.game-betting .content .time-box[data-v-eae39e58] {
+  border-radius: 0.26667rem;
+  background: #f94b55 url(../img/bannertimeout.6325ccb2.png) no-repeat 50%;
+  background-size: auto 100%;
+}

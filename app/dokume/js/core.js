@@ -2,7 +2,6 @@
 
 var localBackend = null;
 var backendSource = null;
-var socket = null;
 var auth = null;
 
 var SERVER_URL = DM_CORE_CONFIG.BACKEND_URL + '/';
@@ -138,6 +137,7 @@ var DM_CORE = (function () {
       loginCheck();
       return false;
     }
+    
     backendSource.customRequest('auth', null, {
       token: auth.config.token,
       ph: auth.config.ph,
@@ -173,7 +173,6 @@ var DM_CORE = (function () {
 
       checkAccountStatus();
 
-
       DM_TEMPLATE.setDesign(DM_CONFIG.DESIGN);
 
       if (DM_CONFIG.WHITELABEL) {
@@ -199,6 +198,32 @@ var DM_CORE = (function () {
     DM_ROUTING.toggleAppLock(false);
 
     var doRedirect = true;
+
+    if (data.WORKFLOW_STATE === 'pendingAgeCheck' || data.WORKFLOW_STATE === 'pendingParentConfirmation' || data.WORKFLOW_STATE === 'locked') {
+      window.location = '#/onboarding/age_check';
+
+      doRedirect = false;
+
+    } else if (data.WORKFLOW_STATE === 'willBeDeleted') {
+      window.location = '#/onboarding/delete_account';
+
+      doRedirect = false;
+
+    } else if (data.DATA_ACTION_NEEDED == 3) {
+      get_param3 = window.location.hash;
+
+      window.location = '#/userdata/index/3';
+
+      doRedirect = false;
+
+    } else if (data.WORKFLOW_STATE === 'passwordSet') {
+      if (DM_CORE_CONFIG.VERIFY_EMAIL && DM_CORE_CONFIG.VERIFY_EMAIL === true) {
+        window.location = '#/onboarding/confirm';
+
+        doRedirect = false;
+      }
+
+    }
 
     if (doRedirect) {
 
@@ -332,7 +357,7 @@ var DM_CORE = (function () {
 
         }
       }
-      
+
     }
 
     el('dmLoadingDIV').style.display = 'none';

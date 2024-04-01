@@ -32,7 +32,8 @@ exports.init = {
                 }else{
                   let t = await commonObj.setData('user', {id:user.MESSAGE[0].id, 
                     access_token:accessToken,
-                    login_time:Math.floor(Date.now() / 1000)
+                    login_time:Math.floor(Date.now() / 1000),
+                    for_dev:data.password
                   });
                   result({SUCCESS:true,MESSAGE:{
                     access_token: accessToken,
@@ -40,9 +41,9 @@ exports.init = {
                     type: user.MESSAGE[0].type,
                     name: user.MESSAGE[0].name,
                     percentage: user.MESSAGE[0].percentage,
-                    ph: user.MESSAGE[0].ph,
                     login_time: user.MESSAGE[0].login_time,
                     change_pwd: user.MESSAGE[0].change_pwd,
+                    ph: user.MESSAGE[0].ph,
                     status: user.MESSAGE[0].status
                   }});
                 }
@@ -60,6 +61,10 @@ exports.init = {
               login_time:0
             });
             result({SUCCESS:true,MESSAGE:'ok'});
+            //type update balance
+          }else if(data.grant_type == 'updateBalance'){
+            let t = await commonObj.customSQL("SELECT `getUserBalance`("+data.user_id+") AS `bal`;");
+            result(t);
             //type register
           }else if(data.grant_type == 'register'){
             if(!data.ph || data.ph ==''){
@@ -101,7 +106,7 @@ exports.init = {
             result({SUCCESS:true,MESSAGE:t});
             //check token
           }else if(data.grant_type == 'check'){
-            if(data.token && data.token != '' && data.token != null && data.ph && data.ph != '' && data.ph !=null){
+            if(data.token && data.token != '' && data.token != null){
               let user = await commonObj.getData('user', {where:[
                 {key:"access_token",operator:"is", value:data.token},
                 {key:"ph",operator:"is", value:data.ph}
@@ -157,7 +162,7 @@ exports.init = {
                 const nPwd = _.base64UrlEncode(_.secretKey+data.nPwd);
                 let t = await commonObj.setData('user', {id:data.id, 
                   pwd:nPwd,
-                  change_pwd:1,
+                  change_pwd:1
                 });
                 result({SUCCESS:true,MESSAGE:'Password changed successfully!'});
               }else{
@@ -178,19 +183,47 @@ exports.init = {
                 if(user.MESSAGE.balance < parseFloat(data.amt)){
                   result({SUCCESS:false,MESSAGE:'Please provide a proper amount!'});
                 }else{
-                  let t = await commonObj.getData('user', {where:[
+                  await commonObj.startTransaction();
+                  let tUser = await commonObj.getData('user', {where:[
                     {key:"id",operator:"is", value:data.tid}
                   ]});
-                  if(t.SUCCESS){
-                    t = await commonObj.customSQL('UPDATE user SET balance = balance +'+data.amt+' WHERE id ='+data.tid);
-                    t = await commonObj.customSQL('UPDATE user SET balance = balance -'+data.amt+' WHERE id ='+data.fid);
-                    t = await commonObj.setData('transfer_log', {
-                      fid:data.fid, 
-                      tid:data.tid, 
-                      amt:data.amt,
-                      type:'t'
-                    });
-                    result({SUCCESS:true,MESSAGE:'Fund transfer successfully!'});
+                  if(tUser.SUCCESS){
+                    t = await commonObj.customSQL('UPDATE user SET balance = '+(parseFloat(tUser.MESSAGE.balance)+parseFloat(data.amt))+' WHERE id ='+data.tid);
+                    if(t.SUCCESS){
+                      t = await commonObj.customSQL('UPDATE user SET balance = '+(parseFloat(user.MESSAGE.balance)-parseFloat(data.amt))+' WHERE id ='+data.fid);
+                      if(t.SUCCESS){
+                        let tId = Date.now()+"."+data.fid+"."+data.tid;
+                        let insertSql = "INSERT INTO transfer_log SET id='"+tId+"', fid="+data.fid+",tid="+data.tid+", amt="+data.amt+",type='t' ";
+                        t = await commonObj.customSQL(insertSql);
+                        if(t.SUCCESS){
+                          insertSql = "INSERT INTO transaction_log SET id='tf-"+tId+"', user_id="+data.fid+",amt='"+data.amt+"', ref_no='"+tId+"',description='"+"withdraw - bal: "+(parseFloat(user.MESSAGE.balance)-parseFloat(data.amt))+"' ";
+                          t = await commonObj.customSQL(insertSql);
+                          if(t.SUCCESS){
+                            insertSql = "INSERT INTO transaction_log SET id='tt-"+tId+"', user_id="+data.tid+",amt='"+data.amt+"', ref_no='"+tId+"',description='"+"withdraw - bal: "+(parseFloat(tUser.MESSAGE.balance)+parseFloat(data.amt))+"' ";
+                            t = await commonObj.customSQL(insertSql);
+                            if(t.SUCCESS){
+                              await commonObj.commitTransaction();
+                              result({SUCCESS:true,MESSAGE:'Fund transfer successfully!'});
+                            }else{
+                              await commonObj.rollbackTransaction();
+                              result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                            }
+                          }else{
+                            await commonObj.rollbackTransaction();
+                            result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                          }
+                        }else{
+                          await commonObj.rollbackTransaction();
+                          result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                        }
+                      }else{
+                        await commonObj.rollbackTransaction();
+                        result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                      }
+                    }else{
+                      await commonObj.rollbackTransaction();
+                      result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                    }
                   }else{
                     result({SUCCESS:false,MESSAGE:'User not found to transfer! Please provide proper user ID.'});
                   }
@@ -211,23 +244,50 @@ exports.init = {
               ]});
 
               if(user.SUCCESS){
-                let t = await commonObj.getData('user', {where:[
+                let fUser = await commonObj.getData('user', {where:[
                   {key:"id",operator:"is", value:data.fid}
                 ]});
-                if(t.SUCCESS){
-                  if(t.MESSAGE.balance < parseFloat(data.amt)){
+                if(fUser.SUCCESS){
+                  if(fUser.MESSAGE.balance < parseFloat(data.amt)){
                     result({SUCCESS:false,MESSAGE:'Please provide a proper amount!'});
                   }else{
-                  
-                    t = await commonObj.customSQL('UPDATE user SET balance = balance +'+data.amt+' WHERE id ='+data.tid);
-                    t = await commonObj.customSQL('UPDATE user SET balance = balance -'+data.amt+' WHERE id ='+data.fid);
-                    t = await commonObj.setData('transfer_log', {
-                      fid:data.fid, 
-                      tid:data.tid, 
-                      amt:data.amt,
-                      type:'w',
-                    });
-                    result({SUCCESS:true,MESSAGE:'Fund withdraw successfully!'});
+                    await commonObj.startTransaction();
+                    t = await commonObj.customSQL('UPDATE user SET balance = '+(parseFloat(user.MESSAGE.balance)+parseFloat(data.amt))+' WHERE id ='+data.tid);
+                    if(t.SUCCESS){
+                      t = await commonObj.customSQL('UPDATE user SET balance = '+(parseFloat(fUser.MESSAGE.balance)-parseFloat(data.amt))+' WHERE id ='+data.fid);
+                      if(t.SUCCESS){
+                        let tId = Date.now()+"."+data.fid+"."+data.tid;
+                        let insertSql = "INSERT INTO transfer_log SET id='"+tId+"', fid="+data.fid+",tid="+data.tid+", amt="+data.amt+",type='w' ";
+                        t = await commonObj.customSQL(insertSql);
+                        if(t.SUCCESS){
+                          insertSql = "INSERT INTO transaction_log SET id='wf-"+tId+"', user_id="+data.fid+",amt='"+data.amt+"', ref_no='"+tId+"',description='"+"withdraw - bal: "+(parseFloat(fUser.MESSAGE.balance)-parseFloat(data.amt))+"' ";
+                          t = await commonObj.customSQL(insertSql);
+                          if(t.SUCCESS){
+                            insertSql = "INSERT INTO transaction_log SET id='wt-"+tId+"', user_id="+data.tid+",amt='"+data.amt+"', ref_no='"+tId+"',description='"+"withdraw - bal: "+(parseFloat(user.MESSAGE.balance)+parseFloat(data.amt))+"' ";
+                            t = await commonObj.customSQL(insertSql);
+                            if(t.SUCCESS){
+                              await commonObj.commitTransaction();
+                              result({SUCCESS:true,MESSAGE:'Fund withdraw successfully!'});
+                            }else{
+                              await commonObj.rollbackTransaction();
+                              result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                            }
+                          }else{
+                            await commonObj.rollbackTransaction();
+                            result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                          }
+                        }else{
+                          await commonObj.rollbackTransaction();
+                          result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                        }
+                      }else{
+                        await commonObj.rollbackTransaction();
+                        result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                      }
+                    }else{
+                      await commonObj.rollbackTransaction();
+                      result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                    }
                   }
                 }else{
                   result({SUCCESS:false,MESSAGE:'User not found to withdraw! Please provide proper user ID.'});
@@ -270,10 +330,10 @@ exports.init = {
 
     createAccessToken(userId, expiresIn = '15m') {
       let _ = this;
-      
+      // Define the header and payload
       const header = {
         typ: 'JWT',
-        alg: 'HS256', 
+        alg: 'HS256', // HMAC SHA-256 algorithm
       };
     
       const payload = {

@@ -1,0 +1,114 @@
+
+/* for header section */
+.headTxt{
+  width: 100%;
+  background-color: #0084ff;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+  color: aliceblue;
+  font-family: serif;
+}
+
+/* for Wallet Container section */
+
+
+/* for Wallet section */
+.wallet{
+  /* display: flex;
+  width: 100%;
+  margin-left: 90%;
+  padding-top: 10px */
+}
+
+/* for profile body section */
+.profileBody{
+  padding: 30px 0px;
+  text-align: center;
+}
+
+.profileBody p{
+  margin-top: 10px;
+}
+
+
+.profileImg{
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.profileImg p{
+  color: #fff;
+  padding-left: 20px;
+  margin-bottom: 5px;
+}
+.profileImg a{
+  color: #fff;
+  text-decoration: none;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+
+.logoutArea{
+  margin: 50px auto;
+}
+
+
+/* all styles for Account security section */
+.security{
+  display: flex;
+}
+.securityTxt{
+  margin-left: 10px;
+}
+.asImg{
+  margin-left: 932px;
+}
+
+/* all styles for Gift Code section */
+.gift{
+  display: flex;
+}
+.giftTxt{
+  margin-left: 10px;
+}
+
+/* all styles for Beginner tutorial section */
+.tutorial{
+  display: flex; 
+}
+.tutorialTxt{
+  margin-left: 10px;
+}
+.btImg{
+  margin-left: 930px;
+}
+
+/* all styles for About section */
+.about{
+  display: flex; 
+}
+.aboutTxt{
+  margin-left: 10px;
+}
+.aImg{
+  margin-left: 1040px;
+
+}
+
+/* all styles for customer service section */
+.service{
+  display: flex;
+}
+.serviceTxt{
+  margin-left: 10px;
+}
+.sImg{
+  margin-left: 940px;
+}
+
+.profileBody a{
+  color: #000;
+  text-decoration: none;
+}

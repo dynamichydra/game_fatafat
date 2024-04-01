@@ -1,0 +1,75 @@
+<link href="APPS/profile/profile.css" rel="stylesheet">
+<style type="text/css">
+  .profileImg{
+    display: block;
+    text-align: center;
+  }
+</style>
+<div class="profile">
+  <div class="profileImg">
+    <div>
+      <img src="whitelabel/game/img/user.png" width="80px">
+    </div>
+    <div>
+      <p class="profileName"></p>
+      <p class="profileID"></p>
+    </div>
+  </div>
+  <div class="walletContainer">
+    <div class="container">
+      <div class="row">
+        
+        <div class="balance col-12">
+          <div class="balanceTxt">Wallet Balance </div>
+          <div class="showBalance">
+              <span class="moneytxt">₹0</span>
+              <span class="refreshBalance">
+                <i class="bi bi-arrow-clockwise"></i>
+              </span>
+          </div>
+        </div>
+        <div class="col-12 my-3">
+          <div class="balanceTxt">Total transfer <span class="totalWithdrawtxt">₹0</span></div>
+        </div>
+        <div class="col-12">
+          <div class="balanceTxt">Total receive <span class="todayWithdrawtxt">₹0</span></div>
+        </div>
+        <div class="deduction col-12" style="display: none;">
+            <div class="gameButton transferBtn"> Transfer </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container my-5" style="display: none;">
+  <div class="row">
+
+    <div class="profileMenu col-12">
+      <div class="transferRecord menuItem">
+        <div>
+          <i class="bi bi-cash-stack"></i>
+          <span >Transfer Record</span>
+        </div>
+        <div>
+          <i class="bi bi-chevron-double-right"></i>
+        </div>
+      </div>
+
+      <div class="receiveRecord menuItem">
+        <div>
+          <i class="bi bi-cash-stack"></i>
+          <span >Receive Record</span>
+        </div>
+        <div>
+          <i class="bi bi-chevron-double-right"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+  
+</div>
+<script src="APPS/wallet/modules/wallet.js"></script>

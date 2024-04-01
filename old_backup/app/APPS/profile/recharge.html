@@ -1,0 +1,60 @@
+<style type="text/css">
+  .methodBox,.amtBox{
+    text-align: center;
+  }
+  .methodBox.active,.amtBox.active{
+    background-color: #ffeacc;
+    color: #228a38;
+  }
+</style>
+<div class="profile"></div>
+
+<div class="container mt-5">
+  <div class="row">
+    <h3 class="infotext">Payment Method</h3>
+    <div class="col-12 row">
+      <div class="col-4">
+        <div class="methodBox conBox active" data-type="upi">
+          <i class="bi bi-wallet2"></i>
+          UPI
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="methodBox conBox" data-type="bank">
+          <i class="bi bi-wallet2"></i>
+          Bank
+        </div>
+      </div>
+    </div>
+    <div class="input-container col-12 mt-4">
+      <input type="number" id="amt" placeholder="Enter deposit amount " value="100">
+      <i class="bi bi-currency-rupee"></i>
+    </div>
+    <div class="col-12 mt-4 row">
+      <div class="col-4">
+        <div class="amtBox conBox active" data-amt="100">100</div>
+      </div>
+      <div class="col-4">
+        <div class="amtBox conBox" data-amt="1000">1k</div>
+      </div>
+      <div class="col-4">
+        <div class="amtBox conBox" data-amt="5000">5k</div>
+      </div>
+      <div class="col-4 mt-2">
+        <div class="amtBox conBox" data-amt="10000">10k</div>
+      </div>
+      <div class="col-4 mt-2">
+        <div class="amtBox conBox" data-amt="25000">25k</div>
+      </div>
+      <div class="col-4 mt-2">
+        <div class="amtBox conBox" data-amt="50000">50k</div>
+      </div>
+    </div>
+
+    <div class="buttonArea col-12 my-4">
+      <div class="gameButton" id="saveBtn"> Recharge </div>
+    </div>
+  </div>
+  
+</div>
+<script src="APPS/profile/modules/recharge.js"></script>

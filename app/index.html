@@ -8,7 +8,7 @@
 
   <meta name="theme-color" content="#333a54">
 
-  <title>Fatafat</title>
+  <title>Uni Play</title>
   <link rel="manifest" href="manifest.json">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,21 +42,21 @@
 
 <body>
   <div id="dmLoadingDIV">
-    <img src="whitelabel/game/img/logo-login.jpeg">
+    <img src="whitelabel/game/img/logo.png">
     <h3>Loading...</h3>
   </div>
 
   <nav id="mainNavbar" class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="display:none">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <img src="whitelabel/game/img/logo-login.jpeg">
+        <img src="whitelabel/game/img/logo.png">
       </a>
 
       <div class="topIcon">
-        <a class="notificationTop" href="javascript:void(0);"><i class="bi bi-bell"></i></a>
         <a class="walletTop" href="javascript:void(0);">
-          <i class="bi bi-wallet"></i>&nbsp;&nbsp;<span class="walletBalance"></span>
+          <i class="bi bi-wallet"></i>&nbsp;&nbsp;<span class="walletBalance moneytxt"></span>
         </a>
+        <span class="refreshBalance topRefreshBal"><i class="bi bi-arrow-clockwise"></i></span>
       </div>
       
     </div>
@@ -70,8 +70,9 @@
       <div id="pageTitle"></div>
       <div class="topIcon">
         <a class="walletTop" href="javascript:void(0);">
-          <i class="bi bi-wallet"></i>&nbsp;&nbsp;<span class="walletBalance"></span>
+          <i class="bi bi-wallet"></i>&nbsp;&nbsp;<span class="walletBalance moneytxt"></span>
         </a>
+        <span class="refreshBalance topRefreshBal"><i class="bi bi-arrow-clockwise"></i></span>
       </div>
     </div>
   </nav>
@@ -92,32 +93,34 @@
   </main>
 
   <div id="footer" class="fixed-bottom d-flex justify-content-around">
-    <a href="#/home">
-      <i class="bi bi-house-heart"></i>
-      <small>Home</small>
-    </a>
-    <a href="#/profile">
-      <i class="bi bi-person-bounding-box"></i>
-      <small>profile</small>
-    </a>
     <a href="#/record">
-      <i class="bi bi-hourglass-split"></i>
+      <i class="bi bi-activity"></i>
       <small>Bet History</small>
     </a>
     <a href="#/record/win">
-      <i class="bi bi-controller"></i>
+      <i class="bi bi-trophy"></i>
       <small>Win History</small>
     </a>
-    
+    <a href="#/home">
+      <i class="bi bi-house"></i>
+      <small>Home</small>
+    </a>
     <a href="#/result">
-      <i class="bi bi-emoji-sunglasses"></i>
+      <i class="bi bi-bar-chart-steps"></i>
       <small>Results</small>
     </a>
-    
+    <a href="#/profile">
+      <i class="bi bi-people"></i>
+      <small>profile</small>
+    </a>
   </div>
 
   <div id="sitePopup" class="popup"></div>
 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+  
   <script src="plugins/jquery/jquery-3.5.1.min.js"></script>
   <script src="plugins/bootstrap/bootstrap.bundle.min.js"></script>
 

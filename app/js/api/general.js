@@ -21,15 +21,23 @@ const DM_GENERAL = (function () {
       if (!util.errorHandler(data)) return false;
       CATEGORY = data.MESSAGE;
     });
-    backendSource.getObject('game', null, {}, function (data) {
+    backendSource.getObject('game', null, {where: [{'key':'status','operator':'is','value':"1"}]}, function (data) {
       if (!util.errorHandler(data)) return false;
       GAME = data.MESSAGE;
     });
   }
 
-  function fetchInplayGame(arr){
+  function getTableData(tbl,arr){
     return new Promise(async function (result) {
-      backendSource.getObject('game_inplay', null, {where:arr}, function (data) {
+      backendSource.getObject(tbl, null, {where:arr}, function (data) {
+        result(data);
+      });
+    });
+  }
+
+  function fetchInplayGame(arr,order,order1){
+    return new Promise(async function (result) {
+      backendSource.getObject('game_inplay', null, {where:arr,order:order,order1:order1}, function (data) {
         result(data);
       });
     });
@@ -51,10 +59,29 @@ const DM_GENERAL = (function () {
     });
   }
 
+  function updateUserBalance(id){
+    return new Promise(async function (result) {
+      if(!id){
+        result(null);
+        return;
+      }
+
+      backendSource.customRequest('auth', null, {
+        user_id: id,
+        grant_type: 'updateBalance'
+      }, function (data) {
+        result(data);
+      });
+    });
+  }
+
   async function updateUserInfo(){
     if(auth.config.id){
       USER_DATA = await userData(auth.config.id);
-      $('.walletBalance').html(Math.round(USER_DATA.MESSAGE.balance));
+      $('.refreshBalance').unbind('click');
+      $('.refreshBalance').on('click',DM_COMMON.updateUserBalance);
+      $('.moneytxt').html(Math.round(USER_DATA.MESSAGE.balance));
+
       $('.walletTop').on('click',function(){
         window.location.href = '#/wallet';
       });
@@ -120,7 +147,9 @@ const DM_GENERAL = (function () {
     userData,
     changePassword,
     getGame,
-    updateUserInfo
+    updateUserInfo,
+    updateUserBalance,
+    getTableData
   }
 
 })();

@@ -110,7 +110,7 @@ input,
 button,
 textarea {
     line-height: normal;
-    font-family: serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 input[type="search"]::-webkit-search-cancel-button,
@@ -355,8 +355,8 @@ html {
 
 body {
     height: 100%;
-    font: 16px/28px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #222222;
+    font: 16px/28px "Calibri (Body)", Helvetica, Arial, sans-serif;
+    color: #1c7803;
     -webkit-font-smoothing: antialiased;
     -webkit-backface-visibility: hidden;
     -ms-text-size-adjust: 100%;
@@ -378,7 +378,7 @@ body {
 }
 
 a {
-    color: #FF5757;
+    color: #FC03BE;
     cursor: pointer;
     background: transparent;
     text-decoration: none;
@@ -436,15 +436,15 @@ a:active {
 }
 
 .textarea {
-    font-family: serif
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 .button {
     color: white;
-    background: #FF5757;
+    background: #f1104d;
     height: 58px;
-    border: 2px solid #FF5757;
-    font: 500 22px serif;
+    border: 2px solid #10bbf1;
+    font: 500 22px "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0 21px;
     -moz-transition: color 0.1s linear, background-color 0.1s linear, border-color 0.1s linear;
     -ms-transition: color 0.1s linear, background-color 0.1s linear, border-color 0.1s linear;
@@ -733,7 +733,7 @@ footer {
 }
 
 .comments {
-    background: #FF5757;
+    background: #10bbf1;
     color: white;
     text-align: center;
     padding: 70px 0 60px;

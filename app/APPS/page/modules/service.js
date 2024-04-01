@@ -14,7 +14,7 @@
   }
 
   function liveChat(){
-    let phoneNumber = '+8801866824702';
+    let phoneNumber = '+918167492476';
     let whatsappLink = 'whatsapp://send?phone=' + phoneNumber;
     window.location.href = whatsappLink;
   }

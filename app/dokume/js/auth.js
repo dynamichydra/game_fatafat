@@ -36,13 +36,12 @@
 
   DokuMe_Auth.prototype.login = function(alias, pass, callback) {
     var _ = this;
-    backendSource.customRequest('auth', null, {
-      username: alias,
+    backendSource.customRequest('auth', null, {username: alias,
       password: pass,
       invite: null,
-      type: 'user',
       grant_type: 'password'
     }, function (data) {
+
       if (data.SUCCESS && data.MESSAGE.access_token) {
         _.loggedIn = true;
         
@@ -52,9 +51,9 @@
           id: data.MESSAGE.id,
           type: data.MESSAGE.type,
           ph: data.MESSAGE.ph,
+          status: data.MESSAGE.status,
           login_time: data.MESSAGE.login_time,
           change_pwd: data.MESSAGE.change_pwd,
-          status: data.MESSAGE.status,
           user: encodeURIComponent(data.MESSAGE.name)
         };
 

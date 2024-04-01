@@ -22,7 +22,7 @@
   }
 
   function showWhiteLabel() {
-    //el('loginLogo').src = elq('.navbar-brand img').src;
+    el('loginLogo').src = elq('.navbar-brand img').src;
   }
 
   function bindEvents() {
@@ -45,6 +45,7 @@
         window.location = DM_CORE_CONFIG.LANDING_URL;
       }
     });
+
   }
 
   function login(e) {

@@ -63,14 +63,27 @@ exports.init = {
       });
     });
   },
+  rollbackTransaction : async function(){
+    return new Promise(async function (result) {
+      let sql = `ROLLBACK;;`;
+      db.query(sql, (err, rows) => {
+        if (err) {
+          result({SUCCESS:false,MESSAGE:err.message});
+        }
+        result({SUCCESS:true,MESSAGE:'Ok'});    
+      });
+    });
+  },
     getData : async function( type, data){
       let __ = this;
       return new Promise(async function (result) {
         let isId = false;
         let cnd = " WHERE 1 ";
+        //console.log(data)
         if(data.where){
             for (const k in data.where) {
               if(!isId && data.where[k].key == 'id')isId=true;
+              console.log(data.where[k])
                 let key = data.where[k].key.split(".");
                 key = key[1]??key[0];
                 let tbl = key.split("##");
@@ -125,6 +138,9 @@ exports.init = {
         if(data.order){
           order = ' ORDER BY '+data.order.by+' '+(data.order.type??'');
         }
+        if(data.order1){
+          order += ', '+data.order1.by+' '+(data.order1.type??'');
+        }
         let join = '';
         if(data.reference){
           for(let item of data.reference){
@@ -132,7 +148,7 @@ exports.init = {
           }
         }
         let sql = `SELECT ${select} FROM ${type} ${join} ${cnd} ${order} ${limit}`;
-        console.log(sql);
+        console.log(sql)
         db.query(sql, (err, rows) => {
             if (err) {
               result({SUCCESS:false,MESSAGE:err.message});
@@ -147,6 +163,7 @@ exports.init = {
             }else{
               result({SUCCESS:true,MESSAGE:rows,current_time:curDate});
             }
+            // result({SUCCESS:true,MESSAGE:rows});
             
         });
       });
@@ -155,6 +172,7 @@ exports.init = {
       let __ = this;
 
       return new Promise(async function (result) {
+        console.log(sql);
         db.query(sql, function(err,rows) {
             if (err) {
               result({SUCCESS:false,MESSAGE:err.message});
@@ -204,7 +222,7 @@ exports.init = {
           }
           sql = `INSERT INTO ${type} (${key.toString()}) VALUES( ${val.toString()});`;
         }
-        
+        console.log(sql)
         db.query(sql, function(err) {
             if (err) {
               result({SUCCESS:false,MESSAGE:err.message});
@@ -219,23 +237,6 @@ exports.init = {
     },
 
     setDelete : async function(type, data){
-      let __ = this;
-      let doSync = data.sync ?? true;
-      delete data.sync;
-      
-      let eventId = null;
-      let dokumeId = null;
-      if(doSync){
-        // get data to save the eventId
-        let params = {
-          where:[{key:'id', operator:'is', value:data.id}]
-        };
-        const syncDataResult = await __.getData(type, params);
-        if(syncDataResult.SUCCESS){
-          eventId = syncDataResult.MESSAGE.EVENT_ID;
-          dokumeId = syncDataResult.MESSAGE.DOKUME_ID;
-        }
-      }
       return new Promise(async function (result) {
         let cnd = " 1 ";
         for (const k in data) {
@@ -243,28 +244,13 @@ exports.init = {
         }
         let sql = `DELETE FROM ${type} WHERE ${cnd}`;
         db.query(sql, function(err) {
-          let resData = null;
             if (err) {
-              resData = err.message;
+              result({SUCCESS:false,MESSAGE:err.message});
+
             }else{
-              resData = 'Ok';
+              result({SUCCESS:true,MESSAGE:'ok'});
             }
-            result({SUCCESS:true,MESSAGE:resData});
         });
-      }).then(res=>{
-        if(type != 'dokume_sync' && type != 'events'){
-          if(res.SUCCESS && doSync && dokumeId){
-            __.setData('dokume_sync', {
-              table_name: type,
-              ref_id: dokumeId,
-              status:0,
-              operation:'deleteObject',
-              created:__.current_timestamp(),
-              eventId:eventId
-            });
-          }
-        }
-        return res;
       });
     },
 

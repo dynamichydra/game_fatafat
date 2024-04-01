@@ -360,8 +360,6 @@ module.exports = function(grunt) {
   /*******************/
 
   grunt.registerTask('name', function() {
-    console.log(grunt.option('app'));
-
     grunt.registerTask('htmlmin');
   });
 

@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="APPS/login/style.css">
+
+<div class="loginWRAPPER DM_FULLSCREEN py-3">
+
+  
+  <div class="logoContainer">
+    <img id="loginLogo" src="whitelabel/game/img/logo-login.jpeg">
+  </div>
+  <div class="loginDIV">
+    
+    <div>
+      <h1 style="display: none;">Sign in</h1>
+
+      <form id="loginForm">
+
+        <div id="errorMsg" class="alert alert-danger" style="display:none">
+          Incorrect Login Detail
+        </div>
+
+        <div class="row">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="phone" placeholder="">
+            <label for="floatingInput">User name</label>
+          </div>
+          <div class="form-floating">
+            <div id="showPassword"><i class="bi bi-eye"></i></div>
+            <input type="password" class="form-control" id="pass" placeholder="">
+            <label for="floatingPassword">Password</label>
+          </div>
+        </div>
+
+        <br>
+
+        <!-- <a href="#/login/reset_password">Forgot password?</a> -->
+
+        <br>
+
+        <button id="loginBTN" type="submit" class="btn btn-warning btn-lg" style="width: 100%;">Sign in</button>
+      </form>
+    </div>
+    <!-- <div>
+      <span id="shareOne" style="margin: 10px;width: max-content;">Share one</span>
+      <span id="shareTwo" style="margin: 10px;width: max-content;">Share Two</span>
+      <span id="shareThree" style="margin: 10px;width: max-content;">Share three</span>
+      <span id="shareFour" style="margin: 10px;width: max-content;">Share three</span>
+    </div> -->
+    <!-- <div>
+      <div class="bg"></div>
+      <div class="fg">
+        <h4>Don`t have an account?</h4>
+        <p>Create an account here and enjoy our platform</p>
+        <a href="#/login/signup" class="btn btn-light">Sign up</a>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<script src="APPS/login/modules/login.js"></script>

@@ -21,7 +21,8 @@
     $('.receiveRecord').on('click',function(){
       window.location = '#/wallet/receive';
     });
-    $('.refreshBalance').on('click',DM_COMMON.fetchUserData);
+    $('.refreshBalance').unbind('click');
+    $('.refreshBalance').on('click',DM_COMMON.updateUserBalance);
     $('.transferBtn').on('click',transferPopup);
     $('#sitePopup').on('click','#closePopup',function(){
       popup.style.display = "none";

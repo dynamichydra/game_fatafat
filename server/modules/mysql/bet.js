@@ -5,6 +5,7 @@ exports.init = {
   call : async function(commonObj, data){
       let _ = this;
       return new Promise(async function (result) {
+        
         if(data && data.data && data.type && data.game){
           let user = await commonObj.getData('user', {where:[
             {key:"id",operator:"is", value:data.data.user_id}
@@ -14,8 +15,8 @@ exports.init = {
               let res = null;
               if(data.type == 'bet' && data.game == 'motka'){
                 res = await _.betMotka(commonObj,data.data,user.MESSAGE);
-              }else if(data.type == 'bet' && (data.game == 'fatafat' || data.game == 'fatafatSuper')){
-                res = await _.betFatafat(commonObj,data.data,user.MESSAGE,data.game);
+              }else if(data.type == 'bet' && (data.game == 'mumbaiSuper' || data.game == 'motkaKing' || data.game == 'thailandLottery')){
+                res = await _.betRocket(commonObj,data.data,user.MESSAGE,data.game);
               }
               result(res);
             }else{
@@ -31,7 +32,7 @@ exports.init = {
       });
     },
 
-    betFatafat(commonObj,data,user,gameType){
+    betRocket(commonObj,data,user,gameType){
       return new Promise(async function (result) {
         let game = await commonObj.getData('game_inplay', {where:[
           {key:"id", operator:"is", value : data.game_id}
@@ -48,15 +49,18 @@ exports.init = {
               let betNo = [];
               let errMsg = null;
               totAmt = 0;
+              await commonObj.startTransaction();
               for(let i in data.bet){
                 // const service = (parseFloat(data.bet[i].a) * 2)/100;
                 let amtLmt = await commonObj.customSQL("SELECT sum(amt) amt FROM `"+gameType+"` WHERE number="+data.bet[i].n+" AND game_id ="+data.game_id+" AND user_id="+user.id+" AND type = '"+data.type+"'");
-                let bajiLimit = data.type=='Patti'?50:2000;
-                if(gameType == 'fatafatSuper'){
-                  bajiLimit = data.type=='Patti'?99999:999999;
+                let bajiLimit = data.type=='Patti'?10000:100000;
+                
+                if(gameType == 'thailandLottery'){
+                  bajiLimit = 999999;
                 }
                 const service = 0;
                 const amt = parseFloat(data.bet[i].a) - service;
+
                 if((amtLmt.MESSAGE[0].amt && (amtLmt.MESSAGE[0].amt+amt)>bajiLimit) || (amt>bajiLimit)){
                   if(!errMsg){
                     errMsg = "Following number did not place due to max limit: ";
@@ -65,18 +69,9 @@ exports.init = {
                 }else{
                   totAmt += parseFloat(data.bet[i].a);
 
-                  let insertSql = "INSERT INTO "+gameType+" SET id='"+Date.now()+i+"."+user.id+"', game_id="+data.game_id+",user_id="+user.id+", number="+data.bet[i].n+",type='"+data.type+"',service='"+service+"',amt='"+amt+"' ";
+                  let insertSql = "INSERT INTO "+gameType+" SET id='"+Date.now()+i+"."+user.id+"', game_id="+data.game_id+",user_id="+user.id+", number='"+data.bet[i].n+"',type='"+data.type+"',service='"+service+"',amt='"+amt+"' ";
                   let t = await commonObj.customSQL(insertSql);
                   
-
-                  // let t = await commonObj.setData(gameType, {
-                  //   game_id:data.game_id,
-                  //   user_id:user.id,
-                  //   number:data.bet[i].n,
-                  //   type : data.type,
-                  //   service : service,
-                  //   amt:amt}
-                  // );
                   betNo.push(data.bet[i].n);
                 }
                 
@@ -87,18 +82,27 @@ exports.init = {
                 let t = await commonObj.setData('user', {id:user.id, 
                   balance:bal
                   });
-                t = await commonObj.setData('transaction_log', {
-                    user_id : user.id, 
-                    amt : totAmt,
-                    ref_no : data.game_id,
-                    description : gameType+" bet "+betNo.toString()
-                  });
-                if(errMsg){
-                  result({SUCCESS:false,MESSAGE: errMsg});
-                }else{
-                  result(t);
-                }
+                  if(t.SUCCESS){
+                    let insertSql = "INSERT INTO transaction_log SET id='b-"+Date.now()+"."+user.id+"', user_id="+user.id+",amt='"+totAmt+"', ref_no='"+data.game_id+"',description='"+gameType+" bet "+betNo.toString()+" - bal: "+bal+"' ";
+                    t = await commonObj.customSQL(insertSql);
+                    if(t.SUCCESS){
+                      await commonObj.commitTransaction();
+                      if(errMsg){
+                        result({SUCCESS:false,MESSAGE: errMsg});
+                      }else{
+                        result(t);
+                      }
+                    }else{
+                      await commonObj.rollbackTransaction();
+                      result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                    }
+                  }else{
+                    await commonObj.rollbackTransaction();
+                    result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                  }
+                
               }else{
+                await commonObj.rollbackTransaction();
                 result({SUCCESS:false,MESSAGE: errMsg});
               }
               
