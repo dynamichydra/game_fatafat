@@ -19,8 +19,8 @@
   let selectedGameType = null;
   let serverTime = null;
   let gameType = {
-    'single':{name:'Single',text:'Motka King Single : 1 points win prize: 9 Points'},
-    'patti':{name:'Patti', text: 'Motka King Patti: 1 points win prize: 100 Points'}
+    'single':{name:'Single',text:'Siliguri Fatafat Single : 1 points win prize: 9.1 Points'},
+    'patti':{name:'Patti', text: 'Siliguri Fatafat Patti: 1 points win prize: 125 Points'}
   };
   let sortCutAmt = {
     'single':[{amt:10,txt:'10'},{amt:50,txt:'50'},{amt:100,txt:'100'},{amt:250,txt:'250'},{amt:500,txt:'500'},{amt:1000,txt:'1k'},{amt:3000,txt:'3k'},{amt:5000,txt:'5k'}],
@@ -33,7 +33,7 @@
 
   function init() {
     getGameDetails();
-    $('#pageTitle').html('Motka King');
+    $('#pageTitle').html('Siliguri Fatafat');
     DM_COMMON.fetchUserData();
     bindEvents();
   }
@@ -147,7 +147,7 @@
     }
     
     backendSource.customRequest('bet',null,{
-      game:'motkaKing',
+      game:'fatafatSuper',
       type:'bet',
       data : {bet:arr,
         user_id:auth.config.id,
@@ -502,7 +502,7 @@
   async function getGameDetails(){
     let toDay = moment().format('YYYY-MM-DD');
     let game = await DM_GENERAL.fetchInplayGame([
-      {'key':'game_code','operator':'is','value':'motkaKing'},
+      {'key':'game_code','operator':'is','value':'fatafatSuper'},
       {'key':'start','operator':'higher','value':toDay+' 00:00:00'},
       {'key':'end','operator':'lower','value':toDay+' 23:59:59'},
     ]);

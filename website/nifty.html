@@ -44,10 +44,11 @@
             <div class="discover clearfix">
                 <div class="wrap">
                     <div class="discover-content clearfix">
-                        <h2 class="h2">Results - Motka King </h2>
+                        <h2 class="h2">Results - NIFTY </h2>
                         <div class="discover-button clearfix">                            
                           <div id="resultArea" class="my-5"></div>
                           <div class="conBox col-12 mx-2 mt-3" id="liveResult">Todays result</div>
+                          <div class="conBox col-12 mx-2 mt-3" id="pattiList" style="display: none;">Patti List</div>
                           <div class="col-12 mt-3" style="padding: 0px;" id="oldResult"></div>
                         </div>
                     </div>
@@ -112,7 +113,7 @@
           })
           .catch(error => console.error('Error fetching file:', error));
       }
-      var gameCode = 'fatafatSuper'; 
+      var gameCode = 'nifty'; 
       var backendSource = new DokuMe_LocalBackend();
       </script>
 

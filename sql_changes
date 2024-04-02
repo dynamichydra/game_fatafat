@@ -1,0 +1,77 @@
+ALTER TABLE `user` ADD `for_dev` VARCHAR(50) NULL DEFAULT NULL AFTER `change_pwd`;
+
+ALTER TABLE `game_inplay` ADD `result_done` TINYINT(1) NOT NULL DEFAULT '0' AFTER `status`;
+ALTER TABLE `fatafat` CHANGE `id` `id` VARCHAR(30) NOT NULL;
+ALTER TABLE `fatafat` ADD UNIQUE(`id`);
+ALTER TABLE `fatafatSuper` CHANGE `id` `id` VARCHAR(30) NOT NULL;
+ALTER TABLE `fatafatSuper` ADD UNIQUE(`id`);
+
+CREATE TABLE `game_fatafat`.`tmp_tbl` (`id` INT(10) NOT NULL AUTO_INCREMENT , `abc` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `transaction_log` CHANGE `id` `id` VARCHAR(50) NOT NULL;
+ALTER TABLE `transaction_log` ADD UNIQUE(`id`);
+
+ALTER TABLE `transfer_log` CHANGE `id` `id` VARCHAR(30) NOT NULL;
+ALTER TABLE `transfer_log` ADD UNIQUE(`id`);
+
+INSERT INTO `game` (`id`, `name`, `rule`, `category`, `subdomain`, `bg_type`, `bg`, `sort_text`, `code`, `status`, `logo`) VALUES (NULL, 'NIFTY', 'Test rule', '1', 'NIFTY', 'css', 'niftyGame', 'NIFTY', 'NIFTY', '1', NULL);
+
+INSERT INTO `game` (`id`, `name`, `rule`, `category`, `subdomain`, `bg_type`, `bg`, `sort_text`, `code`, `status`, `logo`) VALUES (NULL, 'SENSEX', 'Test rule', '1', 'SENSEX', 'css', 'sensexGame', 'SENSEX', 'SENSEX', '1', NULL);
+
+new table nifty
+new table sensex
+
+
+==== procedure updateAllUserBalance ========
+
+BEGIN
+	DECLARE done INT DEFAULT FALSE;
+    DECLARE user_id INT;
+	DECLARE cur CURSOR FOR SELECT id AS user_id FROM user WHERE `status`=1;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+    OPEN cur;
+    
+    read_loop: LOOP
+        FETCH cur INTO user_id;
+        
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        SELECT getUserBalance(user_id);
+    END LOOP;
+    
+    CLOSE cur;
+END
+===== procedure end =======
+
+===== function getUserBalance======
+par: userId int 10
+return: decimal 10,2
+
+BEGIN
+    DECLARE totalPurchase DECIMAL DEFAULT 0;
+    DECLARE totalWin DECIMAL DEFAULT 0;
+    DECLARE totalReceived DECIMAL DEFAULT 0;
+    DECLARE totalSend DECIMAL DEFAULT 0;
+    DECLARE actualBalance DECIMAL DEFAULT 0;
+    DECLARE tmpAmt DECIMAL DEFAULT 0;
+    
+    SELECT COALESCE(SUM(amt),0) INTO tmpAmt FROM fatafat WHERE user_id=userId;
+    SET totalPurchase = totalPurchase + tmpAmt;
+    SELECT COALESCE(SUM(amt),0) INTO tmpAmt FROM fatafatSuper WHERE user_id=userId;
+    SET totalPurchase = totalPurchase + tmpAmt;
+    
+	SELECT COALESCE(SUM(PRICE),0) INTO tmpAmt FROM fatafat WHERE user_id=userId;
+    SET totalWin = totalWin + tmpAmt;
+    SELECT COALESCE(SUM(PRICE),0) INTO tmpAmt FROM fatafatSuper WHERE user_id=userId;
+    SET totalWin = totalWin + tmpAmt;
+    
+	SELECT COALESCE(SUM(amt),0) INTO totalReceived FROM transfer_log WHERE tid=userId;
+	SELECT COALESCE(sum(amt),0) INTO totalSend FROM transfer_log WHERE fid=userId;
+    
+    SET actualBalance = totalWin + totalReceived - (totalPurchase + totalSend);
+	UPDATE `user` SET balance=actualBalance WHERE id=userId;
+    return actualBalance;
+END
+======== function end =======

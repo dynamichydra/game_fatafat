@@ -8,14 +8,10 @@
   let selectedGameType = null;
   let serverTime = null;
   let gameType = {
-    'single':{name:'Single',text:'Thailand Lottery Single : 1 points win prize: 10 Points'},
-    'jori':{name:'Jori',text:'Thailand Lottery Jori : 1 points win prize: 100 Points'},
-    'patti':{name:'Patti', text: 'Thailand Lottery Patti: 1 points win prize: 500 Points'}
+    'jori':{name:'Jori',text:'NIFTY : 1 points win prize: 100 Points'}
   };
   let sortCutAmt = {
-    'single':[{amt:1,txt:'1X'},{amt:3,txt:'3X'},{amt:5,txt:'5X'},{amt:10,txt:'10X'},{amt:15,txt:'15X'},{amt:25,txt:'25X'},{amt:50,txt:'50X'},{amt:100,txt:'100X'}],
-    'jori':[{amt:1,txt:'1X'},{amt:3,txt:'3X'},{amt:5,txt:'5X'},{amt:10,txt:'10X'},{amt:15,txt:'15X'},{amt:25,txt:'25X'},{amt:50,txt:'50X'},{amt:100,txt:'100X'}],
-    'patti':[{amt:1,txt:'1X'},{amt:3,txt:'3X'},{amt:5,txt:'5X'},{amt:10,txt:'10X'},{amt:15,txt:'15X'},{amt:25,txt:'25X'},{amt:50,txt:'50X'},{amt:100,txt:'100X'}]
+    'jori':[{amt:1,txt:'1X'},{amt:3,txt:'3X'},{amt:5,txt:'5X'},{amt:10,txt:'10X'},{amt:15,txt:'15X'},{amt:25,txt:'25X'},{amt:50,txt:'50X'},{amt:100,txt:'100X'}]
   };
 
   const popup = document.getElementById("sitePopup");
@@ -24,7 +20,7 @@
 
   function init() {
     getGameDetails();
-    $('#pageTitle').html('Thailand Lottery');
+    $('#pageTitle').html('NIFTY');
     DM_COMMON.fetchUserData();
     bindEvents();
   }
@@ -131,7 +127,7 @@
     }
     
     backendSource.customRequest('bet',null,{
-      game:'thailandLottery',
+      game:'nifty',
       type:'bet',
       data : {bet:arr,
         user_id:auth.config.id,
@@ -416,7 +412,7 @@
   async function getGameDetails(){
     let toDay = moment().format('YYYY-MM-DD');
     let game = await DM_GENERAL.fetchInplayGame([
-      {'key':'game_code','operator':'is','value':'thailandLottery'},
+      {'key':'game_code','operator':'is','value':'nifty'},
       {'key':'start','operator':'higher','value':toDay+' 00:00:00'},
       {'key':'end','operator':'lower','value':toDay+' 23:59:59'},
     ]);

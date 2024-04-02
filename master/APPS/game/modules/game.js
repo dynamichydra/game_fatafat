@@ -13,9 +13,11 @@
       'nine':[9,900,234,333,180,360,270,450,199,117,469,126,667,478,135,225,144,379,559,289,388,577,568],
       'zero':[0,'000',127,190,280,370,460,550,235,118,578,145,479,668,299,334,488,389,226,569,677,136,244]
     };
-  let price = {'mumbaiSuper':{'patti':100,'single':9},
-        'motkaKing':{'patti':100,'single':9},
-        'thailandLottery':{'patti':500,'jori':100,'single':10}};
+  let price = {'fatafat':{'patti':100,'single':9},
+        'fatafatSuper':{'patti':125,'single':9.1},
+        'nifty':{'jori':100},
+        'sensex':{'jori':100}
+      };
   let curGame = null;
   let gameCode = null;
   const popup = document.getElementById("sitePopup");
@@ -363,7 +365,7 @@
     if(curGame){
       let cGame = curGame.find((a)=>{return a.id==id;});
       if(cGame){
-        if(gameCode == 'thailandLottery'){
+        if(gameCode == 'nifty' || gameCode=='sensex'){
           lotteryResult(id,cGame);
           return;
         }

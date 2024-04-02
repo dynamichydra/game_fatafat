@@ -13,9 +13,10 @@
     "payment":["id","user_id","pdate","ref_no","pamt","upi_acc","order_no","status","amt","type"],
     "withdraw":["id","user_id","wdate","status","amt"],
     "motka_bet":["id","user_id","game_id","amt","service","number","size","color","bdate","btype","bname", "status","price"],
-    "mumbaiSuper":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
-    "motkaKing":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
-    "thailandLottery":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
+    "fatafat":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
+    "fatafatSuper":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
+    "nifty":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
+    "sensex":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
     "transaction_log":["id","user_id","amt","tdate","type","ref_no","description"],
     "transfer_log":["id","fid","amt","tdate","tid","type"]
   },
@@ -24,14 +25,14 @@
         "host": "localhost",
         "user": "root",
         "pass": "",
-        "dbname": "uniplay",
+        "dbname": "game_fatafat",
         "port":3306
     },
     "mysql_": {
       "host": "localhost",
-      "user": "uniplay_db",
+      "user": "fatafat",
       "pass": "DokuMe@123$",
-      "dbname": "uniplay",
+      "dbname": "fatafat",
       "port":3306
   }
   }

@@ -1,6 +1,6 @@
 var DM_CORE_CONFIG = {
-  // SERVER_URL: 'https://api.uniplay.co.in/',
-  // BACKEND_URL: 'https://api.uniplay.co.in/',
+  // SERVER_URL: 'https://api.fatafat247.com/',
+  // BACKEND_URL: 'https://api.fatafat247.com/',
   SERVER_URL: 'http://localhost:3005/',
   BACKEND_URL: 'http://localhost:3005/',
   URL_SUFIX: 'task/submit', 
@@ -13,7 +13,6 @@ var DM_CORE_CONFIG = {
   AUTH_SUCCESS_URL: '#/home',
   LOGIN_CALLBACK: null,
   LOGOUT_CALLBACK: null,
-  WEBSOCKET: 'wss://development.dokume.net',
   VERIFY_EMAIL: true,
   MODE: 'test',
   PLATFORM_NAME: 'Game APP',

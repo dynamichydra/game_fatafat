@@ -115,11 +115,13 @@ exports.init = {
             sql += "UNION ";
             sql += "(SELECT name,ph,balance, T.id, 'Receive' note, 0 de, amt cr, tdate dt FROM `transfer_log` T INNER JOIN `user` U ON U.id = T.tid "+cnd+" )";
             sql += " UNION ";
-            sql += "(SELECT name,ph,balance, T.id, 'Thailand Lottery' note, amt de, price cr, bdate dt  FROM `thailandLottery` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
+            sql += "(SELECT name,ph,balance, T.id, 'NIFTY' note, amt de, price cr, bdate dt  FROM `nifty` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
             sql += "UNION  ";
-            sql += "(SELECT name,ph,balance, T.id, 'Mumbai Super' note, amt de, price cr, bdate dt  FROM `mumbaiSuper` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
+            sql += "(SELECT name,ph,balance, T.id, 'SENSEX' note, amt de, price cr, bdate dt  FROM `sensex` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
             sql += "UNION  ";
-            sql += "(SELECT name,ph,balance, T.id, 'Motka King' note, amt de, price cr, bdate dt  FROM `motkaKing` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
+            sql += "(SELECT name,ph,balance, T.id, 'Kolkata fatafat' note, amt de, price cr, bdate dt  FROM `fatafat` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
+            sql += "UNION  ";
+            sql += "(SELECT name,ph,balance, T.id, 'Siliguri Fatafat' note, amt de, price cr, bdate dt  FROM `fatafatSuper` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
             sql += ") AS TBL "; 
             sql += "ORDER BY `TBL`.`dt` ASC;"
               

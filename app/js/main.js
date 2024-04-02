@@ -32,7 +32,7 @@ var DM_MAIN = (function () {
     });
 
     el('goBackBTN').addEventListener('click', function () {
-      if(app_name ==  'game' && (page_name == 'mumbaiSuper' || page_name == 'motkaKing' || page_name == 'thailandLottery')){
+      if(app_name ==  'game' && (page_name == 'fatafat' || page_name == 'fatafatSuper' || page_name == 'nifty' || page_name=='sensex')){
         if($("#gamePlay").css("display") == 'block'){
           $("#gamePlay").css("display",'none'); 
           $("#gameType").css("display",'block'); 

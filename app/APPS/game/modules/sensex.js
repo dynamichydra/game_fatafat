@@ -1,38 +1,26 @@
 'use strict';
 
 (function () {
-  let gameSet = {
-      1:[1,100, 678, 777, 560, 470, 380, 290,119,137,236,146,669,579,399,588,489,245,155,227,344,335,128],
-      2:[2,200,345,444,570,480,390,660,129,237,336,246,679,255,147,228,499,688,778,138,156,110,589],
-      3:[3,300,120,111,580,490,670,238,139,337,157,346,689,355,247,256,166,599,148,788,445,229,779],
-      4:[4,400,789,888,590,130,680,248,149,347,158,446,699,455,266,112,356,239,338,257,220,770,167],
-      5:[5,500,456,555,140,230,690,258,159,357,799,267,780,447,366,113,122,177,249,339,889,348,168],
-      6:[6,600,123,222,150,330,240,268,169,367,448,899,178,790,466,358,880,114,556,259,349,457,277],
-      7:[7,700,890,999,160,340,250,278,179,377,467,115,124,223,566,557,368,359,449,269,133,188,458],
-      8:[8,800,567,666,170,350,260,288,189,116,233,459,125,224,477,990,134,558,369,378,440,279,468],
-      9:[9,900,234,333,180,360,270,450,199,117,469,126,667,478,135,225,144,379,559,289,388,577,568],
-      0:[0,'000',127,190,280,370,460,550,235,118,578,145,479,668,299,334,488,389,226,569,677,136,244]
-    };
+  let perUnitPrice = 10;
   let curGame = null;
   let playingGame = null;
   let allGame = null;
   let selectedGameType = null;
   let serverTime = null;
   let gameType = {
-    'single':{name:'Single',text:'Mumbai Super Single : 1 points win prize: 9 Points'},
-    'patti':{name:'Patti', text: 'Mumbai Super Patti: 1 points win prize: 100 Points'}
+    'jori':{name:'Jori',text:'SENseX : 1 points win prize: 100 Points'}
   };
   let sortCutAmt = {
-    'single':[{amt:10,txt:'10'},{amt:50,txt:'50'},{amt:100,txt:'100'},{amt:250,txt:'250'},{amt:500,txt:'500'},{amt:1000,txt:'1k'},{amt:3000,txt:'3k'},{amt:5000,txt:'5k'}],
-    'patti':[{amt:5,txt:'5'},{amt:10,txt:'10'},{amt:15,txt:'15'},{amt:20,txt:'20'},{amt:25,txt:'25'},{amt:30,txt:'30'},{amt:40,txt:'40'},{amt:50,txt:'50'}]
+    'jori':[{amt:1,txt:'1X'},{amt:3,txt:'3X'},{amt:5,txt:'5X'},{amt:10,txt:'10X'},{amt:15,txt:'15X'},{amt:25,txt:'25X'},{amt:50,txt:'50X'},{amt:100,txt:'100X'}]
   };
+
   const popup = document.getElementById("sitePopup");
 
   init();
 
   function init() {
     getGameDetails();
-    $('#pageTitle').html('Mumbai Super');
+    $('#pageTitle').html('SENSEX');
     DM_COMMON.fetchUserData();
     bindEvents();
   }
@@ -42,24 +30,22 @@
     $('#gameType').on('click','.boxContainer',gamePlay);
 
     $('#gamePlay').on('click','.resetPattiBtn',resetPattiBtn);
-    $('#gamePlay').on('click','.pattiList',pattiList);
     $('#gamePlay').on('click','.pattiAddBtn',pattiAddBtn);
     $('#gamePlay').on('click','.pattiAddSaveBtn',pattiAddSaveBtn);
     $('#gamePlay').on('click','.deleteBet',deleteBet);
-    $('#gamePlay').on('click','.cppatiBtn',cppatiBtn);
     $('#gamePlay').on('click','.pattiNumDiv',pattiNumDiv);
     $('#gamePlay').on('click','.saveBtn',saveBtn);
 
     $('#gamePlay').on('click','.amtBox',placeAmt);
 
     $('#sitePopup').on('click','.innerNum',setNumber);
-    $('#sitePopup').on('click','#closePopup,.closePattiList',function(){
+    $('#sitePopup').on('click','#closePopup',function(){
       popup.style.display = "none";
     });
   }
 
   function placeAmt(){
-    $('.cppatiAmount').val($(this).attr('data-amt'))
+    $('.cppatiAmount').val($(this).attr('data-amt')*perUnitPrice)
   }
 
   function gamePlay(){
@@ -99,12 +85,7 @@
     </div>
     `);
     DM_COMMON.gameHead();
-    if(selectedGameType=='cppatti'){
-      loadCppattiHTML();
-    }else{
-      loadSinglePattiHTML();
-    }
-
+    loadSinglePattiHTML();
 
     // const startTime = moment(playingGame.start,'YYYY-MM-DD HH:mm:ss');
     const endTime = moment(playingGame.end, 'YYYY-MM-DD HH:mm:ss');
@@ -146,7 +127,7 @@
     }
     
     backendSource.customRequest('bet',null,{
-      game:'mumbaiSuper',
+      game:'sensex',
       type:'bet',
       data : {bet:arr,
         user_id:auth.config.id,
@@ -164,63 +145,6 @@
     });
   }
 
-  function cppatiBtn(){
-    let num = $('.cppatiNum').val();
-    let amt = $('.cppatiAmount').val();
-    
-    if(num.length!=3 && num.length!=4){
-      DM_TEMPLATE.showSystemNotification(0, `Please provide 3/4 digit number.`);
-      return;
-    }
-    if(amt=='' || parseInt(amt)<5){
-      DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
-      return;
-    }
-
-    let results = [];
-    for(let i in gameSet){
-      for(let j in gameSet[i]){
-        let score = 0;
-        for(let k = 0; k<num.length;k++){
-          if(gameSet[i][j].toString().search(num[k].toString())!=-1){
-            score++;
-          }
-        }
-        if(score>2){
-          results.push(gameSet[i][j]);
-        }
-      }
-    }
-    $('#gameItemBody tbody').html('');
-    if(results.length>0){
-      results.sort();
-      for(let i in results){
-        drawBetAmount(results[i],amt);
-      }
-    }else{
-      DM_TEMPLATE.showSystemNotification(0, `Combination not found.`);
-    }
-    $('.cppatiNum').val('');
-    $('.cppatiAmount').val('');
-  }
-
-  function loadCppattiHTML(){
-    $('#gameBody').html(`
-      <div class="container mt-3">
-        <div class="row">
-          <div class="col-6">Digit</div>
-          <div class="col-6"><input type="number" class="cppatiNum" value="" placeholder="3-4 digit number"></div>
-          <div class="col-6 mt-3">Amount</div>
-          <div class="col-6 mt-3"><input type="number" class="cppatiAmount" value="" placeholder="Amount"></div>
-          <div class="col-12">&nbsp;</div>
-          ${amtHtml()}
-          <div class="col-6">&nbsp;</div>
-          <div class="col-6 mt-3"><button type="button" class="gameButton cppatiBtn">Add</button></div>
-        </div>
-      </div>
-      `);
-  }
-
   function resetPattiBtn(){
     $('.pattiNum').html('');
     $('.cppatiAmount').val('');
@@ -229,6 +153,12 @@
   function pattiNumDiv(){
     if(selectedGameType == 'single'){
       $('.pattiNum').html($(this).attr('data-num'));
+    }else if(selectedGameType == 'jori'){
+      if($('.pattiNum.one').html()==''){
+        $('.pattiNum.one').html($(this).attr('data-num'));
+      }else {
+        $('.pattiNum.two').html($(this).attr('data-num'));
+      }
     }else{
       if($('.pattiNum.one').html()==''){
         $('.pattiNum.one').html($(this).attr('data-num'));
@@ -236,23 +166,6 @@
         $('.pattiNum.two').html($(this).attr('data-num'));
       }else{
         $('.pattiNum.three').html($(this).attr('data-num'));
-
-        let num =  $('.pattiNum.one').html()+$('.pattiNum.two').html()+$('.pattiNum.three').html();
-        let found = false;
-        for(let i in gameSet){
-          if(found) continue;
-          for(let j in gameSet[i]){
-            if(found) continue;
-            if(parseInt(gameSet[i][j])==parseInt(num)){
-              found = true;
-            }
-          }
-        }
-        if(!found){
-          DM_TEMPLATE.showSystemNotification(0, `Wrong Patti.`);
-          $('.pattiNum.three').html('');
-        }
-        
       }
     }
   }
@@ -265,6 +178,12 @@
         return;
       }
       
+    }else if(selectedGameType == 'jori'){
+      num += $('.pattiNum.two').html();
+      if(num.length!=2){
+        DM_TEMPLATE.showSystemNotification(0, `Please provide all number.`);
+        return;
+      }
     }else{
       num += $('.pattiNum.two').html();
       num += $('.pattiNum.three').html();
@@ -275,18 +194,18 @@
     }
     let amt = $('.cppatiAmount').val();
 
-    if(amt=='' || parseInt(amt)<5){
+    if(amt=='' || parseInt(amt)<perUnitPrice){
       DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
       return;
     }
 
-    if(selectedGameType == 'single' && parseInt(amt)>100000){
-      DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100000 for Single.`);
-      return;
-    }else if(selectedGameType != 'single' && parseInt(amt)>10000){
-      DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 10000 for Patti.`);
-      return;
-    }
+    // if(selectedGameType == 'single' && parseInt(amt)>5000){
+    //   DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 5000 for Single.`);
+    //   return;
+    // }else if(selectedGameType != 'single' && parseInt(amt)>100){
+    //   DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 50 for Patti.`);
+    //   return;
+    // }
 
     // let timeRemain = $('#gameHead').find('.secStore').attr('data-src');
     // if(parseInt(timeRemain) < 600){
@@ -299,20 +218,6 @@
     //   }
     // }
     
-    let found = false;
-    for(let i in gameSet){
-      if(found) continue;
-      for(let j in gameSet[i]){
-        if(found) continue;
-        if(parseInt(gameSet[i][j])==parseInt(num)){
-          found = true;
-        }
-      }
-    }
-    if(!found){
-      DM_TEMPLATE.showSystemNotification(0, `Wrong Patti.`);
-      return;
-    }
     drawBetAmount(num,amt);
     resetPattiBtn();
   }
@@ -327,6 +232,14 @@
         return;
       }
       
+    }else if(selectedGameType == 'jori'){
+      num += $('.pattiNum.two').html();
+      if(num.length!=2){
+        DM_TEMPLATE.showSystemNotification(0, `Please provide the number.`);
+        DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
+        return;
+      }
+      
     }else{
       num += $('.pattiNum.two').html();
       num += $('.pattiNum.three').html();
@@ -338,50 +251,36 @@
     }
     let amt = $('.cppatiAmount').val();
 
-    if(amt=='' || parseInt(amt)<5){
+    if(amt=='' || parseInt(amt)<perUnitPrice){
       DM_TEMPLATE.showSystemNotification(0, `Please provide proper amount.`);
       DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
       return;
     }
 
-    if(selectedGameType == 'single' && parseInt(amt)>100000){
-      DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100000 for Single.`);
-      DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
-      return;
-    }else if(selectedGameType != 'single' && parseInt(amt)>10000){
-      DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 10000 for Patti.`);
-      DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
-      return;
-    }
+    // if(selectedGameType == 'single' && parseInt(amt)>5000){
+    //   DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 5000 for Single.`);
+    //   DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
+    //   return;
+    // }else if(selectedGameType != 'single' && parseInt(amt)>100){
+    //   DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 50 for Patti.`);
+    //   DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
+    //   return;
+    // }
 
-    let timeRemain = $('#gameHead').find('.secStore').attr('data-src');
-    if(parseInt(timeRemain) < 600){
-      if(selectedGameType == 'single' && parseInt(amt)>500){
-        DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100 for Single.`);
-        DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
-        return;
-      }else if(selectedGameType != 'single' && parseInt(amt)>30){
-        DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 10 for Patti.`);
-        DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
-        return;
-      }
-    }
+    // let timeRemain = $('#gameHead').find('.secStore').attr('data-src');
+    // if(parseInt(timeRemain) < 600){
+    //   if(selectedGameType == 'single' && parseInt(amt)>500){
+    //     DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100 for Single.`);
+    //     DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
+    //     return;
+    //   }else if(selectedGameType != 'single' && parseInt(amt)>30){
+    //     DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 10 for Patti.`);
+    //     DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
+    //     return;
+    //   }
+    // }
     
-    let found = false;
-    for(let i in gameSet){
-      if(found) continue;
-      for(let j in gameSet[i]){
-        if(found) continue;
-        if(parseInt(gameSet[i][j])==parseInt(num)){
-          found = true;
-        }
-      }
-    }
-    if(!found){
-      DM_TEMPLATE.showSystemNotification(0, `Wrong Patti.`);
-      DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
-      return;
-    }
+    
     drawBetAmount(num,amt,function(){
       resetPattiBtn();
       saveBtn();
@@ -400,20 +299,32 @@
             </div>
             <div class="col-5">&nbsp;</div>
           `:`
-          <div class="col-2">
-            <div class="pattiNum one"></div>
-          </div>
-          <div class="col-2">
-            <div class="pattiNum two"></div>
-          </div>
-          <div class="col-2">
-            <div class="pattiNum three"></div>
-          </div>
-          <div class="col-4">
-            <button type="button" class="gameButton resetPattiBtn">Reset</button>
-          </div>
-          <div class="col-2 pattiList" style="font-size: 30px;color: #f94b55;"><i class="bi bi-postcard-heart-fill"></i></div>
-          `}
+          ${selectedGameType=='jori'?`
+            <div class="col-2">&nbsp;</div>
+            <div class="col-3">
+              <div class="pattiNum one"></div>
+            </div>
+            <div class="col-3">
+              <div class="pattiNum two"></div>
+            </div>
+            <div class="col-4">
+              <button type="button" class="gameButton resetPattiBtn">Reset</button>
+            </div>
+          `:`
+          <div class="col-2">&nbsp;</div>
+            <div class="col-2">
+              <div class="pattiNum one"></div>
+            </div>
+            <div class="col-2">
+              <div class="pattiNum two"></div>
+            </div>
+            <div class="col-2">
+              <div class="pattiNum three"></div>
+            </div>
+            <div class="col-4">
+              <button type="button" class="gameButton resetPattiBtn">Reset</button>
+            </div>
+          `}`}
           
           
           <div class="col-1"></div>
@@ -491,7 +402,7 @@
     const endTime = moment(playingGame.end, 'YYYY-MM-DD HH:mm:ss');
     const givenTime = moment();
     if (givenTime.isBefore(endTime)) {
-      $('#gameType .number').html('End - '+moment(playingGame.end).format('HH:mm')+', Result - '+moment(playingGame.end).add(30, 'minutes').format('HH:mm'));
+      $('#gameType .number').html('End - '+moment(playingGame.end).format('HH:mm')+', Result - '+moment(playingGame.end).add(18, 'minutes').format('HH:mm'));
     }else{
       $('#gameType .number').html('close');
 
@@ -501,7 +412,7 @@
   async function getGameDetails(){
     let toDay = moment().format('YYYY-MM-DD');
     let game = await DM_GENERAL.fetchInplayGame([
-      {'key':'game_code','operator':'is','value':'mumbaiSuper'},
+      {'key':'game_code','operator':'is','value':'sensex'},
       {'key':'start','operator':'higher','value':toDay+' 00:00:00'},
       {'key':'end','operator':'lower','value':toDay+' 23:59:59'},
     ]);
@@ -530,7 +441,7 @@
                       </div>
                       <div class="endTime">
                           <i class="bi bi-clock-fill"></i>
-                          <span class="txt">Result: ${moment(game.MESSAGE[i].end).add(30, 'minutes').format("HH:mm")}</span>
+                          <span class="txt">Result: ${moment(game.MESSAGE[i].end).add(15, 'minutes').format("HH:mm")}</span>
                       </div>
                     </div>`;
           if(game.MESSAGE[i].status==1){
@@ -565,33 +476,6 @@
       </div>`;
     }
     $('#gameList').html(htm);
-  }
-
-  function pattiList(){
-    let htm = ``;
-    for (const i in gameSet) {
-      let htmT = ``;
-      let c = 0;
-      for(const j in gameSet[i]){
-        htmT += `<div class="innerNum ${c++ ==0?'head':''}" data-num="${gameSet[i][j]}">
-                  ${gameSet[i][j]}
-                </div>`;
-      }
-      htm += `<div class="numWraper">
-                  ${htmT}
-            </div>`;
-    }
-    popup.innerHTML = `
-    <div class="popup-content">
-      <span class="close" id="closePopup">&times;</span>
-      <h2>Select a number</h2>
-      <div class="container">
-        ${htm}
-        <div style="clear:both;"></div>
-        <button style="width:100%;margin:20px auto;" type="button" class="gameButton closePattiList">Close</button>
-        </div>
-      </div>`;
-    popup.style.display = "block";
   }
 
   function setNumber(){

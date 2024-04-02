@@ -3,8 +3,8 @@ const libFunc = require('../lib/func.js');
 let sql = require('../modules/mysql/common').init;
 
 
-const motkaKing = function () {
-  this.code = 'motkaKing';
+const fatafat = function () {
+  this.code = 'fatafat';
   this.func = new libFunc();
   this.price = {'patti':100,'single':9};
   this.gameSet = {
@@ -21,7 +21,7 @@ const motkaKing = function () {
   };
 }
 
-motkaKing.prototype.startGame = async function () {
+fatafat.prototype.startGame = async function () {
   let _ = this;
   let conn = await sql.connectDB();
 
@@ -53,21 +53,21 @@ motkaKing.prototype.startGame = async function () {
   conn.release();
 }
 
-motkaKing.prototype.generateGame = async function (data) {
+fatafat.prototype.generateGame = async function (data) {
   let curDate = moment().format('YYYY-MM-DD');
   if(data && data.date){
     curDate = data.date;
   }
 
   let gameStartTime = [
-    {'name':"MK1",start:"07:10:00",end:"09:30:00",duration:150},
-    {'name':"MK2",start:"09:30:00",end:"11:00:00",duration:90},
-    {'name':"MK3",start:"11:00:00",end:"12:30:00",duration:90},
-    {'name':"MK4",start:"12:30:00",end:"14:00:00",duration:90},
-    {'name':"MK5",start:"14:00:00",end:"15:30:00",duration:90},
-    {'name':"MK6",start:"15:30:00",end:"17:00:00",duration:90},
-    {'name':"MK7",start:"17:00:00",end:"18:30:00",duration:90},
-    {'name':"MK8",start:"18:30:00",end:"20:00:00",duration:90}
+    {'name':"Bazi1",start:"07:30:00",end:"10:00:00",duration:162},
+    {'name':"Bazi2",start:"10:00:00",end:"11:30:00",duration:90},
+    {'name':"Bazi3",start:"11:30:00",end:"13:00:00",duration:90},
+    {'name':"Bazi4",start:"13:00:00",end:"14:30:00",duration:90},
+    {'name':"Bazi5",start:"14:30:00",end:"16:00:00",duration:90},
+    {'name':"Bazi6",start:"16:00:00",end:"17:30:00",duration:90},
+    {'name':"Bazi7",start:"17:30:00",end:"19:00:00",duration:90},
+    {'name':"Bazi8",start:"19:00:00",end:"20:30:00",duration:90}
   ];
   let _ = this;
   return new Promise(async function (result) {
@@ -97,7 +97,7 @@ motkaKing.prototype.generateGame = async function (data) {
   });
 }
 
-motkaKing.prototype.cancelAllBet = async function (data) {
+fatafat.prototype.cancelAllBet = async function (data) {
   let _ = this;
   return new Promise(async function (result) {
     let conn = await sql.connectDB();
@@ -117,8 +117,7 @@ motkaKing.prototype.cancelAllBet = async function (data) {
             {key:"id",operator:"is", value:item.user_id}
           ]});
           let bal = user.MESSAGE.balance + item.amt - item.price;
-          t = await sql.setDelete(_.code,{id:item.id});
-          
+          t = await sql.setDelete(_.code,{"id":item.id});
           t = await sql.customSQL("UPDATE user SET balance = '"+bal+"' WHERE id ="+item.user_id);
           let insertSql = "INSERT INTO transaction_log SET id='BC-"+Date.now()+""+(count++)+"."+item.user_id+"', user_id="+item.user_id+",amt='"+(item.amt - item.price)+"', ref_no='"+item.id+"',description='"+_.code+" win return - bal: "+bal+"' ";
           t = await sql.customSQL(insertSql);
@@ -131,7 +130,7 @@ motkaKing.prototype.cancelAllBet = async function (data) {
   });
 }
 
-motkaKing.prototype.generateResult = async function (data) {
+fatafat.prototype.generateResult = async function (data) {
   let _ = this;
   
   return new Promise(async function (result) {
@@ -170,4 +169,4 @@ motkaKing.prototype.generateResult = async function (data) {
   });
 }
 
-module.exports = motkaKing; 
+module.exports = fatafat; 

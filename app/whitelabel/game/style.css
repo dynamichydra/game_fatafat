@@ -39,7 +39,7 @@ body {
 }*/
 
 [data-bs-theme="light"] .navbar {
-  background: #027b5b !important;
+  background: #0084ff !important;
   height: 66px;
   /*border-bottom: 5px solid green;*/
 }
@@ -103,7 +103,7 @@ input{
 }
 
 #footer{
-  background-color: #027b5b;
+  background-color: #0084ff;
   text-align: center;
 }
 #footer small{
@@ -152,7 +152,7 @@ input{
 }
 
 .win-go-wrapper .game{
-  background: linear-gradient(95.66deg, #8df6a0 0%, #027b5b 65.56%, #b3c008 97.56%);
+  background: linear-gradient(95.66deg, #8df6a0 0%, #0084ff 65.56%, #b3c008 97.56%);
 }
 
 #homeGame{
@@ -170,7 +170,7 @@ input{
 }
 
 .loginWRAPPER {
-  background-color: #027b5b;
+  background-color: #0084ff;
 }
 
 .loginDIV > div:nth-child(2) {
@@ -192,7 +192,7 @@ input{
 }
 
 .gameButton{
-  background-color: #027b5b;
+  background-color: #0084ff;
   padding: 5px 15px;
   width: max-content;
   border-radius: 10px;
@@ -214,7 +214,7 @@ input{
 }
 
 .profileMenu .menuItem i{
-  color: #027b5b;
+  color: #0084ff;
   font-size: 20px;
 }
 
@@ -486,7 +486,7 @@ input{
 }
 #resultArea h2{
   border: #000 1px solid;
-  background-color: #027b5b;
+  background-color: #0084ff;
   padding: 10px;
   margin: 0px;
   color: #fff;
@@ -512,7 +512,7 @@ input{
 
 
 .utility-item{
-  background-color: #027b5b;
+  background-color: #0084ff;
   padding: 5px 0px 5px 20px;
   width: 95%;
   color: #fff;

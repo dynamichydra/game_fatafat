@@ -19,22 +19,27 @@ DokuMe_SyncInterface.prototype.start = function(){
 
     _.app.get('/game/generate', function (req, res) {
       const gObj = new game();
-      gObj.generateGame(['mumbaiSuper','motkaKing','thailandLottery']);
+      gObj.generateGame(['fatafat','fatafatSuper','nifty','sensex']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
-    _.app.get('/game/start/mumbai_super', function (req, res) {
+    _.app.get('/game/start/fatafat', function (req, res) {
       const gObj = new game();
-      gObj.startGame(['mumbaiSuper']);
+      gObj.startGame(['fatafat']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
-    _.app.get('/game/start/motka_king', function (req, res) {
+    _.app.get('/game/start/fatafat_super', function (req, res) {
       const gObj = new game();
-      gObj.startGame(['motkaKing']);
+      gObj.startGame(['fatafatSuper']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
-    _.app.get('/game/start/thailand_lottery', function (req, res) {
+    _.app.get('/game/start/nifty', function (req, res) {
       const gObj = new game();
-      gObj.startGame(['thailandLottery']);
+      gObj.startGame(['nifty']);
+      res.json({STATUS:true,MESSAGE:'done'});
+  });
+    _.app.get('/game/start/sensex', function (req, res) {
+      const gObj = new game();
+      gObj.startGame(['sensex']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
 

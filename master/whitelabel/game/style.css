@@ -45,7 +45,7 @@ html, body {
 }*/
 
 [data-bs-theme="light"] .navbar {
-  background: #027b5b !important;
+  background: #0084ff !important;
   height: 66px;
   /*border-bottom: 5px solid green;*/
 }
@@ -111,7 +111,7 @@ input{
   font-size: 18px;
 }
 #footer{
-  background-color: #027b5b;
+  background-color: #0084ff;
 }
 
 #homeNotification marquee{
@@ -173,7 +173,7 @@ input{
 }
 
 .loginWRAPPER {
-  background-color: #027b5b;
+  background-color: #0084ff;
 }
 
 .loginDIV > div:nth-child(2) {
@@ -194,7 +194,7 @@ input{
 }
 
 .gameButton{
-  background-color: #027b5b;
+  background-color: #0084ff;
   padding: 5px 30px;
   width: max-content;
   border-radius: 10px;
@@ -216,7 +216,7 @@ input{
 }
 
 .profileMenu .menuItem i{
-  color: #027b5b;
+  color: #0084ff;
   font-size: 20px;
 }
 
@@ -471,7 +471,7 @@ input{
   z-index: 9999;
   max-width: 100%;
   overflow-x: auto;
-  background: linear-gradient(-180deg,#084f3c 0,#16ad85 100%);
+  background: linear-gradient(-180deg,#00d96e 0,#228a38 100%);
 }
 #topMenu{
   width: max-content;
@@ -497,7 +497,7 @@ input{
   border-radius: 10px;
 }
 .topWelcomeText .userID{
-  background-color: #121a8d;
+  background-color: #006a3b;
 }
 .topWelcomeText .fetchBalance{
   font-size: 15px;

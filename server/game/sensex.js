@@ -3,13 +3,13 @@ const libFunc = require('../lib/func.js');
 let sql = require('../modules/mysql/common').init;
 
 
-const thailandLottery = function () {
-  this.code = 'thailandLottery';
+const sensex = function () {
+  this.code = 'sensex';
   this.func = new libFunc();
-  this.price = {'patti':500,'jori':100,'single':10};
+  this.price = {'jori':100};
 }
 
-thailandLottery.prototype.startGame = async function () {
+sensex.prototype.startGame = async function () {
   let _ = this;
   let conn = await sql.connectDB();
 
@@ -41,16 +41,14 @@ thailandLottery.prototype.startGame = async function () {
   conn.release();
 }
 
-thailandLottery.prototype.generateGame = async function (data) {
+sensex.prototype.generateGame = async function (data) {
   let curDate = moment().format('YYYY-MM-DD');
   if(data && data.date){
     curDate = data.date;
   }
 
   let gameStartTime = [
-    {'name':"TL1",start:"07:00:00",end:"12:30:00",duration:330},
-    {'name':"TL2",start:"12:30:00",end:"17:00:00",duration:270},
-    {'name':"TL3",start:"17:00:00",end:"19:30:00",duration:150}
+    {'name':"Bazi1",start:"06:00:00",end:"15:30:00",duration:330}
   ];
   let _ = this;
   return new Promise(async function (result) {
@@ -80,7 +78,7 @@ thailandLottery.prototype.generateGame = async function (data) {
   });
 }
 
-thailandLottery.prototype.cancelAllBet = async function (data) {
+sensex.prototype.cancelAllBet = async function (data) {
   let _ = this;
   return new Promise(async function (result) {
     let conn = await sql.connectDB();
@@ -114,7 +112,7 @@ thailandLottery.prototype.cancelAllBet = async function (data) {
   });
 }
 
-thailandLottery.prototype.generateResult = async function (data) {
+sensex.prototype.generateResult = async function (data) {
   let _ = this;
   
   return new Promise(async function (result) {
@@ -129,9 +127,9 @@ thailandLottery.prototype.generateResult = async function (data) {
       let inPlay = res.MESSAGE;
       await sql.startTransaction();
 
-      let t = await sql.setData('game_inplay',{'id':inPlay.id,'status':'2','result_one':data.patti,'result_two':data.jori,'result_three':data.single});
+      let t = await sql.setData('game_inplay',{'id':inPlay.id,'status':'2','result_one':data.jori});
       if(t.SUCCESS){
-        t = await sql.customSQL("CALL setLotteryResult("+inPlay.id+",'"+_.code+"','"+_.price.patti+"','"+_.price.jori+"','"+_.price.single+"','"+data.num+"','"+data.secondPrice+"','"+data.thirdPrice+"','"+data.fourthPrice+"','"+data.fifthPrice+"')");
+        t = await sql.customSQL("CALL setStockResult("+inPlay.id+",'"+_.code+"','"+_.price.jori+"','"+data.num+"')");
         if(!t.SUCCESS){
           errorFound = true;
         }
@@ -153,4 +151,4 @@ thailandLottery.prototype.generateResult = async function (data) {
   });
 }
 
-module.exports = thailandLottery; 
+module.exports = sensex; 
