@@ -110,10 +110,17 @@ input{
   font-size: 10px;
 }
 
+#homeNotification{
+  height: 50px;
+}
+
 #homeNotification marquee{
-  background-color: #0bcc99;
+  background-color: #ff5758;
   color: #fff;
   padding: 5px;
+  padding: 10px;
+  font-size: 20px;
+  height: 50px;
 }
 
 #homeCategory .cat-img{
@@ -180,9 +187,8 @@ input{
 
 
 .profile{
-  background-image: linear-gradient(to bottom right, #0bcc99, #008d68,#02e3a8, #008d68);
-  min-height: 30px;
-  border-radius: 0 0 20px 20px;
+  background-color: #409ef5;
+  padding: 15px 15px 0px 15px;
 }
 
 #blackJack .row1 ,#blackJack .row2{
@@ -248,7 +254,7 @@ input{
 
 .container .time-box {
   border-radius: 0.26667rem;
-  background: #4643d4;
+  background: #008e5e;
   background-size: auto 100%;
   color: #fff;
 }
@@ -410,9 +416,9 @@ input{
 }
 
 .conBox {
-  background: #fff;
-  border: 0.05333rem solid #f90;
-  box-shadow: 0 0.21333rem 0.37333rem 0 rgba(255,153,0,.27);
+  background: #ffffff;
+  border: 0.05333rem solid #409ef5;
+  box-shadow: 0 0.21333rem 0.37333rem 0 rgba(4 161 76 / 27%);
   border-radius: 0.13333rem;
   padding: 10px;
   overflow-x: auto;
@@ -512,7 +518,7 @@ input{
 
 
 .utility-item{
-  background-color: #0084ff;
+  background-color: #228a38;
   padding: 5px 0px 5px 20px;
   width: 95%;
   color: #fff;
@@ -523,4 +529,16 @@ input{
 .utility-item.right{
   border-radius: 15px 0px 0px 15px;
   float: right;
+}
+
+.niftyGame, .sensexGame{
+  width: 90%;
+  height: 100px;
+  background-color: #fdcb5b;
+  box-shadow: 6px -6px 10px 2px rgb(0 0 0);
+  margin: auto;
+}
+
+.sensexGame .game, .niftyGame .game{
+  padding: 2rem !important;
 }

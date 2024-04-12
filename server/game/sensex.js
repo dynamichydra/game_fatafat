@@ -129,7 +129,7 @@ sensex.prototype.generateResult = async function (data) {
 
       let t = await sql.setData('game_inplay',{'id':inPlay.id,'status':'2','result_one':data.jori});
       if(t.SUCCESS){
-        t = await sql.customSQL("CALL setStockResult("+inPlay.id+",'"+_.code+"','"+_.price.jori+"','"+data.num+"')");
+        t = await sql.customSQL("CALL setStockResult("+inPlay.id+",'"+_.code+"','"+_.price.jori+"')");
         if(!t.SUCCESS){
           errorFound = true;
         }

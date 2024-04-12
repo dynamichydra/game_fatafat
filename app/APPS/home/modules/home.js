@@ -28,13 +28,14 @@
   }
 
   async function shareBtn(){
-    let urlToShare = 'https://uniplay.co.in/app/UniPlay.apk';
+    let urlToShare = 'https://www.fatafat247.com/.com/';
     let whatsappLink = 'whatsapp://send?text=' + encodeURIComponent(urlToShare);
     window.location.href = whatsappLink;
   }
 
   function whatsappBtn(){
-    let phoneNumber = '+918167492476';
+    // let phoneNumber = '+918167492476';
+    let phoneNumber = '+8801866824702';
     let whatsappLink = 'whatsapp://send?phone=' + phoneNumber;
     window.location.href = whatsappLink;
   }
@@ -67,7 +68,7 @@
     }
     let cat = category.find(a => a.id == catId);
     if(cat){
-      let htm = `<h5>
+      let htm = `<h5 style="display:none;">
         ${cat.small_icon && cat.small_icon!=''?`<img src="${cat.small_icon}"/>`:''}
         ${cat.name}
         </h5>
@@ -75,13 +76,18 @@
       for(let i in game){
         if(game[i].category == catId){
           htm += `<div class="col-${cat.show_count} game-wrapper" data-gameid="${game[i].code}">`;
-          if(game[i].bg_type=='css'){
+          if(game[i].bg_type=='img' && game[i].logo ){
             htm += `<div class="${game[i].bg}">
-                      <div class="game">
-                        <h3>${game[i].name}</h3>
-                        <p>${game[i].sort_text}</p>
-                      </div>
+                      <img class="game-logo" src="whitelabel/${subdomain}/img/${game[i].logo}"/>
               </div>`;
+          }else if(game[i].bg_type=='css'){
+            htm += `<div class="${game[i].bg}">
+                        <div class="game">
+                          <h3>${game[i].name}</h3>
+                          ${game[i].sort_text?`<p>${game[i].sort_text}</p>`:``}
+                          
+                        </div>
+                </div>`;
           }else{
             htm += `<div class="game-img"><img src="whitelabel/${subdomain}/img/${game[i].bg}"/></div>
             <div class="game-name">${game[i].name}</div>`;

@@ -32,13 +32,20 @@ var DM_MAIN = (function () {
     });
 
     el('goBackBTN').addEventListener('click', function () {
-      if(app_name ==  'game' && (page_name == 'fatafat' || page_name == 'fatafatSuper' || page_name == 'nifty' || page_name=='sensex')){
+      if(app_name ==  'game' && (page_name == 'fatafat' || page_name == 'fatafatSuper')){
         if($("#gamePlay").css("display") == 'block'){
           $("#gamePlay").css("display",'none'); 
           $("#gameType").css("display",'block'); 
         }else if($("#gameType").css("display") == 'block'){
           $("#gameList").css("display",'block'); 
           $("#gameType").css("display",'none'); 
+        }else{
+          history.back();
+        }
+      }else if(page_name == 'nifty' || page_name=='sensex'){
+        if($("#gamePlay").css("display") == 'block'){
+          $("#gamePlay").css("display",'none'); 
+          $("#gameList").css("display",'block'); 
         }else{
           history.back();
         }

@@ -75,3 +75,10 @@
   text-align: center;
   margin-top: 10px;
 }
+#gamePlay #gameBody .numbtn.col-2 {
+  width: 20%;
+}
+
+.inputAmt {
+  text-align: center;
+}

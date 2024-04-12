@@ -137,23 +137,23 @@
 
   function saveResultLottery(){
     let id = $('#sitePopup').find('.popup-content').attr('data-id');
-    let three = $('#sitePopup').find('.pattiNum.three').html();
+    // let three = $('#sitePopup').find('.pattiNum.three').html();
     let two = $('#sitePopup').find('.pattiNum.two').html();
     let one = $('#sitePopup').find('.pattiNum.one').html();
-    let pre = $('#sitePopup').find('.preNo').val();
-    let text = `Do you really make this win?\nNum - ${pre}-${one}${two}${three}.`;
+    // let pre = $('#sitePopup').find('.preNo').val();
+    let text = `Do you really make this win?\nNum - ${one}${two}.`;
     if (confirm(text) == true) {
       if(id){
         backendSource.gameRequest(gameCode, 'result', {
           id: id,
-          num : pre+""+one+""+two+""+three,
-          patti : one+""+two+""+three,
-          jori : two+""+three,
-          single : three,
-          secondPrice: $('#sitePopup').find('.secondPrice').val(),
-          thirdPrice: $('#sitePopup').find('.thirdPrice').val(),
-          fourthPrice: $('#sitePopup').find('.fourthPrice').val(),
-          fifthPrice: $('#sitePopup').find('.fifthPrice').val(),
+          // num : pre+""+one+""+two+""+three,
+          // patti : one+""+two+""+three,
+          jori : one+""+two,
+          // single : three,
+          // secondPrice: $('#sitePopup').find('.secondPrice').val(),
+          // thirdPrice: $('#sitePopup').find('.thirdPrice').val(),
+          // fourthPrice: $('#sitePopup').find('.fourthPrice').val(),
+          // fifthPrice: $('#sitePopup').find('.fifthPrice').val(),
 
         }, function (data) {
           if(data.SUCCESS){
@@ -190,30 +190,27 @@
   }
 
   function pattiNumDiv(){
+    console.log('here')
     if($('.pattiNum.one').html()==''){
       $('.pattiNum.one').html($(this).attr('data-num'));
-    }else if($('.pattiNum.two').html()==''){
+    }else {
       $('.pattiNum.two').html($(this).attr('data-num'));
-    }else{
-      $('.pattiNum.three').html($(this).attr('data-num'));
-
       $('.innerNumLottery').removeClass('highlight');
-      $(`.innerNumLottery[data-no="${$('.pattiNum.three').html()}"]`).addClass('highlight');
-      $(`.innerNumLottery[data-no="${$('.pattiNum.two').html()+''+$('.pattiNum.three').html()}"]`).addClass('highlight');
-      $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()+''+$('.pattiNum.three').html()}"]`).addClass('highlight');
+      // $(`.innerNumLottery[data-no="${$('.pattiNum.two').html()+''+$('.pattiNum.three').html()}"]`).addClass('highlight');
+      $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()+''}"]`).addClass('highlight');
 
-      let single = $(`.innerNumLottery[data-no="${$('.pattiNum.three').html()}"]`).find('p').html();
-      let jori = $(`.innerNumLottery[data-no="${$('.pattiNum.two').html()+''+$('.pattiNum.three').html()}"]`).find('p').html();
-      let patti = $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()+''+$('.pattiNum.three').html()}"]`).find('p').html();
+      // let single = $(`.innerNumLottery[data-no="${$('.pattiNum.three').html()}"]`).find('p').html();
+      let jori = $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()}"]`).find('p').html();
+      // let patti = $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()+''+$('.pattiNum.three').html()}"]`).find('p').html();
       
-      single = single?parseFloat(single)*price[gameCode].single:0;
+      // single = single?parseFloat(single)*price[gameCode].single:0;
       jori = jori?parseFloat(jori)*price[gameCode].jori:0;
-      patti = patti?parseFloat(patti)*price[gameCode].patti:0;
-      $('.singlePrice').html('Price: <b>'+single+'</b>');
+      // patti = patti?parseFloat(patti)*price[gameCode].patti:0;
+      // $('.singlePrice').html('Price: <b>'+single+'</b>');
       $('.joriPrice').html('Price: <b>'+jori+'</b>');
-      $('.pattiPrice').html('Price: <b>'+patti+'</b>');
+      // $('.pattiPrice').html('Price: <b>'+patti+'</b>');
 
-      $('#totalPrice').html('Price: <b>'+(single+jori+patti)+'</b>');
+      $('#totalPrice').html('Price: <b>'+(jori)+'</b>');
     }
   }
 
@@ -237,16 +234,12 @@
               <div class="lotteryResult">
                 <div class="container mt-3">
                   <div class="row">
-                    <div class="col-2">1st Price:</div>
-                    <div class="col-3"><input type="text" class="preNo" value="" placeholder="Pre Number"/></div>
-                    <div class="col-1">
+                    <div class="col-2">Put number for result</div>
+                    <div class="col-2">
                       <div class="pattiNum one"></div>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                       <div class="pattiNum two"></div>
-                    </div>
-                    <div class="col-1">
-                      <div class="pattiNum three"></div>
                     </div>
                     <div class="col-2">
                       <button type="button" class="gameButton resetPattiBtn">Reset</button>
@@ -254,8 +247,10 @@
                     <div class="col-2">
                       <button type="button" class="gameButton saveResultLottery">Save</button>
                     </div>
+                    <div class="col-2"></div>
 
 
+                    <div class="col-12 mt-3"></div>
                     <div class="col-1"></div>
                     <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="1">1</div></div>
                     <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="2">2</div></div>
@@ -268,24 +263,15 @@
                     <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="9">9</div></div>
                     <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="0">0</div></div>
 
-                    <div class="col-3"><input type="text" class="secondPrice" value="" placeholder="2nd Price"/></div>
-                    <div class="col-3"><input type="text" class="thirdPrice" value="" placeholder="3rd Price"/></div>
-                    <div class="col-3"><input type="text" class="fourthPrice" value="" placeholder="4th Price"/></div>
-                    <div class="col-3"><input type="text" class="fifthPrice" value="" placeholder="5th Price"/></div>
                   </div>
                 </div>
               </div>
-              <div class="lotterySingleTotal"></div>
-              <div class="lotterySingle"></div>
               <div class="lotteryJoriTotal"></div>
               <div class="lotteryJori"></div>
-              <div class="lotteryPattiTotal"></div>
-              <div class="lotteryPatti"></div>
             </div>
           </div>
         </div>`);
         popup.style.display = "block";
-      lotteryResultDisplay(id);
       backendSource.getObject(gameCode, null, {where:[
         {'key':'game_id','operator':'is','value':id}
       ]}, function (data) {
@@ -316,46 +302,13 @@
             </div>
           `);
         }
-        $('.lotterySingleTotal').html(`Single Total Game: <b>${tot['Single']}</b><span class="singlePrice"></span>`);
-        $('.lotteryJoriTotal').html(`Jori Total Game: <b>${tot['Jori']}</b><span class="joriPrice"></span>`);
-        $('.lotteryPattiTotal').html(`Patti Total Game: <b>${tot['Patti']}</b><span class="pattiPrice"></span>`);
+        // $('.lotterySingleTotal').html(`Single Total Game: <b>${tot['Single']}</b><span class="singlePrice"></span>`);
+        $('.lotteryJoriTotal').html(`Total Game Played: <b>${tot['Jori']}</b><span class="joriPrice"></span>`);
+        // $('.lotteryPattiTotal').html(`Patti Total Game: <b>${tot['Patti']}</b><span class="pattiPrice"></span>`);
         $('#totalBet').html(tot['Single']+tot['Jori']+tot['Patti']);
-      }
-    });
-  }
-
-  function lotteryResultDisplay(id){
-    backendSource.getObject('lottery_result', null, {where:[
-      {'key':'game_id','operator':'is','value':id}
-    ]}, function (data) {
-      if(data.SUCCESS && data.MESSAGE.length>0){
-        for(let item of data.MESSAGE){
-          if(item.place==2){
-            $('.secondPrice').val(item.num);
-          }else if(item.place==3){
-            $('.thirdPrice').val(item.num);
-          }else if(item.place==4){
-            $('.fourthPrice').val(item.num);
-          }else if(item.place==5){
-            $('.fifthPrice').val(item.num);
-          }else{
-            let [strOne, strTwo] = DM_COMMON.splitString(item.num, 5);
-            $('.preNo').val(strOne);
-            $(".pattiNum.one").html(strTwo[0]);
-            $(".pattiNum.two").html(strTwo[1]);
-            $(".pattiNum.three").html(strTwo[2]);
-          }
-        }
+        $(".pattiNum.one").html(cGame.result_one[0]);
+        $(".pattiNum.two").html(cGame.result_one[1]);
         pattiNumDiv();
-      }else{
-        let figit5 = DM_COMMON.generateUniqueRandomNumbers(11,1000,99999,5);
-        let figit4 = DM_COMMON.generateUniqueRandomNumbers(20,100,9999,4);
-        let [arrOne, arrTwo] = DM_COMMON.splitArray(figit5, 1);
-        let [arrThree, arrFour] = DM_COMMON.splitArray(figit4, 10);
-        $('.secondPrice').val(arrOne.join(", "));
-        $('.thirdPrice').val(arrTwo.join(", "));
-        $('.fourthPrice').val(arrThree.join(", "));
-        $('.fifthPrice').val(arrFour.join(", "));
       }
     });
   }
@@ -502,7 +455,7 @@
                       ${game.MESSAGE[i].result_one?`
                       <div class="winRes">
                         <i class="bi bi-trophy"></i>
-                        <span class="txt">Result: ${game.MESSAGE[i].result_one} | ${game.MESSAGE[i].result_two}</span>
+                        <span class="txt">Result: ${game.MESSAGE[i].result_one}  ${game.MESSAGE[i].result_two?'| '+game.MESSAGE[i].result_two:''}</span>
                       </div>`:``}
                       
                     </div>`;

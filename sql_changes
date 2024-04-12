@@ -21,6 +21,180 @@ INSERT INTO `game` (`id`, `name`, `rule`, `category`, `subdomain`, `bg_type`, `b
 new table nifty
 new table sensex
 
+game table fatafat bg type image
+
+
+=== procedure updateFatafatSuperUser ====
+per : gameId int 10
+
+BEGIN
+	DECLARE done INT DEFAULT FALSE;
+    DECLARE uId INT;
+	DECLARE cur CURSOR FOR SELECT DISTINCT(user_id) FROM fatafatSuper WHERE game_id=gameId;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+    OPEN cur;
+    
+    read_loop: LOOP
+        FETCH cur INTO uId;
+        
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        SELECT getUserBalance(uId);
+    END LOOP;
+    
+    CLOSE cur;
+END
+
+=== end ====
+
+
+=== procedure updateFatafatUser ====
+per : gameId int 10
+
+BEGIN
+	DECLARE done INT DEFAULT FALSE;
+    DECLARE uId INT;
+	DECLARE cur CURSOR FOR SELECT DISTINCT(user_id) FROM fatafat WHERE game_id=gameId;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+    OPEN cur;
+    
+    read_loop: LOOP
+        FETCH cur INTO uId;
+        
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        SELECT getUserBalance(uId);
+    END LOOP;
+    
+    CLOSE cur;
+END
+
+=== end ====
+
+=== procedure updateSensexUser ====
+per : gameId int 10
+
+BEGIN
+	DECLARE done INT DEFAULT FALSE;
+    DECLARE uId INT;
+	DECLARE cur CURSOR FOR SELECT DISTINCT(user_id) FROM sensex WHERE game_id=gameId;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+    OPEN cur;
+    
+    read_loop: LOOP
+        FETCH cur INTO uId;
+        
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        SELECT getUserBalance(uId);
+    END LOOP;
+    
+    CLOSE cur;
+END
+
+=== end ====
+
+=== procedure updateNiftyUser ====
+per : gameId int 10
+
+BEGIN
+	DECLARE done INT DEFAULT FALSE;
+    DECLARE uId INT;
+    
+	DECLARE cur CURSOR FOR SELECT DISTINCT(user_id) FROM nifty WHERE game_id = gameId;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+    OPEN cur;
+    
+    read_loop: LOOP
+        FETCH cur INTO uId;
+        
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        SELECT getUserBalance(uId);
+    END LOOP;
+    
+    CLOSE cur;
+END
+
+=== end ====
+
+==== procedure setStockResult ======
+par: gameId int 10
+      gameCode VARCHAR 20
+      jodiMultiplyValue decimal 6,2
+
+  BEGIN
+	DECLARE result1 VARCHAR(5);
+    
+    SET result1 = (SELECT result_one FROM game_inplay WHERE id = gameId AND game_code = gameCode);
+    
+    SET @query1 = CONCAT('UPDATE ',gameCode, ' SET price=0, status=0 WHERE game_id=',gameId);
+    PREPARE stmt FROM @query1;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+	SET @query2 = CONCAT('UPDATE ',gameCode,' SET price=amt*',jodiMultiplyValue,', `status`=1 WHERE game_id=',gameId,' AND number=',result1);
+    PREPARE stmt FROM @query2;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+  IF gameCode = 'nifty' THEN
+    	CALL `updateNiftyUser`(gameId);
+    ELSE
+    	CALL `updateSensexUser`(gameId);
+    END IF;
+    
+END
+
+
+==== end ======
+
+=== procedure setFatafatResult =======
+par: gameId int 10
+      gameCode VARCHAR 20
+      pattiMultiplyValue decimal 6,2
+      singleMultiplyValue decimal 6,2
+
+      BEGIN
+	DECLARE result1 VARCHAR(5);
+    DECLARE result2 VARCHAR(5);
+    
+    SET result1 = (SELECT result_one FROM game_inplay WHERE id = gameId AND game_code = gameCode);
+    SET result2 = (SELECT result_two FROM game_inplay WHERE id = gameId AND game_code = gameCode);
+
+    SET @query1 = CONCAT('UPDATE ',gameCode, ' SET price=0, status=0 WHERE game_id=',gameId);
+    PREPARE stmt FROM @query1;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+	SET @query2 = CONCAT('UPDATE ',gameCode,' SET price=amt*',pattiMultiplyValue,', `status`=1 WHERE game_id=',gameId,' AND number=',result1);
+    PREPARE stmt FROM @query2;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+    
+    SET @query3 = CONCAT('UPDATE ',gameCode,' SET price=amt*',singleMultiplyValue,', `status`=1 WHERE game_id=',gameId,' AND number=',result2);
+    PREPARE stmt FROM @query3;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+    IF gameCode = 'fatafat' THEN
+    	CALL `updateFatafatUser`(gameId);
+    ELSE
+    	CALL `updateFatafatSuperUser`(gameId);
+    END IF;
+    
+END
+
+==== end =====
 
 ==== procedure updateAllUserBalance ========
 
@@ -56,16 +230,23 @@ BEGIN
     DECLARE totalSend DECIMAL DEFAULT 0;
     DECLARE actualBalance DECIMAL DEFAULT 0;
     DECLARE tmpAmt DECIMAL DEFAULT 0;
+    DECLARE tmpPrice DECIMAL DEFAULT 0;
     
-    SELECT COALESCE(SUM(amt),0) INTO tmpAmt FROM fatafat WHERE user_id=userId;
+    SELECT COALESCE(SUM(amt),0), COALESCE(SUM(PRICE),0) INTO tmpAmt, tmpPrice FROM fatafat WHERE user_id=userId;
     SET totalPurchase = totalPurchase + tmpAmt;
-    SELECT COALESCE(SUM(amt),0) INTO tmpAmt FROM fatafatSuper WHERE user_id=userId;
-    SET totalPurchase = totalPurchase + tmpAmt;
+    SET totalWin = totalWin + tmpPrice;
     
-	SELECT COALESCE(SUM(PRICE),0) INTO tmpAmt FROM fatafat WHERE user_id=userId;
-    SET totalWin = totalWin + tmpAmt;
-    SELECT COALESCE(SUM(PRICE),0) INTO tmpAmt FROM fatafatSuper WHERE user_id=userId;
-    SET totalWin = totalWin + tmpAmt;
+    SELECT COALESCE(SUM(amt),0), COALESCE(SUM(PRICE),0) INTO tmpAmt, tmpPrice FROM fatafatSuper WHERE user_id=userId;
+    SET totalPurchase = totalPurchase + tmpAmt;
+    SET totalWin = totalWin + tmpPrice;
+    
+    SELECT COALESCE(SUM(amt),0), COALESCE(SUM(PRICE),0) INTO tmpAmt, tmpPrice FROM nifty WHERE user_id=userId;
+    SET totalPurchase = totalPurchase + tmpAmt;
+    SET totalWin = totalWin + tmpPrice;
+    
+    SELECT COALESCE(SUM(amt),0), COALESCE(SUM(PRICE),0) INTO tmpAmt, tmpPrice FROM sensex WHERE user_id=userId;
+    SET totalPurchase = totalPurchase + tmpAmt;
+    SET totalWin = totalWin + tmpPrice;
     
 	SELECT COALESCE(SUM(amt),0) INTO totalReceived FROM transfer_log WHERE tid=userId;
 	SELECT COALESCE(sum(amt),0) INTO totalSend FROM transfer_log WHERE fid=userId;

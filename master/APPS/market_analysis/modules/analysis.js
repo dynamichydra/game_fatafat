@@ -105,12 +105,7 @@
           <div class="container">
             <div class="row lotteryHtm" >
               
-              <div class="lotterySingleTotal"></div>
-              <div class="lotterySingle"></div>
-              <div class="lotteryJoriTotal"></div>
               <div class="lotteryJori"></div>
-              <div class="lotteryPattiTotal"></div>
-              <div class="lotteryPatti"></div>
             </div>
           </div>
         </div>`);
@@ -146,9 +141,9 @@
             </div>
           `);
         }
-        $('.lotterySingleTotal').html(`Single Total Game: <b>${tot['Single']}</b>`);
-        $('.lotteryJoriTotal').html(`Jori Total Game: <b>${tot['Jori']}</b>`);
-        $('.lotteryPattiTotal').html(`Patti Total Game: <b>${tot['Patti']}</b>`);
+        // $('.lotterySingleTotal').html(`Single Total Game: <b>${tot['Single']}</b>`);
+        // $('.lotteryJoriTotal').html(`Jori Total Game: <b>${tot['Jori']}</b>`);
+        // $('.lotteryPattiTotal').html(`Patti Total Game: <b>${tot['Patti']}</b>`);
         $('#totalBet').html(tot['Single']+tot['Jori']+tot['Patti']);
       }
     });
@@ -283,7 +278,7 @@
                       ${game.MESSAGE[i].result_one?`
                       <div class="winRes">
                         <i class="bi bi-trophy"></i>
-                        <span class="txt">Result: ${game.MESSAGE[i].result_one} | ${game.MESSAGE[i].result_two}</span>
+                        <span class="txt">Result: ${game.MESSAGE[i].result_one} ${game.MESSAGE[i].result_two?'| '+game.MESSAGE[i].result_two:''}</span>
                       </div>`:``}
                       
                     </div>`;

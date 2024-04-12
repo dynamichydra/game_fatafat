@@ -75,7 +75,60 @@
     $('#resultArea').html('');
     let month = $(this).attr('data-month');
     let year = $(this).attr('data-year');
-    getFatafatMonthResult(gameCode,month,year);
+    
+    if(gameCode == 'nifty' || gameCode == 'sensex'){
+      getLotteryMonthResult(gameCode,month,year);
+    }else{
+      getFatafatMonthResult(gameCode,month,year);
+    }
+  }
+
+  function getLotteryMonthResult(gameCode,month,year){
+    let htm = `<p>No data found.</p>`;
+    let gameName = 'Bazi';
+    backendSource.getObject('game_inplay', null, {where:[
+      {'key':'game_code','operator':'is','value':gameCode},
+      {'key':'start','operator':'higher','value':year+'-'+month+'-01 00:00:00'},
+      {'key':'end','operator':'lower','value':year+'-'+month+'-31 23:59:59'},
+    ],
+    order:{'by':'id','type':'DESC'}}, function (game) {
+      if(game.SUCCESS){
+        if(game.MESSAGE.length>0){
+          let arr = {};
+          for(let i in game.MESSAGE){
+            if(!arr['key'+moment(game.MESSAGE[i].end).format('DD')]){
+              arr['key'+moment(game.MESSAGE[i].end).format('DD')] = {key:moment(game.MESSAGE[i].end).format('DD'),val:[]};
+            }
+            arr['key'+moment(game.MESSAGE[i].end).format('DD')].val.push(game.MESSAGE[i]);
+          }
+          htm = '';
+          
+          const keyValueArray = Object.entries(arr);
+          keyValueArray.sort((a, b) => b[0].localeCompare(a[0]));
+          arr = Object.fromEntries(keyValueArray);
+          
+          for(let i in arr){
+            let patti = ``;
+            for(let j in arr[i].val){
+              patti = `<td class="item${i%2}">${arr[i].val[j].result_one??'-'}</td>`+patti;
+            }
+            htm += `<table>
+                  <tr>
+                    <td colspan="2" class="resultBg">${moment(year+'-'+month+'-'+arr[i].key).format('DD MMMM YYYY')}</td>
+                  </tr>
+                  <tr>
+                    <td class="resultBg">${gameName}1</td>
+                  </tr>
+                  <tr>
+                    ${patti}
+                  </tr>
+                </table>`;
+          }
+        }
+      }
+      $('#resultArea').html(htm);
+      scrollToResult();
+    });
   }
 
   function getFatafatMonthResult(gameCode,month,year){
@@ -140,7 +193,63 @@
   function getLiveResult(){
     let gameCode = $('#gameName').val();
     $('#resultArea').html('');
-    getFatafatLiveResult(gameCode);
+    if(gameCode == 'nifty' || gameCode == 'sensex'){
+      getLotteryLiveResult(gameCode);
+    }else{
+      getFatafatLiveResult(gameCode);
+    }
+  }
+
+  async function getLotteryLiveResult(gameCode){
+    let toDay = moment().format('YYYY-MM-DD');
+    
+    let gameName = 'Bazi';
+    let game = await DM_GENERAL.fetchInplayGame([
+      {'key':'game_code','operator':'is','value':gameCode},
+      {'key':'start','operator':'higher','value':toDay+' 00:00:00'},
+      {'key':'end','operator':'lower','value':toDay+' 23:59:59'},
+    ]);
+    let patti = ``;
+    let bTmp = `
+      <td class="item0">-</td>
+    `;
+    
+    if(game.SUCCESS){
+      if(game.MESSAGE.length>0){
+        
+        for(let i in game.MESSAGE){
+          patti += `<td class="item${i%2}">${game.MESSAGE[i].result_one??'-'}</td>`
+        }
+      }else{
+        patti  =  bTmp;
+      }
+    }else{
+      patti  = bTmp;
+    }
+    let htm = `<table>
+        <tr>
+          <td colspan="2" class="resultBg">${moment().format('DD MMMM YYYY')}</td>
+        </tr>
+        <tr>
+          <td class="resultBg">${gameName}1</td>
+        </tr>
+        <tr>
+          ${patti}
+        </tr>
+      </table>`;
+    $('#resultArea').html(htm);
+    scrollToResult();
+  }
+
+  function getLiveResult(){
+    let gameCode = $('#gameName').val();
+    $('#resultArea').html('');
+    console.log(gameCode)
+    if(gameCode == 'nifty' || gameCode == 'sensex'){
+      getLotteryLiveResult(gameCode);
+    }else{
+      getFatafatLiveResult(gameCode);
+    }
   }
 
   async function getFatafatLiveResult(gameCode){

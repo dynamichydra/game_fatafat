@@ -1,17 +1,17 @@
 'use strict';
 
 (function () {
-  let perUnitPrice = 10;
+  let perUnitPrice = 1;
   let curGame = null;
   let playingGame = null;
   let allGame = null;
   let selectedGameType = null;
   let serverTime = null;
   let gameType = {
-    'jori':{name:'Jori',text:'SENseX : 1 points win prize: 100 Points'}
+    'jori':{name:'Jori',text:'SENSEX : 1 points win prize: 100 Points'}
   };
   let sortCutAmt = {
-    'jori':[{amt:1,txt:'1X'},{amt:3,txt:'3X'},{amt:5,txt:'5X'},{amt:10,txt:'10X'},{amt:15,txt:'15X'},{amt:25,txt:'25X'},{amt:50,txt:'50X'},{amt:100,txt:'100X'}]
+    'jori':[{amt:5,txt:'5'},{amt:10,txt:'10'},{amt:15,txt:'15'},{amt:20,txt:'20'},{amt:25,txt:'25'},{amt:30,txt:'30'},{amt:40,txt:'40'},{amt:50,txt:'50'}]
   };
 
   const popup = document.getElementById("sitePopup");
@@ -26,7 +26,8 @@
   }
 
   function bindEvents() {
-    $('#gameList').on('click','.runningGame,.upcoming',chooseType);
+    // $('#gameList').on('click','.runningGame,.upcoming',chooseType);
+    $('#gameList').on('click','.runningGame,.upcoming',gamePlay);
     $('#gameType').on('click','.boxContainer',gamePlay);
 
     $('#gamePlay').on('click','.resetPattiBtn',resetPattiBtn);
@@ -49,7 +50,11 @@
   }
 
   function gamePlay(){
-    
+    curGame = $(this).closest('.boxContainer').attr('data-gameid');
+    playingGame = allGame.find(e=>e.id==curGame);
+    selectedGameType = 'jori';
+    console.log(curGame)
+    console.log(allGame)
     if(!curGame){
       return false;
     }
@@ -57,8 +62,8 @@
     if(!playingGame){
       return false;
     }
-    $('#gameType').hide();
-    selectedGameType = $(this).attr('data-type');
+    $('#gameType,#gameList').hide();
+    // selectedGameType = $(this).attr('data-type');
     $('#gamePlay').html(``);
     $('#gamePlay').show();
     $('#gamePlay').html(`
@@ -90,7 +95,9 @@
     // const startTime = moment(playingGame.start,'YYYY-MM-DD HH:mm:ss');
     const endTime = moment(playingGame.end, 'YYYY-MM-DD HH:mm:ss');
     const givenTime = moment(serverTime, 'YYYY-MM-DD HH:mm:ss');
-    
+    console.log(gameType)
+    console.log(selectedGameType)
+    console.log(gameType[selectedGameType].name)
     if (givenTime.isBefore(endTime)) {
       DM_COMMON.startTimer(endTime.diff(givenTime,'seconds'), $('#gamePlay .out .number'),{txt:playingGame.name+' - '+gameType[selectedGameType].name,id:curGame}, () => {
         window.location.reload();

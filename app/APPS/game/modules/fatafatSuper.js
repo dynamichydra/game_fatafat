@@ -127,6 +127,15 @@
   function saveBtn(){
     DM_TEMPLATE.showBtnLoader(elq('.saveBtn'), true);
 
+    if(selectedGameType == 'single'){
+      $( "#gameBody .inputAmt" ).each(function( idx ) {
+        let amt = $(this).val();
+        if(amt != '' && amt != '0' && parseInt(amt)<5000 ){
+          drawBetAmount($(this).attr('data-no'),amt);
+        }
+      });
+    }
+
     let userData = DM_COMMON.getUserData();
     let arr = [];
     let betAmount = 0;
@@ -157,7 +166,8 @@
       if(data.SUCCESS){
         DM_TEMPLATE.showSystemNotification(1, "Bet place successfully.");
         DM_COMMON.fetchUserData();
-        $( "#gameItemBody tbody" ).html('')
+        $( "#gameItemBody tbody" ).html('');
+        $( "#gameBody .inputAmt" ).val('');
       }else{
         DM_TEMPLATE.showSystemNotification(0, data.MESSAGE);
       }
@@ -391,51 +401,80 @@
   }
 
   function loadSinglePattiHTML(){
+    let htm = ``; 
+    
+    if(selectedGameType=='single'){
+      htm += `
+
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv red" data-num="1">1</div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="2">2</div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv blue" data-num="3">3</div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv sky" data-num="4">4</div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv blue" data-num="5">5</div></div>
+      
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="1" value=""/></div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="2" value=""/></div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="3" value=""/></div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="4" value=""/></div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="5" value=""/></div></div>
+      
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv sky" data-num="6">6</div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="7">7</div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv red" data-num="8">8</div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv sky" data-num="9">9</div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="0">0</div></div>
+
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="6" value=""/></div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="7" value=""/></div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="8" value=""/></div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="9" value=""/></div></div>
+      <div class="numbtn col-2" style="padding: 0px 5px;"><div class="pattiNumInput"><input type="number" class="inputAmt" placeholder="0" data-no="0" value=""/></div></div>
+      
+        `;
+    }else{
+      htm += `<div class="col-2">&nbsp;</div>
+      <div class="col-2">
+        <div class="pattiNum one"></div>
+      </div>
+      <div class="col-2">
+        <div class="pattiNum two"></div>
+      </div>
+      <div class="col-2">
+        <div class="pattiNum three"></div>
+      </div>
+      <div class="col-4">
+        <button type="button" class="gameButton resetPattiBtn">Reset</button>
+      </div>
+      <div class="col-2 pattiList" style="font-size: 30px;color: #f94b55;display:none;"><i class="bi bi-postcard-heart-fill"></i></div>
+
+
+      <div class="col-1"></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv red" data-num="1">1</div></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="2">2</div></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv blue" data-num="3">3</div></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv sky" data-num="4">4</div></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv blue" data-num="5">5</div></div>
+      <div class="col-1"></div>
+      <div class="col-1"></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv sky" data-num="6">6</div></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="7">7</div></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv red" data-num="8">8</div></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv sky" data-num="9">9</div></div>
+      <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="0">0</div></div>
+
+      <div class="col-6 mt-3"><input type="number" class="cppatiAmount" value="" placeholder="Amount"></div>
+      <div class="col-3 mt-3"><button type="button" class="gameButton pattiAddBtn">Add</button></div>
+      <div class="col-3 mt-3"><button type="button" class="gameButton pattiAddSaveBtn">Play</button></div>
+      <div class="col-12 mt-3"></div>
+
+      ${amtHtml()}
+      `;
+    }
+
     $('#gameBody').html(`
       <div class="container mt-3">
         <div class="row">
-          ${selectedGameType=='single'?`
-            <div class="col-4">&nbsp;</div>
-            <div class="col-3">
-              <div class="pattiNum one">&nbsp;</div>
-            </div>
-            <div class="col-5">&nbsp;</div>
-          `:`
-          <div class="col-2">
-            <div class="pattiNum one"></div>
-          </div>
-          <div class="col-2">
-            <div class="pattiNum two"></div>
-          </div>
-          <div class="col-2">
-            <div class="pattiNum three"></div>
-          </div>
-          <div class="col-4">
-            <button type="button" class="gameButton resetPattiBtn">Reset</button>
-          </div>
-          <div class="col-2 pattiList" style="font-size: 30px;color: #f94b55;"><i class="bi bi-postcard-heart-fill"></i></div>
-          `}
-          
-          
-          <div class="col-1"></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv red" data-num="1">1</div></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="2">2</div></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv blue" data-num="3">3</div></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv sky" data-num="4">4</div></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv yellow" data-num="5">5</div></div>
-          <div class="col-1"></div>
-          <div class="col-1"></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv purple" data-num="6">6</div></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv purple" data-num="7">7</div></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv red" data-num="8">8</div></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv sky" data-num="9">9</div></div>
-          <div class="col-2" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="0">0</div></div>
-
-          <div class="col-6 mt-3"><input type="number" class="cppatiAmount" value="" placeholder="Amount"></div>
-          <div class="col-3 mt-3"><button type="button" class="gameButton pattiAddBtn">Add</button></div>
-          <div class="col-3 mt-3"><button type="button" class="gameButton pattiAddSaveBtn">Play</button></div>
-          <div class="col-12 mt-3"></div>
-          ${amtHtml()}
+          ${htm}
         </div>
       </div>
       `);

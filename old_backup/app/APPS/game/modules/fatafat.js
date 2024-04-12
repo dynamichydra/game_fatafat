@@ -132,7 +132,8 @@
       $( "#gameBody .inputAmt" ).each(function( idx ) {
         let amt = $(this).val();
         
-        if(amt != '' && amt != '0' && parseInt(amt)<5000 && (parseInt(timeRemain) > 600 || parseInt(amt)<100)){
+        //if(amt != '' && amt != '0' && parseInt(amt)<5000 && (parseInt(timeRemain) > 600 || parseInt(amt)<100)){
+		  if(amt != '' && amt != '0' && parseInt(amt)<5000 ){
           drawBetAmount($(this).attr('data-no'),amt);
         }
       });
@@ -302,15 +303,7 @@
     }
 
     let timeRemain = $('#gameHead').find('.secStore').attr('data-src');
-    if(parseInt(timeRemain) < 600){
-      if(selectedGameType == 'single' && parseInt(amt)>100){
-        DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100 for Single.`);
-        return;
-      }else if(selectedGameType != 'single' && parseInt(amt)>10){
-        DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 10 for Patti.`);
-        return;
-      }
-    }
+    
     
     let found = false;
     for(let i in gameSet){
@@ -368,17 +361,7 @@
     }
 
     let timeRemain = $('#gameHead').find('.secStore').attr('data-src');
-    if(parseInt(timeRemain) < 600){
-      if(selectedGameType == 'single' && parseInt(amt)>100){
-        DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100 for Single.`);
-        DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
-        return;
-      }else if(selectedGameType != 'single' && parseInt(amt)>10){
-        DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 10 for Patti.`);
-        DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
-        return;
-      }
-    }
+    
     
     let found = false;
     for(let i in gameSet){
@@ -484,6 +467,7 @@
 
   function amtHtml(){
     let htm = ``;
+    console.log(selectedGameType)
     for(let i in sortCutAmt[selectedGameType]){
       htm += `<div class="col-3">
         <div class="amtBox conBox" data-amt="${sortCutAmt[selectedGameType][i].amt}">${sortCutAmt[selectedGameType][i].txt}</div>
@@ -533,7 +517,7 @@
     const endTime = moment(playingGame.end, 'YYYY-MM-DD HH:mm:ss');
     const givenTime = moment();
     if (givenTime.isBefore(endTime)) {
-      $('#gameType .number').html('End - '+moment(playingGame.end).format('HH:mm')+', Result - '+moment(playingGame.end).add(18, 'minutes').format('HH:mm'));
+      $('#gameType .number').html('End - '+moment(playingGame.end).format('HH:mm')+', Result - '+moment(playingGame.end).add(30, 'minutes').format('HH:mm'));
     }else{
       $('#gameType .number').html('close');
 
@@ -572,7 +556,7 @@
                       </div>
                       <div class="endTime">
                           <i class="bi bi-clock-fill"></i>
-                          <span class="txt">Result: ${moment(game.MESSAGE[i].end).add(18, 'minutes').format("HH:mm")}</span>
+                          <span class="txt">Result: ${moment(game.MESSAGE[i].end).add(30, 'minutes').format("HH:mm")}</span>
                       </div>
                     </div>`;
           if(game.MESSAGE[i].status==1){
