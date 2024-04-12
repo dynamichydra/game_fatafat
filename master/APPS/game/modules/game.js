@@ -190,7 +190,6 @@
   }
 
   function pattiNumDiv(){
-    console.log('here')
     if($('.pattiNum.one').html()==''){
       $('.pattiNum.one').html($(this).attr('data-num'));
     }else {

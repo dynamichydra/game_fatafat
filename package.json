@@ -1,9 +1,9 @@
 {
-  "name": "uniPlay",
+  "name": "Fatafat",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "author": "uniPlay",
+  "author": "Fatafat",
   "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
