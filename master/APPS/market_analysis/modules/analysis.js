@@ -15,8 +15,8 @@
     };
   let price = {'fatafat':{'patti':100,'single':9},
       'fatafatSuper':{'patti':125,'single':9.1},
-      'nifty':{'jori':100},
-      'sensex':{'jori':100}
+      'nifty':{'jori':60},
+      'sensex':{'jori':60}
     };
   let curGame = null;
   let gameCode = null;

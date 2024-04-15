@@ -6,7 +6,7 @@ let sql = require('../modules/mysql/common').init;
 const sensex = function () {
   this.code = 'sensex';
   this.func = new libFunc();
-  this.price = {'jori':100};
+  this.price = {'jori':60 };
 }
 
 sensex.prototype.startGame = async function () {
@@ -48,7 +48,7 @@ sensex.prototype.generateGame = async function (data) {
   }
 
   let gameStartTime = [
-    {'name':"Bazi1",start:"06:00:00",end:"15:30:00",duration:330}
+    {'name':"Bazi1",start:"06:00:00",end:"14:00:00",duration:330}
   ];
   let _ = this;
   return new Promise(async function (result) {

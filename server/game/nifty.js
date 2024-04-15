@@ -6,7 +6,7 @@ let sql = require('../modules/mysql/common').init;
 const nifty = function () {
   this.code = 'nifty';
   this.func = new libFunc();
-  this.price = {'jori':100};
+  this.price = {'jori':60};
 }
 
 nifty.prototype.startGame = async function () {
@@ -48,7 +48,7 @@ nifty.prototype.generateGame = async function (data) {
   }
 
   let gameStartTime = [
-    {'name':"Bazi1",start:"06:00:00",end:"15:30:00",duration:330}
+    {'name':"Bazi1",start:"06:00:00",end:"14:00:00",duration:330}
   ];
   let _ = this;
   return new Promise(async function (result) {

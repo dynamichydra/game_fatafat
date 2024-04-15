@@ -56,7 +56,7 @@ exports.init = {
                 let bajiLimit = data.type=='Patti'?10000:100000;
                 
                 if(gameType == 'nifty' || gameType == 'sensex'){
-                  bajiLimit = 999999;
+                  bajiLimit = 100;
                 }
                 const service = 0;
                 const amt = parseFloat(data.bet[i].a) - service;

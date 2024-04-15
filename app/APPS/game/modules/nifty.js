@@ -8,7 +8,7 @@
   let selectedGameType = null;
   let serverTime = null;
   let gameType = {
-    'jori':{name:'Jori',text:'NIFTY : 1 points win prize: 100 Points'}
+    'jori':{name:'Jori',text:'NIFTY : 1 points win prize: 60 Points'}
   };
   let sortCutAmt = {
     'jori':[{amt:5,txt:'5'},{amt:10,txt:'10'},{amt:15,txt:'15'},{amt:20,txt:'20'},{amt:25,txt:'25'},{amt:30,txt:'30'},{amt:40,txt:'40'},{amt:50,txt:'50'}]
@@ -131,6 +131,10 @@
       DM_TEMPLATE.showSystemNotification(0, `Insufficient balance.`);
       DM_TEMPLATE.showBtnLoader(elq('.saveBtn'), false);
       return false;
+    }else if(betAmount > 2000){
+      DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 2000.`);
+      DM_TEMPLATE.showBtnLoader(elq('.saveBtn'), false);
+      return false;
     }
     
     backendSource.customRequest('bet',null,{
@@ -206,10 +210,11 @@
       return;
     }
 
-    // if(selectedGameType == 'single' && parseInt(amt)>5000){
-    //   DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 5000 for Single.`);
-    //   return;
-    // }else if(selectedGameType != 'single' && parseInt(amt)>100){
+    if( parseInt(amt)>100){
+      DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100 for per number.`);
+      return;
+    }
+    // else if(selectedGameType != 'single' && parseInt(amt)>100){
     //   DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 50 for Patti.`);
     //   return;
     // }
@@ -264,11 +269,12 @@
       return;
     }
 
-    // if(selectedGameType == 'single' && parseInt(amt)>5000){
-    //   DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 5000 for Single.`);
-    //   DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
-    //   return;
-    // }else if(selectedGameType != 'single' && parseInt(amt)>100){
+    if(parseInt(amt)>100){
+      DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 100 for per number.`);
+      DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
+      return;
+    }
+    // else if(selectedGameType != 'single' && parseInt(amt)>100){
     //   DM_TEMPLATE.showSystemNotification(0, `Maximum bet amount is 50 for Patti.`);
     //   DM_TEMPLATE.showBtnLoader(elq('.pattiAddSaveBtn'), false);
     //   return;
