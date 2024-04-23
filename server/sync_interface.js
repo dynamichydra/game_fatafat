@@ -27,7 +27,7 @@ DokuMe_SyncInterface.prototype.start = function(){
       gObj.startGame(['fatafat']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
-    _.app.get('/game/start/fatafat_super', function (req, res) {
+    _.app.get('/game/start/fatafatSuper', function (req, res) {
       const gObj = new game();
       gObj.startGame(['fatafatSuper']);
       res.json({STATUS:true,MESSAGE:'done'});

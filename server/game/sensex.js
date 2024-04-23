@@ -13,31 +13,37 @@ sensex.prototype.startGame = async function () {
   let _ = this;
   let conn = await sql.connectDB();
 
-  let runningGame = await sql.getData('game_inplay', {'where':[
-    {'key':'game_code','operator':'is','value':_.code},
-    {'key':'status','operator':'is','value':1}
-  ]});
-  if(runningGame.SUCCESS && runningGame.MESSAGE.length>0){
-    
-    for(const item of runningGame.MESSAGE){
-      await sql.setData('game_inplay',{
-        'id':item.id,
-        'status':2});
-    }
-  }
   let curDate = moment().format('YYYY-MM-DD H:mm')+':00';
-  let targetGame = await sql.getData('game_inplay', {'where':[
-    {'key':'game_code','operator':'is','value':_.code},
-    {'key':'status','operator':'is','value':0},
-    {'key':'start','operator':'is','value':curDate}
-  ]});
-  if(targetGame.SUCCESS && targetGame.MESSAGE.length>0){
-    for(const item of targetGame.MESSAGE){
-      await sql.setData('game_inplay',{
-        'id':item.id,
-        'status':1});
-    }
-  }
+  let t = await sql.customSQL("UPDATE game_inplay SET status = '2' WHERE game_code ='"+_.code+"' AND status = '1' AND end <= '"+curDate+"'");
+  t = await sql.customSQL("UPDATE game_inplay SET status = '1' WHERE game_code ='"+_.code+"' AND status = '0' AND start <= '"+curDate+"'");
+  
+
+  // let runningGame = await sql.getData('game_inplay', {'where':[
+  //   {'key':'game_code','operator':'is','value':_.code},
+  //   {'key':'status','operator':'is','value':1},
+  //   {'key':'start','operator':'lower-equal','value':curDate}
+  // ]});
+  // if(runningGame.SUCCESS && runningGame.MESSAGE.length>0){
+    
+  //   for(const item of runningGame.MESSAGE){
+  //     await sql.setData('game_inplay',{
+  //       'id':item.id,
+  //       'status':2});
+  //   }
+  // }
+  // let curDate = moment().format('YYYY-MM-DD H:mm')+':00';
+  // let targetGame = await sql.getData('game_inplay', {'where':[
+  //   {'key':'game_code','operator':'is','value':_.code},
+  //   {'key':'status','operator':'is','value':0},
+  //   {'key':'start','operator':'lower-equal','value':curDate}
+  // ]});
+  // if(targetGame.SUCCESS && targetGame.MESSAGE.length>0){
+  //   for(const item of targetGame.MESSAGE){
+  //     await sql.setData('game_inplay',{
+  //       'id':item.id,
+  //       'status':1});
+  //   }
+  // }
   conn.release();
 }
 

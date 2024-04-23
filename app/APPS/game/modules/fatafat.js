@@ -64,7 +64,7 @@
 
   function gamePlay(){
     
-    if(!curGame){
+    if(!curGame || curGame=='' || curGame.length==0 || typeof curGame == 'undefined'){
       return false;
     }
     playingGame = allGame.find(e=>e.id==curGame);
@@ -533,7 +533,7 @@
       $('#gameType .number').html('End - '+moment(playingGame.end).format('HH:mm')+', Result - '+moment(playingGame.end).add(30, 'minutes').format('HH:mm'));
     }else{
       $('#gameType .number').html('close');
-
+      curGame = null;
     }
   }
 

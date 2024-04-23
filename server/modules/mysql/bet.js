@@ -38,9 +38,18 @@ exports.init = {
           {key:"id", operator:"is", value : data.game_id}
         ]});
         if(game.SUCCESS && (parseInt(game.MESSAGE.status) == 1 || parseInt(game.MESSAGE.status) == 0)){
-          const endTime = moment(game.MESSAGE.end, 'YYYY-MM-DD HH:mm:ss');
-          const startTime = moment(game.MESSAGE.start, 'YYYY-MM-DD HH:mm:ss');;
-          if (startTime.isBefore(endTime)){
+          const endTime = moment(game.MESSAGE.end).format("X");
+          // const endTime = moment(game.MESSAGE.end, 'YYYY-MM-DD HH:mm:ss');
+          //const startTime = moment(game.MESSAGE.start, 'YYYY-MM-DD HH:mm:ss');
+          const offsetString = "+06:30";
+          const offsetMinutes = moment.duration(offsetString).asMinutes();
+
+          // Create curDate with the parsed UTC offset
+          const curDate = moment().utcOffset(offsetMinutes).format("X");
+          console.log(curDate,endTime)
+          console.log(curDate-endTime)
+          // console.log(endTimecurDate.isBefore(endTime))
+          if (curDate.isBefore(endTime)){
             let totAmt = 0;
             for(let i in data.bet){
               totAmt += parseFloat(data.bet[i].a);

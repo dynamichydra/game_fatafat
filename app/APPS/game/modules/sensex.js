@@ -427,7 +427,7 @@
       $('#gameType .number').html('End - '+moment(playingGame.end).format('HH:mm')+', Result - '+moment(playingGame.end).add(18, 'minutes').format('HH:mm'));
     }else{
       $('#gameType .number').html('close');
-
+      curGame = null;
     }
   }
 
