@@ -11,7 +11,8 @@ let mysqlPool = mysql.createPool({
   password: config.get('db.mysql.pass'),
   port: config.get('db.mysql.port'),
   connectionLimit: 50000,
-  acquireTimeout: 500000,
+  acquireTimeout: 60000,
+  idleTimeoutMillis:60000,
   debug: false,
   timezone: 'Asia/Kolkata',
   database: config.get('db.mysql.dbname')

@@ -188,10 +188,10 @@ exports.init = {
                     {key:"id",operator:"is", value:data.tid}
                   ]});
                   if(tUser.SUCCESS){
-                    t = await commonObj.customSQL('UPDATE user SET balance = '+(parseFloat(tUser.MESSAGE.balance)+parseFloat(data.amt))+' WHERE id ='+data.tid);
-                    if(t.SUCCESS){
-                      t = await commonObj.customSQL('UPDATE user SET balance = '+(parseFloat(user.MESSAGE.balance)-parseFloat(data.amt))+' WHERE id ='+data.fid);
-                      if(t.SUCCESS){
+                    // t = await commonObj.customSQL('UPDATE user SET balance = '+(parseFloat(tUser.MESSAGE.balance)+parseFloat(data.amt))+' WHERE id ='+data.tid);
+                    // if(t.SUCCESS){
+                      // t = await commonObj.customSQL('UPDATE user SET balance = '+(parseFloat(user.MESSAGE.balance)-parseFloat(data.amt))+' WHERE id ='+data.fid);
+                      // if(t.SUCCESS){
                         let tId = Date.now()+"."+data.fid+"."+data.tid;
                         let insertSql = "INSERT INTO transfer_log SET id='"+tId+"', fid="+data.fid+",tid="+data.tid+", amt="+data.amt+",type='t' ";
                         t = await commonObj.customSQL(insertSql);
@@ -216,14 +216,14 @@ exports.init = {
                           await commonObj.rollbackTransaction();
                           result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
                         }
-                      }else{
-                        await commonObj.rollbackTransaction();
-                        result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
-                      }
-                    }else{
-                      await commonObj.rollbackTransaction();
-                      result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
-                    }
+                      // }else{
+                      //   await commonObj.rollbackTransaction();
+                      //   result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                      // }
+                    // }else{
+                    //   await commonObj.rollbackTransaction();
+                    //   result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                    // }
                   }else{
                     result({SUCCESS:false,MESSAGE:'User not found to transfer! Please provide proper user ID.'});
                   }
