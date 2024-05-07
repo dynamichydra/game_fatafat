@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 the PM2 project authors. All rights reserved.
+ * Copyright 2013-2022 the PM2 project authors. All rights reserved.
  * Use of this source code is governed by a license that
  * can be found in the LICENSE file.
  */
@@ -45,9 +45,10 @@ Daemon.prototype.start = function() {
 
     console.error('[PM2] Resurrecting PM2');
 
-		var path = cst.IS_WINDOWS ? process.cwd() + '/bin/pm2' : process.env['_'];
+		var path = cst.IS_WINDOWS ? __dirname + '/../bin/pm2' : process.env['_'];
     var fork_new_pm2 = require('child_process').spawn('node', [path, 'update'], {
       detached: true,
+      windowsHide: true,
       stdio: 'inherit'
     });
 
@@ -78,6 +79,7 @@ Daemon.prototype.innerStart = function(cb) {
     fmt.field('RPC socket file', that.rpc_socket_file);
     fmt.field('BUS socket file', that.pub_socket_file);
     fmt.field('Application log path', cst.DEFAULT_LOG_PATH);
+    fmt.field('Worker Interval', cst.WORKER_INTERVAL);
     fmt.field('Process dump file', cst.DUMP_FILE_PATH);
     fmt.field('Concurrent actions', cst.CONCURRENT_ACTIONS);
     fmt.field('SIGTERM timeout', cst.KILL_TIMEOUT);
@@ -86,7 +88,7 @@ Daemon.prototype.innerStart = function(cb) {
 
   // Write Daemon PID into file
   try {
-    fs.writeFileSync(that.pid_path, process.pid);
+    fs.writeFileSync(that.pid_path, process.pid.toString());
   } catch (e) {
     console.error(e.stack || e);
   }
@@ -216,7 +218,6 @@ Daemon.prototype.innerStart = function(cb) {
     profileMEM              : profile.bind(this, 'mem'),
     prepare                 : God.prepare,
     getMonitorData          : God.getMonitorData,
-    getSystemData           : God.getSystemData,
 
     startProcessId          : God.startProcessId,
     stopProcessId           : God.stopProcessId,
@@ -258,6 +259,9 @@ Daemon.prototype.close = function(opts, cb) {
     status : 'killed',
     msg    : 'pm2 has been killed via CLI'
   });
+
+  if (God.system_infos_proc !== null)
+    God.system_infos_proc.kill()
 
   /**
    * Cleanly kill pm2
@@ -333,6 +337,9 @@ Daemon.prototype.gracefullExit = function() {
 
   console.log('pm2 has been killed by signal, dumping process list before exit...');
 
+  if (God.system_infos_proc !== null)
+    God.system_infos_proc.kill()
+
   God.dumpProcessList(function() {
 
     var processes = God.getFormatedProcesses();
@@ -368,7 +375,7 @@ Daemon.prototype.startLogic = function() {
     var axm_action = msg.data;
 
     if (!pm2_env || !God.clusters_db[pm2_env.pm_id])
-      return console.error('Unknown id %s', pm2_env.pm_id);
+      return console.error('AXM ACTION Unknown id %s', pm2_env.pm_id);
 
     if (!God.clusters_db[pm2_env.pm_id].pm2_env.axm_actions)
       God.clusters_db[pm2_env.pm_id].pm2_env.axm_actions = [];
@@ -417,9 +424,9 @@ Daemon.prototype.startLogic = function() {
       return console.error('[axm:monitor] no process defined');
 
     if (!msg.process || !God.clusters_db[msg.process.pm_id])
-      return console.error('Unknown id %s', msg.process.pm_id);
+      return console.error('AXM MONITOR Unknown id %s', msg.process.pm_id);
 
-    util._extend(God.clusters_db[msg.process.pm_id].pm2_env.axm_monitor, Utility.clone(msg.data));
+    Object.assign(God.clusters_db[msg.process.pm_id].pm2_env.axm_monitor, Utility.clone(msg.data));
     msg = null;
   });
 

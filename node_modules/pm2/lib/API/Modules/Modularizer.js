@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 the PM2 project authors. All rights reserved.
+ * Copyright 2013-2022 the PM2 project authors. All rights reserved.
  * Use of this source code is governed by a license that
  * can be found in the LICENSE file.
  */
@@ -20,6 +20,7 @@ var Modularizer = module.exports = {};
  * PM2 Module System.
  */
 Modularizer.install = function (CLI, module_name, opts, cb) {
+  module_name = module_name.replace(/[;`|]/g, "");
   if (typeof(opts) == 'function') {
     cb = opts;
     opts = {};
@@ -38,7 +39,7 @@ Modularizer.install = function (CLI, module_name, opts, cb) {
     Common.logMod(`Installing local NPM module`);
     return NPM.localStart(CLI, opts, cb)
   }
-  else if (opts.tarball || module_name.indexOf('.tar.gz') > -1) {
+  else if (opts.tarball || /\.tar\.gz$/i.test(module_name)) {
     Common.logMod(`Installing TAR module`);
     TAR.install(CLI, module_name, opts, cb)
   }

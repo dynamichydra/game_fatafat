@@ -7,14 +7,14 @@
 
 var cst         = require('../../constants.js');
 var Common      = require('../Common.js');
-var UX          = require('./CliUx');
+var UX          = require('./UX');
 var chalk       = require('chalk');
 var path        = require('path');
 var fs          = require('fs');
 var fmt         = require('../tools/fmt.js');
-var moment      = require('moment');
+var dayjs      = require('dayjs');
 var pkg         = require('../../package.json');
-const semver    = require('semver');
+const copyDirSync = require('../tools/copydirSync.js')
 
 module.exports = function(CLI) {
   /**
@@ -27,6 +27,37 @@ module.exports = function(CLI) {
 
     that.Client.executeRemote('getVersion', {}, function(err) {
       return cb ? cb.apply(null, arguments) : that.exitCli(cst.SUCCESS_EXIT);
+    });
+  };
+
+  /**
+   * Install pm2-sysmonit
+   */
+  CLI.prototype.launchSysMonitoring = function(cb) {
+    if ((this.pm2_configuration && this.pm2_configuration.sysmonit != 'true') ||
+        process.env.TRAVIS ||
+        global.it === 'function' ||
+        cst.IS_WINDOWS === true)
+      return cb ? cb(null) : null
+
+    var filepath
+
+    try {
+      filepath = path.dirname(require.resolve('pm2-sysmonit'))
+    } catch(e) {
+      return cb ? cb(null) : null
+    }
+
+    this.start({
+      script: filepath
+    }, {
+      started_as_module : true
+    }, (err, res) => {
+      if (err) {
+        Common.printError(cst.PREFIX_MSG_ERR + 'Error while trying to serve : ' + err.message || err);
+        return cb ? cb(err) : this.speedList(cst.ERROR_EXIT);
+      }
+      return cb ? cb(null) : this.speedList();
     });
   };
 
@@ -69,6 +100,7 @@ module.exports = function(CLI) {
     var Log = require('./Log');
 
     that.Client.executeRemote('getReport', {}, function(err, report) {
+
       console.log()
       console.log()
       console.log()
@@ -76,16 +108,19 @@ module.exports = function(CLI) {
       fmt.title('PM2 report')
       fmt.field('Date', new Date());
       fmt.sep();
-      fmt.title(chalk.bold.blue('Daemon'));
-      fmt.field('pm2d version', report.pm2_version);
-      fmt.field('node version', report.node_version);
-      fmt.field('node path', report.node_path);
-      fmt.field('argv', report.argv);
-      fmt.field('argv0', report.argv0);
-      fmt.field('user', report.user);
-      fmt.field('uid', report.uid);
-      fmt.field('gid', report.gid);
-      fmt.field('uptime', moment(new Date()).diff(report.started_at, 'minute') + 'min');
+
+      if (report && !err) {
+        fmt.title(chalk.bold.blue('Daemon'));
+        fmt.field('pm2d version', report.pm2_version);
+        fmt.field('node version', report.node_version);
+        fmt.field('node path', report.node_path);
+        fmt.field('argv', report.argv);
+        fmt.field('argv0', report.argv0);
+        fmt.field('user', report.user);
+        fmt.field('uid', report.uid);
+        fmt.field('gid', report.gid);
+        fmt.field('uptime', dayjs(new Date()).diff(report.started_at, 'minute') + 'min');
+      }
 
       fmt.sep();
       fmt.title(chalk.bold.blue('CLI'));
@@ -117,7 +152,7 @@ module.exports = function(CLI) {
 
         fmt.sep();
         fmt.title(chalk.bold.blue('PM2 list'));
-        UX.dispAsTable(list, that.gl_interact_infos);
+        UX.list(list, that.gl_interact_infos);
 
         fmt.sep();
         fmt.title(chalk.bold.blue('Daemon logs'));
@@ -176,7 +211,7 @@ module.exports = function(CLI) {
    */
   CLI.prototype.profile = function(type, time, cb) {
     var that = this;
-    var moment = require('moment');
+    var dayjs = require('dayjs');
     var cmd
 
     if (type == 'cpu') {
@@ -192,7 +227,7 @@ module.exports = function(CLI) {
       }
     }
 
-    var file = path.join(process.cwd(), moment().format('dd-HH:mm:ss') + cmd.ext);
+    var file = path.join(process.cwd(), dayjs().format('dd-HH:mm:ss') + cmd.ext);
     time = time || 10000
 
     console.log(`Starting ${cmd.action} profiling for ${time}ms...`)
@@ -209,6 +244,81 @@ module.exports = function(CLI) {
     });
   };
 
+
+  function basicMDHighlight(lines) {
+    console.log('\n\n+-------------------------------------+')
+    console.log(chalk.bold('README.md content:'))
+    lines = lines.split('\n')
+    var isInner = false
+    lines.forEach(l => {
+      if (l.startsWith('#'))
+        console.log(chalk.bold.green(l))
+      else if (isInner || l.startsWith('```')) {
+        if (isInner && l.startsWith('```'))
+          isInner = false
+        else if (isInner == false)
+          isInner = true
+        console.log(chalk.grey(l))
+      }
+      else if (l.startsWith('`'))
+        console.log(chalk.grey(l))
+      else
+        console.log(l)
+    })
+    console.log('+-------------------------------------+')
+  }
+  /**
+   * pm2 create command
+   * create boilerplate of application for fast try
+   * @method boilerplate
+   */
+  CLI.prototype.boilerplate = function(cb) {
+    var i = 0
+    var projects = []
+    var enquirer = require('enquirer')
+    const forEach = require('async/forEach')
+
+    fs.readdir(path.join(__dirname, '../templates/sample-apps'), (err, items) => {
+      forEach(items, (app, next) => {
+        var fp = path.join(__dirname, '../templates/sample-apps', app)
+        fs.readFile(path.join(fp, 'package.json'), (err, dt) => {
+          var meta = JSON.parse(dt)
+          meta.fullpath = fp
+          meta.folder_name = app
+          projects.push(meta)
+          next()
+        })
+      }, () => {
+        const prompt = new enquirer.Select({
+          name: 'boilerplate',
+          message: 'Select a boilerplate',
+          choices: projects.map((p, i) => {
+            return {
+              message: `${chalk.bold.blue(p.name)} ${p.description}`,
+              value: `${i}`
+            }
+          })
+        });
+
+        prompt.run()
+          .then(answer => {
+            var p = projects[parseInt(answer)]
+            basicMDHighlight(fs.readFileSync(path.join(p.fullpath, 'README.md')).toString())
+            console.log(chalk.bold(`>> Project copied inside folder ./${p.folder_name}/\n`))
+            copyDirSync(p.fullpath, path.join(process.cwd(), p.folder_name));
+            this.start(path.join(p.fullpath, 'ecosystem.config.js'), {
+              cwd: p.fullpath
+            }, () => {
+              return cb ? cb.apply(null, arguments) : this.speedList(cst.SUCCESS_EXIT);
+            })
+          })
+          .catch(e => {
+            return cb ? cb.apply(null, arguments) : this.speedList(cst.SUCCESS_EXIT);
+          });
+
+      })
+    })
+  }
 
   /**
    * Description
@@ -356,9 +466,9 @@ module.exports = function(CLI) {
 
     this.launchBus(function(err, bus) {
       bus.on('axm:reply', function(ret) {
-        if (ret.process.name == pm_id || ret.process.pm_id == pm_id) {
+        if (ret.process.name == pm_id || ret.process.pm_id == pm_id || ret.process.namespace == pm_id || pm_id == 'all') {
           results.push(ret);
-          Common.printOut('[%s:%s]=%j', ret.process.name, ret.process.pm_id, ret.data.return);
+          Common.printOut('[%s:%s:%s]=%j', ret.process.name, ret.process.pm_id, ret.process.namespace, ret.data.return);
           if (++counter == process_wait_count)
             return cb ? cb(null, results) : that.exitCli(cst.SUCCESS_EXIT);
         }
@@ -429,37 +539,19 @@ module.exports = function(CLI) {
   };
 
   /**
-   * Launch API interface
-   * @method web
-   * @return
+   * API method to launch a process that will serve directory over http
    */
-  CLI.prototype.web = function(port, cb) {
-    var that = this;
+  CLI.prototype.autoinstall = function (cb) {
+    var filepath = path.resolve(path.dirname(module.filename), '../Sysinfo/ServiceDetection/ServiceDetection.js');
 
-    if (typeof(port) === 'function') {
-      cb = port;
-      port = 9615;
-    }
-
-    var filepath = path.resolve(path.dirname(module.filename), '../HttpInterface.js');
-
-    that.start({
-      script : filepath,
-      name : 'pm2-http-interface',
-      execMode : 'fork_mode',
-      env : {
-        PM2_WEB_PORT : port
-      }
-    }, function(err, proc) {
+    this.start(filepath, (err, res) => {
       if (err) {
-        Common.printError(cst.PREFIX_MSG_ERR + 'Error while launching application', err.stack || err);
-        return cb ? cb(Common.retErr(err)) : that.speedList();
+        Common.printError(cst.PREFIX_MSG_ERR + 'Error while trying to serve : ' + err.message || err);
+        return cb ? cb(err) : this.speedList(cst.ERROR_EXIT);
       }
-      Common.printOut(cst.PREFIX_MSG + 'Process launched');
-      return cb ? cb(null, proc) : that.speedList();
+      return cb ? cb(null) : this.speedList();
     });
-  };
-
+  }
 
   /**
    * API method to launch a process that will serve directory over http
@@ -597,18 +689,18 @@ module.exports = function(CLI) {
 
     var Dashboard = require('./Dashboard');
 
-    if (cb) return cb(new Error('Dashboard cant be called programmatically'));
+    if (cb)
+      return cb(new Error('Dashboard cant be called programmatically'));
 
     Dashboard.init();
 
     this.Client.launchBus(function (err, bus) {
       if (err) {
-          console.error('Error launchBus: ' + err);
-          that.exitCli(cst.ERROR_EXIT);
+        console.error('Error launchBus: ' + err);
+        that.exitCli(cst.ERROR_EXIT);
       }
       bus.on('log:*', function(type, data) {
-        if (Dashboard.list.selected == data.process.pm_id)
-          Dashboard.log(type, data)
+        Dashboard.log(type, data)
       })
     });
 
@@ -618,7 +710,7 @@ module.exports = function(CLI) {
       });
     });
 
-    function launchDashboard() {
+    function refreshDashboard() {
       that.Client.executeRemote('getMonitorData', {}, function(err, list) {
         if (err) {
           console.error('Error retrieving process list: ' + err);
@@ -628,12 +720,12 @@ module.exports = function(CLI) {
         Dashboard.refresh(list);
 
         setTimeout(function() {
-          launchDashboard();
+          refreshDashboard();
         }, 800);
       });
     }
 
-    launchDashboard();
+    refreshDashboard();
   };
 
   CLI.prototype.monit = function(cb) {
@@ -665,24 +757,19 @@ module.exports = function(CLI) {
 
   CLI.prototype.inspect = function(app_name, cb) {
     const that = this;
-    if(semver.satisfies(process.versions.node, '>= 8.0.0')) {
-      this.trigger(app_name, 'internal:inspect', function (err, res) {
+    this.trigger(app_name, 'internal:inspect', function (err, res) {
 
-        if(res && res[0]) {
-          if (res[0].data.return === '') {
-            Common.printOut(`Inspect disabled on ${app_name}`);
-          } else {
-            Common.printOut(`Inspect enabled on ${app_name} => go to chrome : chrome://inspect !!!`);
-          }
+      if(res && res[0]) {
+        if (res[0].data.return === '') {
+          Common.printOut(`Inspect disabled on ${app_name}`);
         } else {
-          Common.printOut(`Unable to activate inspect mode on ${app_name} !!!`);
+          Common.printOut(`Inspect enabled on ${app_name} => go to chrome : chrome://inspect !!!`);
         }
+      } else {
+        Common.printOut(`Unable to activate inspect mode on ${app_name} !!!`);
+      }
 
-        that.exitCli(cst.SUCCESS_EXIT);
-      });
-    } else {
-      Common.printOut('Inspect is available for node version >=8.x !');
       that.exitCli(cst.SUCCESS_EXIT);
-    }
+    });
   };
 };

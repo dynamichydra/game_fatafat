@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 the PM2 project authors. All rights reserved.
+ * Copyright 2013-2022 the PM2 project authors. All rights reserved.
  * Use of this source code is governed by a license that
  * can be found in the LICENSE file.
  */
@@ -67,7 +67,8 @@ module.exports = function(CLI) {
     // Find ecosystem file by default
     if (!Common.isConfigFile(file)) {
       env = args[0];
-      var defaultConfigNames = ['ecosystem.config.js', 'ecosystem.json', 'ecosystem.json5', 'package.json'];
+      var defaultConfigNames = [ ...Common.getConfigFileCandidates('ecosystem'), 'ecosystem.json5', 'package.json'];
+
       file = Utility.whichFileExists(defaultConfigNames);
 
       if (!file) {

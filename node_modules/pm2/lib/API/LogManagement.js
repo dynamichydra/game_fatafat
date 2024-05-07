@@ -41,21 +41,23 @@ module.exports = function(CLI) {
           fs.closeSync(fs.openSync(l.pm2_env.pm_out_log_path, 'w'));
           fs.closeSync(fs.openSync(l.pm2_env.pm_err_log_path, 'w'));
         }
-        else if (l.pm2_env.name === api) {
+        else if (l.pm2_env.pm_id == api || l.pm2_env.name === api) {
           Common.printOut(cst.PREFIX_MSG + 'Flushing:');
-          Common.printOut(cst.PREFIX_MSG + l.pm2_env.pm_out_log_path);
-          Common.printOut(cst.PREFIX_MSG + l.pm2_env.pm_err_log_path);
 
-          if (l.pm2_env.pm_log_path &&
-              l.pm2_env.pm_log_path.lastIndexOf('/') < l.pm2_env.pm_log_path.lastIndexOf(api)) {
+          if (l.pm2_env.pm_log_path && fs.existsSync(l.pm2_env.pm_log_path)) {
             Common.printOut(cst.PREFIX_MSG + l.pm2_env.pm_log_path);
             fs.closeSync(fs.openSync(l.pm2_env.pm_log_path, 'w'));
           }
 
-          if (l.pm2_env.pm_out_log_path.lastIndexOf('/') < l.pm2_env.pm_out_log_path.lastIndexOf(api))
+          if (l.pm2_env.pm_out_log_path && fs.existsSync(l.pm2_env.pm_out_log_path)) {
+            Common.printOut(cst.PREFIX_MSG + l.pm2_env.pm_out_log_path);
             fs.closeSync(fs.openSync(l.pm2_env.pm_out_log_path, 'w'));
-          if (l.pm2_env.pm_err_log_path.lastIndexOf('/') < l.pm2_env.pm_err_log_path.lastIndexOf(api))
+          }
+
+          if (l.pm2_env.pm_err_log_path && fs.existsSync(l.pm2_env.pm_err_log_path)) {
+            Common.printOut(cst.PREFIX_MSG + l.pm2_env.pm_err_log_path);
             fs.closeSync(fs.openSync(l.pm2_env.pm_err_log_path, 'w'));
+          }
         }
       });
 
@@ -127,7 +129,7 @@ module.exports = function(CLI) {
    * @param {Boolean} raw
    * @return
    */
-  CLI.prototype.streamLogs = function(id, lines, raw, timestamp, exclusive) {
+  CLI.prototype.streamLogs = function(id, lines, raw, timestamp, exclusive, highlight) {
     var that = this;
     var files_list = [];
 
@@ -159,6 +161,7 @@ module.exports = function(CLI) {
     // Get the list of all running apps
     that.Client.executeRemote('getMonitorData', {}, function(err, list) {
       var regexList = [];
+      var namespaceList = [];
 
       if (err) {
         Common.printError(err);
@@ -166,7 +169,7 @@ module.exports = function(CLI) {
       }
 
       if (lines === 0)
-        return Log.stream(that.Client, id, raw, timestamp, exclusive);
+        return Log.stream(that.Client, id, raw, timestamp, exclusive, highlight);
 
       Common.printOut(chalk.bold.grey(util.format.call(this, '[TAILING] Tailing last %d lines for [%s] process%s (change the value with --lines option)', lines, id, id === 'all' ? 'es' : '')));
 
@@ -186,12 +189,29 @@ module.exports = function(CLI) {
               app_name : proc.pm2_env.pm_id + '|' + proc.pm2_env.name,
               type     : 'err'
             });
+        } else if(proc.pm2_env && proc.pm2_env.namespace == id) {
+          if(namespaceList.indexOf(proc.pm2_env.name) === -1) {
+            namespaceList.push(proc.pm2_env.name)
+          }
+          if (proc.pm2_env.pm_out_log_path && exclusive !== 'err')
+            pushIfUnique({
+              path     : proc.pm2_env.pm_out_log_path,
+              app_name :proc.pm2_env.pm_id + '|' + proc.pm2_env.name,
+              type     : 'out'});
+          if (proc.pm2_env.pm_err_log_path && exclusive !== 'out')
+            pushIfUnique({
+              path     : proc.pm2_env.pm_err_log_path,
+              app_name : proc.pm2_env.pm_id + '|' + proc.pm2_env.name,
+              type     : 'err'
+            });
         }
         // Populate the array `files_list` with the paths of all files we need to tail, when log in put is a regex
         else if(proc.pm2_env && (isNaN(id) && id[0] === '/' && id[id.length - 1] === '/')) {
           var regex = new RegExp(id.replace(/\//g, ''));
           if(regex.test(proc.pm2_env.name)) {
-            regexList.push(proc.pm2_env.name);
+            if(regexList.indexOf(proc.pm2_env.name) === -1) {
+              regexList.push(proc.pm2_env.name);
+            }
             if (proc.pm2_env.pm_out_log_path && exclusive !== 'err')
               pushIfUnique({
                 path     : proc.pm2_env.pm_out_log_path,
@@ -220,7 +240,7 @@ module.exports = function(CLI) {
           type     : 'PM2'
         }], lines, raw, function() {
           Log.tail(files_list, lines, raw, function() {
-            Log.stream(that.Client, id, raw, timestamp, exclusive);
+            Log.stream(that.Client, id, raw, timestamp, exclusive, highlight);
           });
         });
       }
@@ -228,11 +248,16 @@ module.exports = function(CLI) {
         Log.tail(files_list, lines, raw, function() {
           if(regexList.length > 0) {
             regexList.forEach(function(id) {
-                Log.stream(that.Client, id, raw, timestamp, exclusive);
+                Log.stream(that.Client, id, raw, timestamp, exclusive, highlight);
+            })
+          }
+          else if(namespaceList.length > 0) {
+            namespaceList.forEach(function(id) {
+                Log.stream(that.Client, id, raw, timestamp, exclusive, highlight);
             })
           }
           else {
-            Log.stream(that.Client, id, raw, timestamp, exclusive);
+            Log.stream(that.Client, id, raw, timestamp, exclusive, highlight);
           }
         });
       }

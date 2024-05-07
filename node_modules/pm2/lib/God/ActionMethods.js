@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 the PM2 project authors. All rights reserved.
+ * Copyright 2013-2022 the PM2 project authors. All rights reserved.
  * Use of this source code is governed by a license that
  * can be found in the LICENSE file.
  */
@@ -115,32 +115,6 @@ module.exports = function(God) {
       });
 
       cb(null, processes);
-    });
-  };
-
-  /**
-   * Description
-   * @method getSystemData
-   * @param {} env
-   * @param {} cb
-   * @return
-   */
-  God.getSystemData = function getSystemData(env, cb) {
-    God.getMonitorData(env, function(err, processes) {
-      cb(err, {
-        system: {
-          hostname: os.hostname(),
-          uptime: os.uptime(),
-          cpus: os.cpus(),
-          load: os.loadavg(),
-          memory: {
-            free: os.freemem(),
-            total: os.totalmem()
-          },
-          time: Utility.getDate()
-        },
-        processes: processes
-      });
     });
   };
 
@@ -387,6 +361,8 @@ module.exports = function(God) {
    * @return Literal
    */
   God.deleteProcessId = function(id, cb) {
+    God.deleteCron(id);
+
     God.stopProcessId(id, function(err, proc) {
       if (err) return cb(God.logAndGenerateError(err), {});
       // ! transform to slow object
@@ -420,6 +396,7 @@ module.exports = function(God) {
     var proc = God.clusters_db[id];
 
     God.resetState(proc.pm2_env);
+    God.deleteCron(id);
 
     /**
      * Merge new application configuration on restart
@@ -702,9 +679,13 @@ module.exports = function(God) {
     }
   }
 
+  /**
+   * @param {object} packet
+   * @param {function} cb
+   */
   God.sendDataToProcessId = function(packet, cb) {
     if (typeof(packet.id) == 'undefined' ||
-        !packet.data ||
+        typeof(packet.data) == 'undefined' ||
         !packet.topic)
       return cb(God.logAndGenerateError('ID, DATA or TOPIC field is missing'), {});
 
@@ -811,7 +792,9 @@ module.exports = function(God) {
 
 
         if ((p.basename(proc_env.pm_exec_path) == name ||
-             proc_env.name == name) &&
+             proc_env.name == name ||
+             proc_env.namespace == name ||
+             name == 'all') &&
             (proc_env.status == cst.ONLINE_STATUS ||
              proc_env.status == cst.LAUNCHING_STATUS)) {
 
@@ -859,6 +842,22 @@ module.exports = function(God) {
       return cb(null, pkg.version);
     });
   };
+
+  God.monitor = function Monitor(pm_id, cb) {
+    if (!God.clusters_db[pm_id] || !God.clusters_db[pm_id].pm2_env)
+      return cb(new Error('Unknown pm_id'));
+
+    God.clusters_db[pm_id].pm2_env._km_monitored = true;
+    return cb(null, { success : true, pm_id : pm_id });
+  }
+
+  God.unmonitor = function Monitor(pm_id, cb) {
+    if (!God.clusters_db[pm_id] || !God.clusters_db[pm_id].pm2_env)
+      return cb(new Error('Unknown pm_id'));
+
+    God.clusters_db[pm_id].pm2_env._km_monitored = false;
+    return cb(null, { success : true, pm_id : pm_id });
+  }
 
   God.getReport = function(arg, cb) {
     var report = {

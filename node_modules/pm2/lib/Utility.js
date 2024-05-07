@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 the PM2 project authors. All rights reserved.
+ * Copyright 2013-2022 the PM2 project authors. All rights reserved.
  * Use of this source code is governed by a license that
  * can be found in the LICENSE file.
  */
@@ -14,7 +14,7 @@ var cst       = require('../constants.js');
 var waterfall = require('async/waterfall');
 var util      = require('util');
 var url       = require('url');
-var dateFns = require('date-fns')
+var dayjs     = require('dayjs');
 var findPackageJson = require('./tools/find-package-json')
 
 var Utility = module.exports = {
@@ -98,7 +98,7 @@ var Utility = module.exports = {
     if (cst.PM2_LOG_DATE_FORMAT && typeof cst.PM2_LOG_DATE_FORMAT == 'string') {
       // Generate timestamp prefix
       function timestamp(){
-        return `${dateFns.format(Date.now(), cst.PM2_LOG_DATE_FORMAT)}:`;
+        return `${dayjs(Date.now()).format(cst.PM2_LOG_DATE_FORMAT)}:`;
       }
 
       var hacks = ['info', 'log', 'error', 'warn'], consoled = {};
@@ -260,7 +260,7 @@ var Utility = module.exports = {
   },
 
   checkPathIsNull: function(path) {
-    return path === 'NULL' || path === '/dev/null';
+    return path === 'NULL' || path === '/dev/null' || path === '\\\\.\\NUL';
   },
 
   generateUUID: function () {

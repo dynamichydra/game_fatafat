@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 the PM2 project authors. All rights reserved.
+ * Copyright 2013-2022 the PM2 project authors. All rights reserved.
  * Use of this source code is governed by a license that
  * can be found in the LICENSE file.
  */
@@ -12,7 +12,7 @@ var os         = require('os');
 var p          = require('path');
 var chalk      = require('chalk');
 
-var CliUx      = require('./CliUx');
+var UX      = require('./UX');
 
 var debug = require('debug')('pm2:monit');
 
@@ -219,7 +219,7 @@ Monit.drawRatio = function(bar_memory, memory) {
 
   bar_memory.ratio(memory,
 		   scale,
-		   CliUx.bytesToSize(memory, 3));
+		   UX.helpers.bytesToSize(memory, 3));
 };
 
 /**

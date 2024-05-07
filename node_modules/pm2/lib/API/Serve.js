@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 the PM2 project authors. All rights reserved.
+ * Copyright 2013-2022 the PM2 project authors. All rights reserved.
  * Use of this source code is governed by a license that
  * can be found in the LICENSE file.
  */
@@ -10,19 +10,13 @@ var http = require('http');
 var url = require('url');
 var path = require('path');
 var debug = require('debug')('pm2:serve');
-var semver = require('semver')
 
-var isNode4 = require('semver').lt(process.version, '6.0.0')
-
-if (!isNode4) {
-  var probe = require('@pm2/io');
-  var errorMeter = probe.meter({
-    name      : '404/sec',
-    samples   : 1,
-    timeframe : 60
-  })
-}
-
+var probe = require('@pm2/io');
+var errorMeter = probe.meter({
+  name      : '404/sec',
+  samples   : 1,
+  timeframe : 60
+})
 /**
  * list of supported content types.
  */
@@ -201,6 +195,7 @@ var contentTypes = {
 
 var options = {
   port: process.env.PM2_SERVE_PORT || process.argv[3] || 8080,
+  host: process.env.PM2_SERVE_HOST || process.argv[4] || '0.0.0.0',
   path: path.resolve(process.env.PM2_SERVE_PATH || process.argv[2] || '.'),
   spa: process.env.PM2_SERVE_SPA === 'true',
   homepage: process.env.PM2_SERVE_HOMEPAGE || '/index.html',
@@ -210,6 +205,10 @@ var options = {
   } : null,
   monitor: process.env.PM2_SERVE_MONITOR
 };
+
+if (typeof options.port === 'string') {
+  options.port = parseInt(options.port) || 8080
+}
 
 if (typeof options.monitor === 'string' && options.monitor !== '') {
   try {
@@ -239,16 +238,16 @@ http.createServer(function (request, response) {
 
   serveFile(request.url, request, response);
 
-}).listen(options.port, function (err) {
+}).listen(options.port, options.host, function (err) {
   if (err) {
     console.error(err);
     process.exit(1);
   }
-  console.log('Exposing %s directory on port %d', options.path, options.port);
+  console.log('Exposing %s directory on %s:%d', options.path, options.host, options.port);
 });
 
 function serveFile(uri, request, response) {
-  var file = url.parse(uri || request.url).pathname;
+  var file = decodeURIComponent(url.parse(uri || request.url).pathname);
 
   if (file === '/' || file === '') {
     file = options.homepage;
@@ -267,12 +266,11 @@ function serveFile(uri, request, response) {
 
   fs.readFile(filePath, function (error, content) {
     if (error) {
-      if ((!options.spa || request.wantHomepage)) {
+      if ((!options.spa || file === options.homepage)) {
         console.error('[%s] Error while serving %s with content-type %s : %s',
                       new Date(), filePath, contentType, error.message || error);
       }
-      if (!isNode4)
-        errorMeter.mark();
+      errorMeter.mark();
       if (error.code === 'ENOENT') {
         if (options.spa && !request.wantHomepage) {
           request.wantHomepage = true;
@@ -290,7 +288,13 @@ function serveFile(uri, request, response) {
       response.writeHead(500);
       return response.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
     }
-    response.writeHead(200, { 'Content-Type': contentType });
+
+    // Add CORS headers to allow browsers to fetch data directly
+    response.writeHead(200, {
+      'Content-Type': contentType,
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET'
+    });
     if (options.monitorBucket && contentType === 'text/html') {
       content = content.toString().replace('</body>', `
 <script>

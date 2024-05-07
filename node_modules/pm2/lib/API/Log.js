@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 the PM2 project authors. All rights reserved.
+ * Copyright 2013-2022 the PM2 project authors. All rights reserved.
  * Use of this source code is governed by a license that
  * can be found in the LICENSE file.
  */
@@ -7,7 +7,7 @@ var fs     = require('fs'),
     util   = require('util'),
     chalk  = require('chalk'),
     forEachLimit  = require('async/forEachLimit'),
-    moment = require('moment');
+    dayjs = require('dayjs');
 
 var Log = module.exports = {};
 
@@ -81,7 +81,7 @@ Log.tail = function(apps_list, lines, raw, callback) {
  * @return
  */
 
-Log.stream = function(Client, id, raw, timestamp, exclusive) {
+Log.stream = function(Client, id, raw, timestamp, exclusive, highlight) {
   var that = this;
 
   Client.launchBus(function(err, bus, socket) {
@@ -89,7 +89,7 @@ Log.stream = function(Client, id, raw, timestamp, exclusive) {
     socket.on('reconnect attempt', function() {
       if (global._auto_exit === true) {
         if (timestamp)
-          process.stdout.write(chalk['dim'](chalk.grey(moment().format(timestamp) + ' ')));
+          process.stdout.write(chalk['dim'](chalk.grey(dayjs().format(timestamp) + ' ')));
         process.stdout.write(chalk.blue(pad(DEFAULT_PADDING, 'PM2') + ' | ') + '[[[ Target PM2 killed. ]]]');
         process.exit(0);
       }
@@ -98,9 +98,12 @@ Log.stream = function(Client, id, raw, timestamp, exclusive) {
     var min_padding = 3
 
     bus.on('log:*', function(type, packet) {
-      if (id !== 'all'
-          && packet.process.name != id
-          && packet.process.pm_id != id)
+        var isMatchingProcess = id === 'all'
+            || packet.process.name == id
+            || packet.process.pm_id == id
+            || packet.process.namespace == id;
+
+      if (!isMatchingProcess)
         return;
 
       if ((type === 'out' && exclusive === 'err')
@@ -122,7 +125,7 @@ Log.stream = function(Client, id, raw, timestamp, exclusive) {
           return type === 'err' ? process.stderr.write(util.format(line) + '\n') : process.stdout.write(util.format(line) + '\n');
 
         if (timestamp)
-          process.stdout.write(chalk['dim'](chalk.grey(moment().format(timestamp) + ' ')));
+          process.stdout.write(chalk['dim'](chalk.grey(dayjs().format(timestamp) + ' ')));
 
         var name = packet.process.pm_id + '|' + packet.process.name;
 
@@ -135,7 +138,10 @@ Log.stream = function(Client, id, raw, timestamp, exclusive) {
           process.stdout.write(chalk.red(pad(' '.repeat(min_padding), name)  + ' | '));
         else if (!raw && (id === 'all' || id === 'PM2'))
           process.stdout.write(chalk.blue(pad(' '.repeat(min_padding), 'PM2') + ' | '));
-        process.stdout.write(util.format(line) + '\n');
+        if (highlight)
+          process.stdout.write(util.format(line).replace(highlight, chalk.bgBlackBright(highlight)) + '\n');
+        else
+          process.stdout.write(util.format(line)+ '\n');
       });
     });
   });
@@ -185,7 +191,7 @@ Log.devStream = function(Client, id, raw, timestamp, exclusive) {
           return process.stdout.write(util.format(line) + '\n');
 
         if (timestamp)
-          process.stdout.write(chalk['dim'](chalk.grey(moment().format(timestamp) + ' ')));
+          process.stdout.write(chalk['dim'](chalk.grey(dayjs().format(timestamp) + ' ')));
 
         var name = packet.process.name + '-' + packet.process.pm_id;
 
@@ -212,7 +218,7 @@ Log.jsonStream = function(Client, id) {
 
     bus.on('process:event', function(packet) {
       process.stdout.write(JSON.stringify({
-        timestamp : moment(packet.at),
+        timestamp : dayjs(packet.at),
         type      : 'process_event',
         status    : packet.event,
         app_name  : packet.process.name
@@ -234,7 +240,7 @@ Log.jsonStream = function(Client, id) {
 
       process.stdout.write(JSON.stringify({
         message : packet.data,
-        timestamp : moment(packet.at),
+        timestamp : dayjs(packet.at),
         type : type,
         process_id : packet.process.pm_id,
         app_name : packet.process.name
@@ -244,7 +250,7 @@ Log.jsonStream = function(Client, id) {
   });
 };
 
-Log.formatStream = function(Client, id, raw, timestamp, exclusive) {
+Log.formatStream = function(Client, id, raw, timestamp, exclusive, highlight) {
   var that = this;
 
   Client.launchBus(function(err, bus) {
@@ -277,7 +283,7 @@ Log.formatStream = function(Client, id, raw, timestamp, exclusive) {
 
         if (!raw) {
           if (timestamp)
-            process.stdout.write('timestamp=' + moment().format(timestamp) + ' ');
+            process.stdout.write('timestamp=' + dayjs().format(timestamp) + ' ');
           if (packet.process.name === 'PM2')
             process.stdout.write('app=pm2 ');
           if (packet.process.name !== 'PM2')
@@ -289,7 +295,10 @@ Log.formatStream = function(Client, id, raw, timestamp, exclusive) {
         }
 
         process.stdout.write('message=');
-        process.stdout.write(util.format(line) + '\n');
+        if (highlight)
+          process.stdout.write(util.format(line).replace(highlight, chalk.bgBlackBright(highlight)) + '\n');
+        else
+          process.stdout.write(util.format(line) + '\n');
       });
     });
   });
