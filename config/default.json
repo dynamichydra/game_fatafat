@@ -21,16 +21,16 @@
     "transfer_log":["id","fid","amt","tdate","tid","type"]
   },
   "db": {
-    "mysql": {
+    "mysql_": {
         "host": "localhost",
         "user": "root",
         "pass": "",
         "dbname": "game_fatafat",
         "port":3306
     },
-    "mysql_": {
+    "mysql": {
       "host": "localhost",
-      "user": "fatafat",
+      "user": "dbuser",
       "pass": "DokuMe@123$",
       "dbname": "fatafat",
       "port":3306

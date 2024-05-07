@@ -12,12 +12,12 @@ exports.init = {
           ]});
           if(user.SUCCESS){
             if(user.MESSAGE.status==1){
-              // let res = null;
-              // if(data.type == 'bet' && data.game == 'motka'){
-              //   res = await _.betMotka(commonObj,data.data,user.MESSAGE);
-              // }else if(data.type == 'bet' && (data.game == 'fatafat' || data.game == 'fatafatSuper' || data.game == 'nifty' || data.game == 'sensex')){
-              let  res = await _.betRocket(commonObj,data.data,user.MESSAGE,data.game);
-              // }
+              let res = null;
+              if(data.type == 'bet' && data.game == 'motka'){
+                res = await _.betMotka(commonObj,data.data,user.MESSAGE);
+              }else if(data.type == 'bet' && (data.game == 'fatafat' || data.game == 'fatafatSuper' || data.game == 'nifty' || data.game == 'sensex')){
+                res = await _.betRocket(commonObj,data.data,user.MESSAGE,data.game);
+              }
               result(res);
             }else{
               result({SUCCESS:false,MESSAGE:'Penal suspend, please contact upline.'});
@@ -38,18 +38,19 @@ exports.init = {
           {key:"id", operator:"is", value : data.game_id}
         ]});
         if(game.SUCCESS && (parseInt(game.MESSAGE.status) == 1 || parseInt(game.MESSAGE.status) == 0)){
-          const endTime = moment(game.MESSAGE.end).format("X");
-          // const endTime = moment(game.MESSAGE.end, 'YYYY-MM-DD HH:mm:ss');
-          //const startTime = moment(game.MESSAGE.start, 'YYYY-MM-DD HH:mm:ss');
-          const offsetString = "+06:30";
-          const offsetMinutes = moment.duration(offsetString).asMinutes();
+          //const endTime = moment(game.MESSAGE.end).format("X");
+          const endTime = moment(game.MESSAGE.end, 'YYYY-MM-DD HH:mm:ss');
+          const startTime = moment(game.MESSAGE.start, 'YYYY-MM-DD HH:mm:ss');
+          
+			//const offsetString = "+06:30";
+          //const offsetMinutes = moment.duration(offsetString).asMinutes();
 
           // Create curDate with the parsed UTC offset
-          const curDate = moment().utcOffset(offsetMinutes).format("X");
-          // console.log(curDate,endTime)
-          // console.log(curDate-endTime)
+          //const curDate = moment().utcOffset(offsetMinutes).format("X");
+          //console.log(curDate,endTime)
+          //console.log(curDate-endTime)
           // console.log(endTimecurDate.isBefore(endTime))
-          if (curDate.isBefore(endTime)){
+          if (startTime.isBefore(endTime)){
             let totAmt = 0;
             for(let i in data.bet){
               totAmt += parseFloat(data.bet[i].a);
@@ -88,12 +89,12 @@ exports.init = {
               
               if(betNo.length>0){
                 let bal = parseFloat(user.balance) - parseFloat(totAmt);
-                // let t = await commonObj.setData('user', {id:user.id, 
-                //   balance:bal
-                //   });
-                  // if(t.SUCCESS){
+                let t = await commonObj.setData('user', {id:user.id, 
+                  balance:bal
+                  });
+                  if(t.SUCCESS){
                     let insertSql = "INSERT INTO transaction_log SET id='b-"+Date.now()+"."+user.id+"', user_id="+user.id+",amt='"+totAmt+"', ref_no='"+data.game_id+"',description='"+gameType+" bet "+betNo.toString()+" - bal: "+bal+"' ";
-                    let t = await commonObj.customSQL(insertSql);
+                    t = await commonObj.customSQL(insertSql);
                     if(t.SUCCESS){
                       await commonObj.commitTransaction();
                       if(errMsg){
@@ -105,10 +106,10 @@ exports.init = {
                       await commonObj.rollbackTransaction();
                       result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
                     }
-                  // }else{
-                  //   await commonObj.rollbackTransaction();
-                  //   result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
-                  // }
+                  }else{
+                    await commonObj.rollbackTransaction();
+                    result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE});
+                  }
                 
               }else{
                 await commonObj.rollbackTransaction();
@@ -128,37 +129,37 @@ exports.init = {
       });
     },
 
-    // betMotka(commonObj,data,user){
-    //   return new Promise(async function (result) {
-    //     if(parseFloat(data.amt) < parseFloat(user.balance)){
-    //       let game = await commonObj.getData('game_inplay', {where:[
-    //         {key:"id", operator:"is", value : data.game_id}
-    //       ]});
-    //       if(game.SUCCESS && parseInt(game.MESSAGE.status) == 1){
-    //         data.service = (parseFloat(data.amt) * 2)/100;
-    //         data.amt = parseFloat(data.amt) - parseFloat(data.service);
-    //         let t = await commonObj.setData('motka_bet', data);
+    betMotka(commonObj,data,user){
+      return new Promise(async function (result) {
+        if(parseFloat(data.amt) < parseFloat(user.balance)){
+          let game = await commonObj.getData('game_inplay', {where:[
+            {key:"id", operator:"is", value : data.game_id}
+          ]});
+          if(game.SUCCESS && parseInt(game.MESSAGE.status) == 1){
+            data.service = (parseFloat(data.amt) * 2)/100;
+            data.amt = parseFloat(data.amt) - parseFloat(data.service);
+            let t = await commonObj.setData('motka_bet', data);
 
-    //         let bal = parseFloat(user.balance) - (data.amt + data.service);
-    //         t = await commonObj.setData('user', {id:user.id, 
-    //           balance:bal
-    //           });
+            let bal = parseFloat(user.balance) - (data.amt + data.service);
+            t = await commonObj.setData('user', {id:user.id, 
+              balance:bal
+              });
 
-    //         t = await commonObj.setData('transaction_log', {
-    //             user_id : user.id, 
-    //             amt : (data.amt + data.service) ,
-    //             ref_no : data.game_id,
-    //             description : "Motka bet "+(data.number??'')+' '+(data.size??'')+' '+(data.color??'')
-    //           });
+            t = await commonObj.setData('transaction_log', {
+                user_id : user.id, 
+                amt : (data.amt + data.service) ,
+                ref_no : data.game_id,
+                description : "Motka bet "+(data.number??'')+' '+(data.size??'')+' '+(data.color??'')
+              });
             
-    //         result(t);
-    //       }else{
-    //         result({SUCCESS:false,MESSAGE: 'Game already over.'});
-    //       }
-    //     }else{
-    //       result({SUCCESS:false,MESSAGE: 'Not sufficient balance.'});
-    //     }
-    //   });
-    // }
+            result(t);
+          }else{
+            result({SUCCESS:false,MESSAGE: 'Game already over.'});
+          }
+        }else{
+          result({SUCCESS:false,MESSAGE: 'Not sufficient balance.'});
+        }
+      });
+    }
 
 };
