@@ -42,6 +42,7 @@
     $('#gameList').on('click','.changeStatus',popupStatus);
     $('#gameList').on('click','.makeResult',popupResult);
     $('#gameList').on('click','.deleteGame',deleteGame);
+    $('#gameList').on('click','.balanceUpdate',balanceUpdate);
     $('#sitePopup').on('click','#closePopup',function(){
       popup.style.display = "none";
     });
@@ -178,6 +179,24 @@
         });
       }
     }
+  }
+
+  function balanceUpdate(){
+    let id = $(this).closest('.game').attr('data-gameid');
+    console.log(id);
+
+    backendSource.customRequest('general', null, {
+      id: id,
+      game:$('#gameName').val(),
+      grant_type:'balance_update'
+    }, function (data) {
+      if(data.SUCCESS){
+        DM_TEMPLATE.showSystemNotification(1, `User balance updated successfully.`);
+        getGameDetails();
+      }else{
+        DM_TEMPLATE.showSystemNotification(0, `Unable to update user balance.`);
+      }
+    });
   }
 
   function resetPattiBtn(){
@@ -471,6 +490,7 @@
               <span class="changeStatus">Change Status</span>
               <span class="makeResult">Make Result</span>
               <span class="deleteGame">Delete</span>
+              ${game.MESSAGE[i].result_done==0?`<span class="balanceUpdate">Balance Update</span>`:``}
               </div>`;
           }else if(game.MESSAGE[i].status==3){
             htm += `<div data-gameid="${game.MESSAGE[i].id}" class="game cancel">
