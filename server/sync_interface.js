@@ -16,12 +16,17 @@ DokuMe_SyncInterface.prototype.start = function(){
         let b =a.generateGame();
         res.json({SUCCESS:true, MESSAGE:b})
     });
+    _.app.get('/cleardata/:days', async function (req, res) {
+        const gObj = new game();
+        let t = await gObj.removeOldData(req.params.days);
+        res.json({MESSAGE:t});
+      });
 
     _.app.get('/game/generate', function (req, res) {
       const gObj = new game();
-      gObj.generateGame(['fatafat','fatafatSuper','nifty','sensex']);
+      gObj.generateGame(['fatafat','fatafatSuper','gameChance']);
       res.json({STATUS:true,MESSAGE:'done'});
-  });
+    });
     _.app.get('/game/start/fatafat', function (req, res) {
       const gObj = new game();
       gObj.startGame(['fatafat']);
@@ -32,15 +37,10 @@ DokuMe_SyncInterface.prototype.start = function(){
       gObj.startGame(['fatafatSuper']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
-    _.app.get('/game/start/nifty', function (req, res) {
-      const gObj = new game();
-      gObj.startGame(['nifty']);
-      res.json({STATUS:true,MESSAGE:'done'});
-  });
-    _.app.get('/game/start/sensex', function (req, res) {
-      const gObj = new game();
-      gObj.startGame(['sensex']);
-      res.json({STATUS:true,MESSAGE:'done'});
+  _.app.get('/game/start/gameChance', function (req, res) {
+    const gObj = new game();
+    gObj.startGame(['gameChance']);
+    res.json({STATUS:true,MESSAGE:'done'});
   });
 
     _.app.post('/game', function (req, res) {

@@ -32,7 +32,7 @@ var DM_MAIN = (function () {
     });
 
     el('goBackBTN').addEventListener('click', function () {
-      if(app_name ==  'game' && (page_name == 'fatafat' || page_name == 'fatafatSuper')){
+      if(app_name ==  'game' && (page_name == 'fatafat' || page_name == 'fatafatSuper' )){
         if($("#gamePlay").css("display") == 'block'){
           $("#gamePlay").css("display",'none'); 
           $("#gameType").css("display",'block'); 
@@ -42,7 +42,7 @@ var DM_MAIN = (function () {
         }else{
           history.back();
         }
-      }else if(page_name == 'nifty' || page_name=='sensex'){
+      }else if( page_name == 'gameChance'){
         if($("#gamePlay").css("display") == 'block'){
           $("#gamePlay").css("display",'none'); 
           $("#gameList").css("display",'block'); 

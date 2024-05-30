@@ -1,1 +1,1 @@
-ALTER TABLE `transfer_log` ADD `note` VARCHAR(30) NULL DEFAULT NULL AFTER `type`;
+ALTER TABLE `game_inplay` CHANGE `result_one` `result_one` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;

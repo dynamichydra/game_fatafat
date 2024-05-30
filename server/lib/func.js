@@ -1,7 +1,38 @@
 const moment = require('moment');
+const fs = require('fs');
+
 
 const impFunction = function () {
   
+}
+
+impFunction.prototype.readGameJson = function(file,name,par){
+  console.log(file,par)
+  return new Promise(async function (result) {
+    let msg = {'SUCCESS':false,'MESSAGE':'??'};
+    fs.readFile(file, 'utf8', (err, data) => {
+      if (err) {
+        msg = {'SUCCESS':false,'MESSAGE':err};
+      }else{
+        try {
+          let arr = {};
+          const jsonData = JSON.parse(data);
+          if(par.key && par.key.length >0){
+            for(let i in par.key){
+              // if(!arr[data[i]])
+                arr[par.key[i]] = jsonData[par.key[i]][name];
+            }
+          }else{
+            arr = jsonData;
+          }
+          msg = {'SUCCESS':true,'MESSAGE':arr};
+        } catch (parseError) {
+          msg = {'SUCCESS':false,'MESSAGE':parseError};
+        }
+      }
+      result(msg);
+    });
+  });
 }
 
 impFunction.prototype.findValueDate = function(data,key,val){
@@ -11,6 +42,7 @@ impFunction.prototype.findValueDate = function(data,key,val){
     else return null;
   });
 }
+
 impFunction.prototype.findValue = function(data,key,val){
   if(!data || data.length ==0) return null;
   return data.find(function(value) {

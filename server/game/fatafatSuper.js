@@ -1,11 +1,13 @@
 const moment = require('moment');
 const libFunc = require('../lib/func.js');
-let sql = require('../modules/mysql/common').init;
+const sql = require('../modules/mysql/common').init;
+const generalCls = require('./general.js');
 
 
 const fatafatSuper = function () {
   this.code = 'fatafatSuper';
   this.func = new libFunc();
+  this.gnrl = new generalCls();
   this.price = {'patti':125,'single':9.1};
   this.gameSet = {
     1:[1,100, 678, 777, 560, 470, 380, 290,119,137,236,146,669,579,399,588,489,245,155,227,344,335,128],
@@ -59,47 +61,14 @@ fatafatSuper.prototype.startGame = async function () {
 }
 
 fatafatSuper.prototype.generateGame = async function (data) {
-  let curDate = moment().format('YYYY-MM-DD');
-  if(data && data.date){
-    curDate = data.date;
+  let gameInfo = await this.getGameInfo({key:['info']})
+  if(gameInfo.SUCCESS){
+    gameInfo = gameInfo.MESSAGE.info;
+  }else{
+    gameInfo = [];
   }
-
-  let gameStartTime = [
-    {'name':"Bazi1",start:"07:10:00",end:"09:40:00",duration:150},
-    {'name':"Bazi2",start:"09:40:00",end:"11:10:00",duration:90},
-    {'name':"Bazi3",start:"11:10:00",end:"12:40:00",duration:90},
-    {'name':"Bazi4",start:"12:40:00",end:"14:10:00",duration:90},
-    {'name':"Bazi5",start:"14:10:00",end:"15:40:00",duration:90},
-    {'name':"Bazi6",start:"15:40:00",end:"17:10:00",duration:90},
-    {'name':"Bazi7",start:"17:10:00",end:"18:40:00",duration:90},
-    {'name':"Bazi8",start:"18:40:00",end:"20:10:00",duration:90}
-  ];
-  let _ = this;
-  return new Promise(async function (result) {
-    let conn = await sql.connectDB();
-    let res = await sql.getData('game_inplay', {'where':[
-        {'key':'game_code','operator':'is','value':_.code},
-        {'key':'start','operator':'higher-equal','value':curDate+' 00:00:00'},
-      ]});
-    for(let i in gameStartTime){
-      let found = false;
-      if(res.SUCCESS && res.MESSAGE.length>0){
-        found = _.func.findValueDate(res.MESSAGE, 'start',curDate+' '+gameStartTime[i].start);
-      }
-
-      if(!found){
-        await sql.setData('game_inplay',
-            {'name':gameStartTime[i].name,
-            'start':curDate+' '+gameStartTime[i].start,
-            'end':curDate+' '+gameStartTime[i].end,
-            'duration':gameStartTime[i].duration,
-            'game_code':_.code}
-          );
-      }
-    }
-    conn.release();
-    result(res);
-  });
+  let res = this.gnrl.generateGame(this.code, data.date, gameInfo, this.func);
+  return (res);
 }
 
 fatafatSuper.prototype.cancelAllBet = async function (data) {
@@ -168,10 +137,18 @@ fatafatSuper.prototype.generateResult = async function (data) {
     }
     conn.release();
     if(errorFound){
-      result({SUCCESS:false,MESSAGE:'There is some issue'});
+      result({SUCCESS:false,MESSAGE:'There is some issue to generate result'});
     }else{
       result({SUCCESS:true,MESSAGE:'Success'});
     }
+  });
+}
+
+fatafatSuper.prototype.getGameInfo = async function(data){
+  let _ = this;
+  return new Promise(async function (result) {
+    let res = await _.func.readGameJson('config/game.json',_.code,data);
+    result(res);
   });
 }
 

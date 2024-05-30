@@ -485,7 +485,7 @@ input{
   min-height: 300px;
 }
 
-#resultArea .lotteryWrapper{
+#resultArea .lotteryWrapper, #resultArea .gameChanceWrapper{
   border: #000 1px solid;
   padding: 0px;
   margin: 10px 0px 50px;
@@ -531,14 +531,11 @@ input{
   float: right;
 }
 
-.niftyGame, .sensexGame{
-  width: 90%;
-  height: 100px;
-  background-color: #fdcb5b;
-  box-shadow: 6px -6px 10px 2px rgb(0 0 0);
-  margin: auto;
+.gameChanceWrap{
+  display: flex;
+  flex-wrap: wrap;
 }
-
-.sensexGame .game, .niftyGame .game{
-  padding: 2rem !important;
+.gameChanceWrap .gameChancePopup{
+  flex-grow: 1;
+  width: 33%;
 }

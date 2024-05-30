@@ -10,7 +10,7 @@ let mysqlPool = mysql.createPool({
   user: config.get('db.mysql.user'),
   password: config.get('db.mysql.pass'),
   port: config.get('db.mysql.port'),
-  connectionLimit: 50000,
+  connectionLimit: 100,
   acquireTimeout: 60000,
   idleTimeoutMillis:60000,
   debug: false,
@@ -66,7 +66,7 @@ exports.init = {
   },
   rollbackTransaction : async function(){
     return new Promise(async function (result) {
-      let sql = `ROLLBACK;;`;
+      let sql = `ROLLBACK;`;
       db.query(sql, (err, rows) => {
         if (err) {
           result({SUCCESS:false,MESSAGE:err.message});
@@ -80,12 +80,10 @@ exports.init = {
       return new Promise(async function (result) {
         let isId = false;
         let cnd = " WHERE 1 ";
-        //console.log(data)
         if(data.where){
             for (const k in data.where) {
               if(!isId && data.where[k].key == 'id')isId=true;
-              console.log(data.where[k])
-                let key = data.where[k].key.split(".");
+              let key = data.where[k].key.split(".");
                 key = key[1]??key[0];
                 let tbl = key.split("##");
                 key = tbl[1]??tbl[0];
@@ -173,8 +171,20 @@ exports.init = {
       let __ = this;
 
       return new Promise(async function (result) {
-        console.log(sql);
         db.query(sql, function(err,rows) {
+            if (err) {
+              result({SUCCESS:false,MESSAGE:err.message});
+            }else{
+              result({SUCCESS:true,MESSAGE:rows});
+            }
+        });
+      });
+    },
+    customSQLPar : async function(sql,arr){
+      let __ = this;
+
+      return new Promise(async function (result) {
+        db.query(sql,[arr], function(err,rows) {
             if (err) {
               result({SUCCESS:false,MESSAGE:err.message});
             }else{
@@ -223,7 +233,6 @@ exports.init = {
           }
           sql = `INSERT INTO ${type} (${key.toString()}) VALUES( ${val.toString()});`;
         }
-        console.log(sql)
         db.query(sql, function(err) {
             if (err) {
               result({SUCCESS:false,MESSAGE:err.message});

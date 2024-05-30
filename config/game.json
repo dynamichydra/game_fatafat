@@ -1,0 +1,34 @@
+{
+    "price":{
+        "fatafat":{"patti":100,"single":9},
+        "fatafatSuper":{"patti":125,"single":9.1},
+        "gameChance":{"single":9}
+    },
+    "info":{
+        "gameChance" : [
+            {"start":"06:00:00","end":"13:00:00","duration":330,"name":{"monday":"Dear Dwarka","tuesday":"Dear Godavari","wednesday":"Dear Indus","thursday":"Dear Mahanadi","friday":"Dear Meghna","saturday":"Dear Narmada","sunday":"Dear Yamuna"}},
+            {"start":"13:00:00","end":"18:00:00","duration":270,"name":{"monday":"Dear Desert","tuesday":"Dear Wave","wednesday":"Dear Hill","thursday":"Dear Lake","friday":"Dear Mountain","saturday":"Dear River","sunday":"Dear Sea"}},
+            {"start":"18:00:00","end":"20:00:00","duration":120,"name":{"monday":"Dear Eagle Evening","tuesday":"Dear Parrot Evening","wednesday":"Dear Flamingo Evening","thursday":"Dear Hawk Evening","friday":"Dear Ostrich Evening","saturday":"Dear Vulture Evening","sunday":"Dear Falcon Evening"}}
+        ],
+        "fatafat" : [
+            {"start":"07:30:00","end":"09:58:00","duration":162,"name":{"monday":"Bazi1","tuesday":"Bazi1","wednesday":"Bazi1","thursday":"Bazi1","friday":"Bazi1","saturday":"Bazi1","sunday":"Bazi1"}},
+            {"start":"09:58:00","end":"11:28:00","duration":90,"name":{"monday":"Bazi2","tuesday":"Bazi2","wednesday":"Bazi2","thursday":"Bazi2","friday":"Bazi2","saturday":"Bazi2","sunday":"Bazi2"}},
+            {"start":"11:28:00","end":"12:58:00","duration":90,"name":{"monday":"Bazi3","tuesday":"Bazi3","wednesday":"Bazi3","thursday":"Bazi3","friday":"Bazi3","saturday":"Bazi3","sunday":"Bazi3"}},
+            {"start":"12:58:00","end":"14:28:00","duration":90,"name":{"monday":"Bazi4","tuesday":"Bazi4","wednesday":"Bazi4","thursday":"Bazi4","friday":"Bazi4","saturday":"Bazi4","sunday":"Bazi4"}},
+            {"start":"14:28:00","end":"15:58:00","duration":90,"name":{"monday":"Bazi5","tuesday":"Bazi5","wednesday":"Bazi5","thursday":"Bazi5","friday":"Bazi5","saturday":"Bazi5"}},
+            {"start":"15:58:00","end":"17:28:00","duration":90,"name":{"monday":"Bazi6","tuesday":"Bazi6","wednesday":"Bazi6","thursday":"Bazi6","friday":"Bazi6","saturday":"Bazi6"}},
+            {"start":"17:28:00","end":"18:58:00","duration":90,"name":{"monday":"Bazi7","tuesday":"Bazi7","wednesday":"Bazi7","thursday":"Bazi7","friday":"Bazi7","saturday":"Bazi7"}},
+            {"start":"18:58:00","end":"20:28:00","duration":90,"name":{"monday":"Bazi8","tuesday":"Bazi8","wednesday":"Bazi8","thursday":"Bazi8","friday":"Bazi8","saturday":"Bazi8"}}
+          ],
+          "fatafatSuper" : [
+            {"start":"07:10:00","end":"09:40:00","duration":162,"name":{"monday":"Bazi1","tuesday":"Bazi1","wednesday":"Bazi1","thursday":"Bazi1","friday":"Bazi1","saturday":"Bazi1","sunday":"Bazi1"}},
+            {"start":"09:40:00","end":"11:10:00","duration":90,"name":{"monday":"Bazi2","tuesday":"Bazi2","wednesday":"Bazi2","thursday":"Bazi2","friday":"Bazi2","saturday":"Bazi2","sunday":"Bazi2"}},
+            {"start":"11:10:00","end":"12:40:00","duration":90,"name":{"monday":"Bazi3","tuesday":"Bazi3","wednesday":"Bazi3","thursday":"Bazi3","friday":"Bazi3","saturday":"Bazi3","sunday":"Bazi3"}},
+            {"start":"12:40:00","end":"14:10:00","duration":90,"name":{"monday":"Bazi4","tuesday":"Bazi4","wednesday":"Bazi4","thursday":"Bazi4","friday":"Bazi4","saturday":"Bazi4","sunday":"Bazi4"}},
+            {"start":"14:10:00","end":"15:40:00","duration":90,"name":{"monday":"Bazi5","tuesday":"Bazi5","wednesday":"Bazi5","thursday":"Bazi5","friday":"Bazi5","saturday":"Bazi5"}},
+            {"start":"15:40:00","end":"17:10:00","duration":90,"name":{"monday":"Bazi6","tuesday":"Bazi6","wednesday":"Bazi6","thursday":"Bazi6","friday":"Bazi6","saturday":"Bazi6"}},
+            {"start":"17:10:00","end":"18:40:00","duration":90,"name":{"monday":"Bazi7","tuesday":"Bazi7","wednesday":"Bazi7","thursday":"Bazi7","friday":"Bazi7","saturday":"Bazi7"}},
+            {"start":"18:40:00","end":"20:10:00","duration":90,"name":{"monday":"Bazi8","tuesday":"Bazi8","wednesday":"Bazi8","thursday":"Bazi8","friday":"Bazi8","saturday":"Bazi8"}}
+          ]
+    }
+}

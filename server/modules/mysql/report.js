@@ -115,9 +115,7 @@ exports.init = {
             sql += "UNION ";
             sql += "(SELECT name,ph,balance, T.id, 'Receive' note, 0 de, amt cr, tdate dt FROM `transfer_log` T INNER JOIN `user` U ON U.id = T.tid "+cnd+" )";
             sql += " UNION ";
-            sql += "(SELECT name,ph,balance, T.id, 'NIFTY' note, amt de, price cr, bdate dt  FROM `nifty` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
-            sql += "UNION  ";
-            sql += "(SELECT name,ph,balance, T.id, 'SENSEX' note, amt de, price cr, bdate dt  FROM `sensex` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
+            sql += "(SELECT name,ph,balance, T.id, 'Game of Chance' note, amt de, price cr, bdate dt  FROM `gameChance` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
             sql += "UNION  ";
             sql += "(SELECT name,ph,balance, T.id, 'Kolkata fatafat' note, amt de, price cr, bdate dt  FROM `fatafat` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
             sql += "UNION  ";
@@ -143,17 +141,17 @@ exports.init = {
               }
 
               if(data.pType == 'admin'){
-                sql = "(SELECT SUM(amt) amt,SUM(price) price, U1.ph u1name, U1.id u1id, U1.type u1type ,U2.ph u2name, U2.id u2id, U2.type u2type ,U3.ph u3name, U3.id u3id, U3.type u3type,U4.ph u4name, U4.id u4id, U4.type u4type  FROM `"+data.gCode+"` AS R INNER JOIN game_inplay G ON G.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id LEFT JOIN `user` U3 ON U2.pid = U3.id LEFT JOIN `user` U4 ON U3.pid = U4.id "+cnd+" GROUP BY U1.id)";
+                sql = "(SELECT SUM(amt) amt,SUM(price) price, U1.ph u1name, U1.id u1id, U1.type u1type , U1.percentage u1pct, U2.ph u2name, U2.id u2id, U2.type u2type ,U2.percentage u2pct,U3.ph u3name, U3.id u3id, U3.type u3type,U3.percentage u3pct,U4.ph u4name, U4.id u4id, U4.type u4type, U4.percentage u4pct  FROM `"+data.gCode+"` AS R INNER JOIN game_inplay G ON G.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id LEFT JOIN `user` U3 ON U2.pid = U3.id LEFT JOIN `user` U4 ON U3.pid = U4.id "+cnd+" GROUP BY U1.id)";
                 
               }else{
-                sql = "(SELECT SUM(amt) amt,SUM(price) price, U1.ph u1name, U1.id u1id, U1.type u1type ,U2.ph u2name, U2.id u2id, U2.type u2type, null u3name, null u3id,null u3type,null , null,null   FROM `"+data.gCode+"` AS R INNER JOIN game_inplay G ON G.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id  "+cnd+" AND U2.id ="+data.pId+" GROUP BY U1.id)";
+                sql = "(SELECT SUM(amt) amt,SUM(price) price, U1.ph u1name, U1.id u1id, U1.type u1type ,U1.percentage u1pct,U2.ph u2name, U2.id u2id, U2.type u2type,U2.percentage u2pct, null u3name, null u3id,null u3type,0 u3pct,null , null,null,0 u4pct   FROM `"+data.gCode+"` AS R INNER JOIN game_inplay G ON G.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id  "+cnd+" AND U2.id ="+data.pId+" GROUP BY U1.id)";
                 if(data.pType != 'distributer'){
                   sql += " UNION ";
-                  sql += "(SELECT SUM(amt) amt,SUM(price) price, U1.ph u1name, U1.id u1id, U1.type u1type ,U2.ph u2name, U2.id u2id, U2.type u2type ,U3.ph u3name, U3.id u3id, U3.type u3type,null, null,null  FROM `"+data.gCode+"` AS R INNER JOIN game_inplay G ON G.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id LEFT JOIN `user` U3 ON U2.pid = U3.id "+cnd+" AND U3.id ="+data.pId+" GROUP BY U2.id)";
+                  sql += "(SELECT SUM(amt) amt,SUM(price) price, U1.ph u1name, U1.id u1id, U1.type u1type,U1.percentage u1pct ,U2.ph u2name, U2.id u2id, U2.type u2type,U2.percentage u2pct ,U3.ph u3name, U3.id u3id, U3.type u3type,U3.percentage u3pct,null, null,null,0 u4pct  FROM `"+data.gCode+"` AS R INNER JOIN game_inplay G ON G.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id LEFT JOIN `user` U3 ON U2.pid = U3.id "+cnd+" AND U3.id ="+data.pId+" GROUP BY U2.id)";
     
                   if(data.pType != 'super'){
                     sql += " UNION ";
-                    sql += "(SELECT SUM(amt) amt,SUM(price) price, U1.ph u1name, U1.id u1id, U1.type u1type ,U2.ph u2name, U2.id u2id, U2.type u2type ,U3.ph u3name, U3.id u3id, U3.type u3type,U4.ph u4name, U4.id u4id, U4.type u4type  FROM `"+data.gCode+"` AS R INNER JOIN game_inplay G ON G.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id LEFT JOIN `user` U3 ON U2.pid = U3.id LEFT JOIN `user` U4 ON U3.pid = U4.id "+cnd+" AND U4.id ="+data.pId+" GROUP BY U3.id)";
+                    sql += "(SELECT SUM(amt) amt,SUM(price) price, U1.ph u1name, U1.id u1id, U1.type u1type,U1.percentage u1pct ,U2.ph u2name, U2.id u2id, U2.type u2type,U2.percentage u2pct ,U3.ph u3name, U3.id u3id, U3.type u3type,U3.percentage u3pct,U4.ph u4name, U4.id u4id, U4.type u4type,U4.percentage u4pct  FROM `"+data.gCode+"` AS R INNER JOIN game_inplay G ON G.id=R.game_id INNER JOIN `user` U1 ON U1.id = R.user_id LEFT JOIN `user` U2 ON U1.pid = U2.id LEFT JOIN `user` U3 ON U2.pid = U3.id LEFT JOIN `user` U4 ON U3.pid = U4.id "+cnd+" AND U4.id ="+data.pId+" GROUP BY U3.id)";
                 
                   }
                 }

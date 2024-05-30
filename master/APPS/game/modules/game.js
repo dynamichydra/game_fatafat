@@ -15,8 +15,7 @@
     };
   let price = {'fatafat':{'patti':100,'single':9},
         'fatafatSuper':{'patti':125,'single':9.1},
-        'nifty':{'jori':60},
-        'sensex':{'jori':60}
+        'gameChance':{'patti':250,'jori':75,'single':9}
       };
   let curGame = null;
   let gameCode = null;
@@ -49,9 +48,10 @@
     $('#sitePopup').on('click','.saveBtn',saveStatus);
     $('#sitePopup').on('click','.innerNum',saveResult);
     $('#sitePopup').on('click','.saveResultLottery',saveResultLottery);
+    $('#sitePopup').on('click','.saveResultGameChance',saveResultGameChance);
     $('#gameName').on('change',function(){
       gameCode = $('#gameName').val();
-      getGameDetails();
+      getGameInfo();
     });
 
     $('#sitePopup').on('click','.pattiNumDiv',pattiNumDiv);
@@ -67,8 +67,55 @@
         `);
       });
       gameCode = $('#gameName').val();
+      getGameInfo();
+    });
+  }
+
+  function getGameInfo(){
+    backendSource.gameRequest(gameCode, 'gameInfo', {
+      key : ['price']
+
+    }, function (data) {
+      if(data.MESSAGE)
+      price = data.MESSAGE.price;
       getGameDetails();
     });
+  }
+
+  function saveResultGameChance(){
+    let id = $('#sitePopup').find('.popup-content').attr('data-id');
+    let one = $('#sitePopup').find('.gameChanceresultIn.one').val();
+    let two = $('#sitePopup').find('.gameChanceresultIn.two').val();
+    let three = $('#sitePopup').find('.gameChanceresultIn.three').val();
+    let four = $('#sitePopup').find('.gameChanceresultIn.four').val();
+    let five = $('#sitePopup').find('.gameChanceresultIn.five').val();
+    let six = $('#sitePopup').find('.gameChanceresultIn.six').val();
+    let seven = $('#sitePopup').find('.gameChanceresultIn.seven').val();
+    let eight = $('#sitePopup').find('.gameChanceresultIn.eight').val();
+    let nine = $('#sitePopup').find('.gameChanceresultIn.nine').val();
+    let ten = $('#sitePopup').find('.gameChanceresultIn.ten').val();
+    if(one.length !=4 || two.length !=4 || three.length !=4 || four.length !=4 || five.length !=4 || six.length !=4 || seven.length !=4 || eight.length !=4 || nine.length !=4 || ten.length !=4 ){
+      DM_TEMPLATE.showSystemNotification(0, `Please provide all numbers properly.`);
+      return;
+    }
+    let text = `Do you really make this win?\nNum - ${one}, ${two}, ${three}, ${four}, ${five}, ${six}, ${seven}, ${eight}, ${nine}, ${ten}.`;
+    if (confirm(text) == true) {
+      if(id){
+        backendSource.gameRequest(gameCode, 'result', {
+          id: id,
+          num : one+","+two+","+three+","+four+","+five+","+six+","+seven+","+eight+","+nine+","+ten
+
+        }, function (data) {
+          if(data.SUCCESS){
+            getGameDetails();
+            DM_TEMPLATE.showSystemNotification(1, `Game result updated successfully.`);
+            popup.style.display = "none";
+          }else{
+            DM_TEMPLATE.showSystemNotification(0, `Unable to update. Please try again.`);
+          }
+        });
+      }
+    }
   }
 
   function generateGame(){
@@ -201,7 +248,7 @@
 
   function resetPattiBtn(){
     $('.pattiNum').html('');
-    $('.innerNumLottery').removeClass('highlight');
+    $('.innerNumLottery,.innerNumGameChance').removeClass('highlight');
     $('.singlePrice').html('');
     $('.joriPrice').html('');
     $('.pattiPrice').html('');
@@ -221,9 +268,7 @@
       let jori = $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()}"]`).find('p').html();
       // let patti = $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()+''+$('.pattiNum.three').html()}"]`).find('p').html();
       
-      // single = single?parseFloat(single)*price[gameCode].single:0;
-      jori = jori?parseFloat(jori)*price[gameCode].jori:0;
-      // patti = patti?parseFloat(patti)*price[gameCode].patti:0;
+      jori = jori?parseFloat(jori)*price.jori:0;
       // $('.singlePrice').html('Price: <b>'+single+'</b>');
       $('.joriPrice').html('Price: <b>'+jori+'</b>');
       // $('.pattiPrice').html('Price: <b>'+patti+'</b>');
@@ -232,7 +277,7 @@
     }
   }
 
-  function lotteryResult(id,cGame){
+  function gameChanceResult(id,cGame){
     let gameStatus = 'Upcoming';
     if(cGame.status==1){
       gameStatus = 'Running';
@@ -241,7 +286,7 @@
     }else if(cGame.status==3){
       gameStatus = 'Cancel';
     }
-    
+    let resArr = cGame.result_one?cGame.result_one.split(','):[];
     $(`#sitePopup`).html(`<div class="popup-content pattiList" style="width: 98%; max-width: 98%;" data-id="${cGame.id}">
           <span class="close" id="closePopup">&times;</span>
           <h2>Game: ${$('#gameName option:selected').text()} - ${cGame.name} <span>${gameStatus}</span></h2>
@@ -252,40 +297,50 @@
               <div class="lotteryResult">
                 <div class="container mt-3">
                   <div class="row">
-                    <div class="col-2">Put number for result</div>
+                    
                     <div class="col-2">
-                      <div class="pattiNum one"></div>
+                      <input type="number" maxlength="4" class="gameChanceresultIn one" placeholder="One" value="${resArr[0]??''}"/>
                     </div>
                     <div class="col-2">
-                      <div class="pattiNum two"></div>
+                      <input type="number" maxlength="4" class="gameChanceresultIn two" placeholder="Two" value="${resArr[1]??''}"/>
                     </div>
                     <div class="col-2">
-                      <button type="button" class="gameButton resetPattiBtn">Reset</button>
+                      <input type="number" maxlength="4" class="gameChanceresultIn three" placeholder="Three" value="${resArr[2]??''}"/>
                     </div>
                     <div class="col-2">
-                      <button type="button" class="gameButton saveResultLottery">Save</button>
+                      <input type="number" maxlength="4" class="gameChanceresultIn four" placeholder="Four" value="${resArr[3]??''}"/>
+                    </div>
+                    <div class="col-2">
+                      <input type="number" maxlength="4" class="gameChanceresultIn five" placeholder="Five" value="${resArr[4]??''}"/>
                     </div>
                     <div class="col-2"></div>
-
-
+                    <div class="col-12">&nbsp;</div>
+                    <div class="col-2">
+                      <input type="number" maxlength="4" class="gameChanceresultIn six" placeholder="Six" value="${resArr[5]??''}"/>
+                    </div>
+                    <div class="col-2">
+                      <input type="number" maxlength="4" class="gameChanceresultIn seven" placeholder="Seven" value="${resArr[6]??''}"/>
+                    </div>
+                    <div class="col-2">
+                      <input type="number" maxlength="4" class="gameChanceresultIn eight" placeholder="eight" value="${resArr[7]??''}"/>
+                    </div>
+                    <div class="col-2">
+                      <input type="number" maxlength="4" class="gameChanceresultIn nine" placeholder="Nine" value="${resArr[8]??''}"/>
+                    </div>
+                    <div class="col-2">
+                      <input type="number" maxlength="4" class="gameChanceresultIn ten" placeholder="Ten" value="${resArr[9]??''}"/>
+                    </div>
+                    <div class="col-2">
+                      <button type="button" class="gameButton saveResultGameChance">Save</button>
+                    </div>
+                    
                     <div class="col-12 mt-3"></div>
-                    <div class="col-1"></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="1">1</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="2">2</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="3">3</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="4">4</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="5">5</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="6">6</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="7">7</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="8">8</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="9">9</div></div>
-                    <div class="col-1" style="padding: 0px 5px;"><div class="pattiNumDiv green" data-num="0">0</div></div>
-
+                    
                   </div>
                 </div>
               </div>
-              <div class="lotteryJoriTotal"></div>
-              <div class="lotteryJori"></div>
+              <div class="lotterySingleTotal"></div>
+              <div class="lotterySingle"></div>
             </div>
           </div>
         </div>`);
@@ -294,7 +349,7 @@
         {'key':'game_id','operator':'is','value':id}
       ]}, function (data) {
       if(data.SUCCESS && data.MESSAGE.length>0){
-        let tot = {'Single':0,'Jori':0,'Patti':0};
+        let tot = {'Single':0};
         let amt = {};
         for(let i in data.MESSAGE){
           if(!amt['n-'+data.MESSAGE[i].number])amt['n-'+data.MESSAGE[i].number]={amt:0,number:data.MESSAGE[i].number,type:data.MESSAGE[i].type};
@@ -316,17 +371,13 @@
               <div class="innerNumLottery" data-no="${item[i][1].number}">
               ${item[i][1].number}
               <p>${item[i][1].amt}</p>
-              <div class="tooltiptext">Price: ${(item[i][1].amt*price[gameCode][item[i][1].type.toLowerCase()])}</div>
+              <div class="tooltiptext">Price: ${(item[i][1].amt*price[item[i][1].type.toLowerCase()])}</div>
             </div>
           `);
         }
-        // $('.lotterySingleTotal').html(`Single Total Game: <b>${tot['Single']}</b><span class="singlePrice"></span>`);
-        $('.lotteryJoriTotal').html(`Total Game Played: <b>${tot['Jori']}</b><span class="joriPrice"></span>`);
-        // $('.lotteryPattiTotal').html(`Patti Total Game: <b>${tot['Patti']}</b><span class="pattiPrice"></span>`);
-        $('#totalBet').html(tot['Single']+tot['Jori']+tot['Patti']);
-        $(".pattiNum.one").html(cGame.result_one[0]);
-        $(".pattiNum.two").html(cGame.result_one[1]);
-        pattiNumDiv();
+        $('.lotterySingleTotal').html(`Total Game Played: <b>${tot['Single']}</b><span class="singlePrice"></span>`);
+        $('#totalBet').html(tot['Single']);
+        
       }
     });
   }
@@ -336,8 +387,8 @@
     if(curGame){
       let cGame = curGame.find((a)=>{return a.id==id;});
       if(cGame){
-        if(gameCode == 'nifty' || gameCode=='sensex'){
-          lotteryResult(id,cGame);
+        if(gameCode=='gameChance'){
+          gameChanceResult(id,cGame);
           return;
         }
         generateResultPopup(cGame);
@@ -352,9 +403,9 @@
                 amt = parseFloat(amt) + parseFloat(data.MESSAGE[i].amt);
                 $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).css('background-color','#f7ff00');
                 if($(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).hasClass('head')){
-                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price[gameCode].single)+'</br>Bet: '+amt);
+                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price.single)+'</br>Bet: '+amt);
                 }else{
-                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price[gameCode].patti)+'</br>Bet: '+amt);
+                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price.patti)+'</br>Bet: '+amt);
                 }
                 $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('p').html(amt);
               }
@@ -460,7 +511,7 @@
     let htm = ``;
     if(game.SUCCESS){
       if(game.MESSAGE.length>0){
-        game.MESSAGE.sort((a,b)=>a.name.localeCompare(b.name));
+        game.MESSAGE.sort((a,b)=>a.start.localeCompare(b.start));
         curGame = game.MESSAGE;
         for(let i in game.MESSAGE){
           htm += `<div class="boxContainer">

@@ -9,6 +9,10 @@
   .disable{
     color: brown !important;
   }
+  .showShareSpn{
+    font-size: 12px;
+    float: right;
+  }
 </style>
 <div class="profile">
   <div class="walletContainer">
@@ -42,7 +46,10 @@
 <div class="container">
   <div class="row" style="justify-content: space-around;text-align: center;">
     <div class="conBox col-12 my-5">
-      <h3><span id="backResult" style="float: left;display: none;"><i class="bi bi-arrow-left"></i></span>Profit / Loss : <span id="transUser"></span></h3>
+      <h3><span id="backResult" style="float: left;display: none;"><i class="bi bi-arrow-left"></i></span>Profit / Loss : 
+        <span id="transUser"></span>
+        <span class="showShareSpn">Show share <input type="checkbox" id="showShareCk" value="1" checked=""></span>
+      </h3>
       <table class="table table-striped" id="tblUser">
         <thead>
           <tr>
@@ -51,6 +58,10 @@
             <th scope="col">Played</th>
             <th scope="col">Win</th>
             <th scope="col">P/L</th>
+            <th scope="col" class="showShare">Share</th>
+            <th scope="col" class="showShare">Played Share</th>
+            <th scope="col" class="showShare">Win Share</th>
+            <th scope="col" class="showShare">P/L Share</th>
           </tr>
         </thead>
         <tbody>

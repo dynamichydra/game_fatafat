@@ -5,8 +5,7 @@
   let baji = {
     'fatafat':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
     'fatafatSuper':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
-    'nifty':['All','Bazi1'],
-    'sensex':['All','Bazi1']
+    'gameChance':['All','DL1','DL2','DL3']
   };
   let gameCode = null;
 

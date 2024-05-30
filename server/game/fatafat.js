@@ -1,11 +1,12 @@
 const moment = require('moment');
 const libFunc = require('../lib/func.js');
-let sql = require('../modules/mysql/common').init;
-
+const sql = require('../modules/mysql/common').init;
+const generalCls = require('./general.js');
 
 const fatafat = function () {
   this.code = 'fatafat';
   this.func = new libFunc();
+  this.gnrl = new generalCls();
   this.price = {'patti':100,'single':9};
   this.gameSet = {
     1:[1,100, 678, 777, 560, 470, 380, 290,119,137,236,146,669,579,399,588,489,245,155,227,344,335,128],
@@ -28,77 +29,18 @@ fatafat.prototype.startGame = async function () {
   let curDate = moment().format('YYYY-MM-DD H:mm')+':00';
   let t = await sql.customSQL("UPDATE game_inplay SET status = '2' WHERE game_code ='"+_.code+"' AND status = '1' AND end <= '"+curDate+"'");
   t = await sql.customSQL("UPDATE game_inplay SET status = '1' WHERE game_code ='"+_.code+"' AND status = '0' AND start <= '"+curDate+"'");
-  
-  // let runningGame = await sql.getData('game_inplay', {'where':[
-  //   {'key':'game_code','operator':'is','value':_.code},
-  //   {'key':'status','operator':'is','value':1}
-  // ]});
-  // if(runningGame.SUCCESS && runningGame.MESSAGE.length>0){
-    
-  //   for(const item of runningGame.MESSAGE){
-  //     await sql.setData('game_inplay',{
-  //       'id':item.id,
-  //       'status':2});
-  //   }
-  // }
-  
-  // let targetGame = await sql.getData('game_inplay', {'where':[
-  //   {'key':'game_code','operator':'is','value':_.code},
-  //   {'key':'status','operator':'is','value':0},
-  //   {'key':'start','operator':'lower-equal','value':curDate}
-  // ]});
-  // if(targetGame.SUCCESS && targetGame.MESSAGE.length>0){
-  //   for(const item of targetGame.MESSAGE){
-  //     await sql.setData('game_inplay',{
-  //       'id':item.id,
-  //       'status':1});
-  //   }
-  // }
   conn.release();
 }
 
 fatafat.prototype.generateGame = async function (data) {
-  let curDate = moment().format('YYYY-MM-DD');
-  if(data && data.date){
-    curDate = data.date;
+  let gameInfo = await this.getGameInfo({key:['info']})
+  if(gameInfo.SUCCESS){
+    gameInfo = gameInfo.MESSAGE.info;
+  }else{
+    gameInfo = [];
   }
-
-  let gameStartTime = [
-    {'name':"Bazi1",start:"07:30:00",end:"10:00:00",duration:162},
-    {'name':"Bazi2",start:"10:00:00",end:"11:30:00",duration:90},
-    {'name':"Bazi3",start:"11:30:00",end:"13:00:00",duration:90},
-    {'name':"Bazi4",start:"13:00:00",end:"14:30:00",duration:90},
-    {'name':"Bazi5",start:"14:30:00",end:"16:00:00",duration:90},
-    {'name':"Bazi6",start:"16:00:00",end:"17:30:00",duration:90},
-    {'name':"Bazi7",start:"17:30:00",end:"19:00:00",duration:90},
-    {'name':"Bazi8",start:"19:00:00",end:"20:30:00",duration:90}
-  ];
-  let _ = this;
-  return new Promise(async function (result) {
-    let conn = await sql.connectDB();
-    let res = await sql.getData('game_inplay', {'where':[
-        {'key':'game_code','operator':'is','value':_.code},
-        {'key':'start','operator':'higher-equal','value':curDate+' 00:00:00'},
-      ]});
-    for(let i in gameStartTime){
-      let found = false;
-      if(res.SUCCESS && res.MESSAGE.length>0){
-        found = _.func.findValueDate(res.MESSAGE, 'start',curDate+' '+gameStartTime[i].start);
-      }
-
-      if(!found){
-        await sql.setData('game_inplay',
-            {'name':gameStartTime[i].name,
-            'start':curDate+' '+gameStartTime[i].start,
-            'end':curDate+' '+gameStartTime[i].end,
-            'duration':gameStartTime[i].duration,
-            'game_code':_.code}
-          );
-      }
-    }
-    conn.release();
-    result(res);
-  });
+  let res = this.gnrl.generateGame(this.code, data.date, gameInfo, this.func);
+  return (res);
 }
 
 fatafat.prototype.cancelAllBet = async function (data) {
@@ -166,10 +108,18 @@ fatafat.prototype.generateResult = async function (data) {
     }
     conn.release();
     if(errorFound){
-      result({SUCCESS:false,MESSAGE:'There is some issue'});
+      result({SUCCESS:false,MESSAGE:'There is some issue to generate result'});
     }else{
       result({SUCCESS:true,MESSAGE:'Success'});
     }
+  });
+}
+
+fatafat.prototype.getGameInfo = async function(data){
+  let _ = this;
+  return new Promise(async function (result) {
+    let res = await _.func.readGameJson('config/game.json',_.code,data);
+    result(res);
   });
 }
 

@@ -1,89 +1,46 @@
 const moment = require('moment');
 const libFunc = require('../lib/func.js');
-let sql = require('../modules/mysql/common').init;
+const sql = require('../modules/mysql/common').init;
+const generalCls = require('./general.js');
 
 
-const nifty = function () {
-  this.code = 'nifty';
+const gameChance = function () {
+  this.code = 'gameChance';
   this.func = new libFunc();
-  this.price = {'jori':60};
+  this.gnrl = new generalCls();
+  // this.price = {'patti':250,'jori':75,'single':9};
 }
 
-nifty.prototype.startGame = async function () {
+gameChance.prototype.getGameInfo = async function(data){
+  let _ = this;
+  return new Promise(async function (result) {
+    let res = await _.func.readGameJson('config/game.json',_.code,data);
+    result(res);
+  });
+}
+
+gameChance.prototype.startGame = async function () {
   let _ = this;
   let conn = await sql.connectDB();
 
   let curDate = moment().format('YYYY-MM-DD H:mm')+':00';
   let t = await sql.customSQL("UPDATE game_inplay SET status = '2' WHERE game_code ='"+_.code+"' AND status = '1' AND end <= '"+curDate+"'");
   t = await sql.customSQL("UPDATE game_inplay SET status = '1' WHERE game_code ='"+_.code+"' AND status = '0' AND start <= '"+curDate+"'");
-  
-
-  // let runningGame = await sql.getData('game_inplay', {'where':[
-  //   {'key':'game_code','operator':'is','value':_.code},
-  //   {'key':'status','operator':'is','value':1}
-  // ]});
-  // if(runningGame.SUCCESS && runningGame.MESSAGE.length>0){
-    
-  //   for(const item of runningGame.MESSAGE){
-  //     await sql.setData('game_inplay',{
-  //       'id':item.id,
-  //       'status':2});
-  //   }
-  // }
-  // let curDate = moment().format('YYYY-MM-DD H:mm')+':00';
-  // let targetGame = await sql.getData('game_inplay', {'where':[
-  //   {'key':'game_code','operator':'is','value':_.code},
-  //   {'key':'status','operator':'is','value':0},
-  //   {'key':'start','operator':'lower-equal','value':curDate}
-  // ]});
-  // if(targetGame.SUCCESS && targetGame.MESSAGE.length>0){
-  //   for(const item of targetGame.MESSAGE){
-  //     await sql.setData('game_inplay',{
-  //       'id':item.id,
-  //       'status':1});
-  //   }
-  // }
   conn.release();
 }
 
-nifty.prototype.generateGame = async function (data) {
-  let curDate = moment().format('YYYY-MM-DD');
-  if(data && data.date){
-    curDate = data.date;
+gameChance.prototype.generateGame = async function (data) {
+  let gameInfo = await this.getGameInfo({key:['info']});
+  if(gameInfo.SUCCESS){
+    gameInfo = gameInfo.MESSAGE.info;
+  }else{
+    gameInfo = [];
   }
-
-  let gameStartTime = [
-    {'name':"Bazi1",start:"06:00:00",end:"14:00:00",duration:330}
-  ];
-  let _ = this;
-  return new Promise(async function (result) {
-    let conn = await sql.connectDB();
-    let res = await sql.getData('game_inplay', {'where':[
-        {'key':'game_code','operator':'is','value':_.code},
-        {'key':'start','operator':'higher-equal','value':curDate+' 00:00:00'},
-      ]});
-    for(let i in gameStartTime){
-      let found = false;
-      if(res.SUCCESS && res.MESSAGE.length>0){
-        found = _.func.findValueDate(res.MESSAGE, 'start',curDate+' '+gameStartTime[i].start);
-      }
-
-      if(!found){
-        await sql.setData('game_inplay',
-            {'name':gameStartTime[i].name,
-            'start':curDate+' '+gameStartTime[i].start,
-            'end':curDate+' '+gameStartTime[i].end,
-            'duration':gameStartTime[i].duration,
-            'game_code':_.code}
-          );
-      }
-    }
-    conn.release();
-    result(res);
-  });
+  let res = this.gnrl.generateGame(this.code, data.date, gameInfo, this.func);
+  return (res);
 }
 
-nifty.prototype.cancelAllBet = async function (data) {
+gameChance.prototype.cancelAllBet = async function (data) {
   let _ = this;
   return new Promise(async function (result) {
     let conn = await sql.connectDB();
@@ -117,8 +74,10 @@ nifty.prototype.cancelAllBet = async function (data) {
   });
 }
 
-nifty.prototype.generateResult = async function (data) {
+gameChance.prototype.generateResult = async function (data) {
   let _ = this;
+  let gameInfo = await this.getGameInfo({key:['price']});
+  gameInfo = gameInfo.MESSAGE.price;
   
   return new Promise(async function (result) {
     let conn = await sql.connectDB();
@@ -132,9 +91,9 @@ nifty.prototype.generateResult = async function (data) {
       let inPlay = res.MESSAGE;
       await sql.startTransaction();
 
-      let t = await sql.setData('game_inplay',{'id':inPlay.id,'status':'2','result_one':data.jori});
+      let t = await sql.setData('game_inplay',{'id':inPlay.id,'status':'2','result_one':data.num});
       if(t.SUCCESS){
-        t = await sql.customSQL("CALL setStockResult("+inPlay.id+",'"+_.code+"','"+_.price.jori+"')");
+        t = await sql.customSQL("CALL setGameChanceResult("+inPlay.id+",'"+_.code+"','"+gameInfo.single+"')");
         if(!t.SUCCESS){
           errorFound = true;
         }
@@ -149,11 +108,11 @@ nifty.prototype.generateResult = async function (data) {
     }
     conn.release();
     if(errorFound){
-      result({SUCCESS:false,MESSAGE:'There is some issue'});
+      result({SUCCESS:false,MESSAGE:'There is some issue to generate result.'});
     }else{
       result({SUCCESS:true,MESSAGE:'Success'});
     }
   });
 }
 
-module.exports = nifty; 
+module.exports = gameChance; 

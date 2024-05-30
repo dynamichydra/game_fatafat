@@ -53,7 +53,7 @@
   text-align: center;
 }
 
-.innerNum,.innerNumLottery{
+.innerNum,.innerNumLottery,.innerNumGameChance{
   border: #ed0000 1px solid;
   width: 100%;
   margin: 10px auto;
@@ -61,7 +61,7 @@
   position: relative;
   display: inline-block;
 }
-.innerNum p,.innerNumLottery p{
+.innerNum p,.innerNumLottery p,.innerNumGameChance p{
   font-size: 10px;
   color: #00a11e;
   font-weight: bold;
@@ -70,7 +70,7 @@
   background-color: #dede04;
 }
 
-.innerNum .tooltiptext,.innerNumLottery .tooltiptext {
+.innerNum .tooltiptext,.innerNumLottery .tooltiptext,.innerNumGameChance .tooltiptext  {
   visibility: hidden;
   width: 120px;
   background-color: #555;
@@ -87,7 +87,7 @@
   transition: opacity 0.3s;
 }
 
-.innerNum:hover .tooltiptext, .innerNumLottery:hover .tooltiptext {
+.innerNum:hover .tooltiptext, .innerNumLottery:hover .tooltiptext, .innerNumGameChance:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
 }
@@ -137,4 +137,26 @@
 }
 #totalBet{
   font-weight: bold;
+}
+
+.gameChanceSingle, .gameChanceJori, .gameChancePatti{
+  display: flex;
+    flex-wrap: wrap;
+}
+.innerNumGameChance{
+  flex: 0 0 10%; /* Flex-grow, flex-shrink, flex-basis */
+  max-width: 9%; /* Ensure each column occupies no more than 10% of the container */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+  border: 1px solid #000;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 20px;
+  margin-right: 1%;
+}
+.gameChanceSingleTotal ,.gameChanceJoriTotal,.gameChancePattiTotal{
+  text-align: center;
+  margin-top: 20px;
+}
+.innerNumGameChance.highlight{
+  background-color: #dede04;
 }

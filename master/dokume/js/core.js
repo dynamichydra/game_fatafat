@@ -220,7 +220,7 @@ var DM_CORE = (function () {
     let menu = `<div><a href="#/home">Home</a></div>`;
     if(auth.config.type == 'admin'){
       menu += `<div><a href="#/game">Game</a></div>
-      
+      <div><a href="#/sports">Sports</a></div>
       `;
     }
     menu += `<div><a href="#/user">Users</a></div>

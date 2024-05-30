@@ -11,8 +11,7 @@
   let baji = {
     'fatafat':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
     'fatafatSuper':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
-    'nifty':['All','Bazi1'],
-    'sensex':['All','Bazi1']
+    'gameChance':['All','DL1','DL2','DL3'],
   };
   init();
 
@@ -39,6 +38,20 @@
       gameCode = $('#gameName').val();
       generateBajiOpt();
     });
+    $('#showShareCk').on('change',function(){
+      toggleShowShare();
+    });
+  }
+
+
+  function toggleShowShare(){
+    let lfckv = document.getElementById("showShareCk").checked;
+    if(lfckv){
+      $('.showShare').show();
+    }else{
+      $('.showShare').hide();
+    }
+
   }
 
   function getGameType(){
@@ -128,6 +141,7 @@
                     id:data.MESSAGE[i].u3id,
                     name:data.MESSAGE[i].u3name,
                     type:data.MESSAGE[i].u3type,
+                    pct:data.MESSAGE[i].u3pct,
                     amt:0,
                     price:0
                   }
@@ -140,6 +154,7 @@
                     id:data.MESSAGE[i].u4id,
                     name:data.MESSAGE[i].u4name,
                     type:data.MESSAGE[i].u4type,
+                    pct:data.MESSAGE[i].u4pct,
                     amt:0,
                     price:0
                   }
@@ -155,6 +170,7 @@
                     id:data.MESSAGE[i].u2id,
                     name:data.MESSAGE[i].u2name,
                     type:data.MESSAGE[i].u2type,
+                    pct:data.MESSAGE[i].u2pct,
                     amt:0,
                     price:0
                   }
@@ -167,6 +183,7 @@
                     id:data.MESSAGE[i].u3id,
                     name:data.MESSAGE[i].u3name,
                     type:data.MESSAGE[i].u3type,
+                    pct:data.MESSAGE[i].u3pct,
                     amt:0,
                     price:0
                   }
@@ -182,6 +199,7 @@
                     id:data.MESSAGE[i].u1id,
                     name:data.MESSAGE[i].u1name,
                     type:data.MESSAGE[i].u1type,
+                    pct:data.MESSAGE[i].u1pct,
                     amt:0,
                     price:0
                   }
@@ -194,6 +212,7 @@
                     id:data.MESSAGE[i].u2id,
                     name:data.MESSAGE[i].u2name,
                     type:data.MESSAGE[i].u2type,
+                    pct:data.MESSAGE[i].u2pct,
                     amt:0,
                     price:0
                   }
@@ -208,6 +227,7 @@
                   id:data.MESSAGE[i].u1id,
                   name:data.MESSAGE[i].u1name,
                   type:data.MESSAGE[i].u1type,
+                  pct:data.MESSAGE[i].u1pct,
                   amt:0,
                   price:0
                 }
@@ -217,7 +237,7 @@
             }
           }
           
-          let totAmt= 0, totPrice = 0;
+          let totAmt= 0, totPrice = 0, shareAmt= 0, sharePrice = 0;
           for(const i in arr){
             $('#tblUser tbody').append(`
               <tr >
@@ -231,10 +251,29 @@
                 <td>${arr[i].amt}</td>
                 <td>${arr[i].price}</td>
                 <td>${(arr[i].amt-arr[i].price)}</td>
+                <td class="showShare">${arr[i].pct}%</td>
+                ${arr[i].pct>0?`
+                <td class="showShare">${((arr[i].amt*arr[i].pct)/100)}</td>
+                <td class="showShare">${((arr[i].price*arr[i].pct)/100)}</td>
+                <td class="showShare">${(((arr[i].amt-arr[i].price)*arr[i].pct)/100)}</td>
+                `:`
+                <td class="showShare">${arr[i].amt}</td>
+                <td class="showShare">${arr[i].price}</td>
+                <td class="showShare">${(arr[i].amt-arr[i].price)}</td>
+                `}
+                
               </tr>
             `);
             totAmt += arr[i].amt;
             totPrice += arr[i].price;
+            if(arr[i].pct>0){
+              shareAmt += (arr[i].amt*arr[i].pct)/100;
+              sharePrice += (arr[i].price*arr[i].pct)/100;
+            }else{
+              shareAmt += arr[i].amt;
+              sharePrice += arr[i].price;
+            }
+            
           }
           $('#tblUser tbody').append(`
               <tr >
@@ -242,6 +281,10 @@
                 <td>${totAmt}</td>
                 <td>${totPrice}</td>
                 <td>${(totAmt-totPrice)}</td>
+                <td class="showShare"></td>
+                <td class="showShare">${shareAmt}</td>
+                <td class="showShare">${sharePrice}</td>
+                <td class="showShare">${(shareAmt-sharePrice)}</td>
               </tr>
             `);
           
@@ -249,10 +292,12 @@
           $('#tblUser tbody').append(`
               <tr>
                 <td colspan="5">No record found</td>
+                <td colspan="4" class="showShare"></td>
               </tr>
             `);
         }
       }
+      toggleShowShare();
       DM_TEMPLATE.showBtnLoader(elq('.searchUser'), false);
     });
   }

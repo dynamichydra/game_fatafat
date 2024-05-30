@@ -7,7 +7,7 @@
     "category":["id","name","icon","small_icon","subdomain","show_count"],
     "game":["id","name","rule","category","subdomain","bg_type","bg","status"],
     "user":["id","name","ph","email","pid","pwd","access_token","login_time","for_dev","change_pwd","type","status","balance","percentage"],
-    "game_inplay":["id","name", "game_code", "start", "end", "duration","result_one","result_two","result_three", "status"],
+    "game_inplay":["id","name", "game_code", "start", "end", "duration","result_one","result_two","result_three", "status","result_done"],
     "user_bank":["id","bank_name","name","acc_no","city","ifsc","email","ph","branch","user_id"],
     "settings":["id","upi_acc","upi_qr"],
     "payment":["id","user_id","pdate","ref_no","pamt","upi_acc","order_no","status","amt","type"],
@@ -15,20 +15,19 @@
     "motka_bet":["id","user_id","game_id","amt","service","number","size","color","bdate","btype","bname", "status","price"],
     "fatafat":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
     "fatafatSuper":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
-    "nifty":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
-    "sensex":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
+    "gameChance":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
     "transaction_log":["id","user_id","amt","tdate","type","ref_no","description"],
     "transfer_log":["id","fid","amt","tdate","tid","type"]
   },
   "db": {
-    "mysql_": {
+    "mysql": {
         "host": "localhost",
         "user": "root",
         "pass": "",
-        "dbname": "game_fatafat",
+        "dbname": "fatafat_new",
         "port":3306
     },
-    "mysql": {
+    "mysql_": {
       "host": "localhost",
       "user": "dbuser",
       "pass": "DokuMe@123$",

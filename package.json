@@ -22,7 +22,7 @@
     "network": "^0.7.0",
     "node-cron": "^3.0.2",
     "nodemon": "^3.0.1",
-    "pm2": "^3.5.2",
+    "pm2": "^5.3.1",
     "request": "^2.88.2",
     "request-promise": "^0.0.1",
     "sqlite3": "^5.1.6",

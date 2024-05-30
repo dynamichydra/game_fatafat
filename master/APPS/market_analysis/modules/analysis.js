@@ -15,8 +15,7 @@
     };
   let price = {'fatafat':{'patti':100,'single':9},
       'fatafatSuper':{'patti':125,'single':9.1},
-      'nifty':{'jori':60},
-      'sensex':{'jori':60}
+      'gameChance':{'patti':250,'jori':75,'single':9}
     };
   let curGame = null;
   let gameCode = null;
@@ -43,7 +42,7 @@
     });
     $('#gameName').on('change',function(){
       gameCode = $('#gameName').val();
-      getGameDetails();
+      getGameInfo();
     });
   }
 
@@ -58,6 +57,17 @@
         `);
       });
       gameCode = $('#gameName').val();
+      getGameInfo();
+    });
+  }
+
+  function getGameInfo(){
+    backendSource.gameRequest(gameCode, 'gameInfo', {
+      key : ['price']
+
+    }, function (data) {
+      if(data.MESSAGE)
+      price = data.MESSAGE.price;
       getGameDetails();
     });
   }
@@ -72,9 +82,9 @@
             amt = amtAll
           }
           if($(`.innerNum[data-no="${gameSet[i][j]}"]`).hasClass('head')){
-            $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('.tooltiptext').html('Price: '+(amt*price[gameCode].single)+'</br>Bet: '+amt);
+            $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('.tooltiptext').html('Price: '+(amt*price.single)+'</br>Bet: '+amt);
           }else{
-            $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('.tooltiptext').html('Price: '+(amt*price[gameCode].patti)+'</br>Bet: '+amt);
+            $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('.tooltiptext').html('Price: '+(amt*price.patti)+'</br>Bet: '+amt);
           }
           $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('p').html(amt);
         }
@@ -87,75 +97,13 @@
     }
   }
 
-  function lotteryResult(id,cGame){
-    let gameStatus = 'Upcoming';
-    if(cGame.status==1){
-      gameStatus = 'Running';
-    }else if(cGame.status==2){
-      gameStatus = 'Completed';
-    }else if(cGame.status==3){
-      gameStatus = 'Cancel';
-    }
-    
-    $(`#sitePopup`).html(`<div class="popup-content pattiList" style="width: 98%; max-width: 98%;" data-id="${cGame.id}">
-          <span class="close" id="closePopup">&times;</span>
-          <h2>Game: ${$('#gameName option:selected').text()} - ${cGame.name} <span>${gameStatus}</span></h2>
-          <p>Game timing: ${moment(cGame.start).format("HH:mm")} to ${moment(cGame.end).format("HH:mm")}</p>
-          <p>Total Game: <span id="totalBet">0</span></p>
-          <div class="container">
-            <div class="row lotteryHtm" >
-              
-              <div class="lotteryJori"></div>
-            </div>
-          </div>
-        </div>`);
-        popup.style.display = "block";
-
-      backendSource.getObject(gameCode, null, {where:[
-        {'key':'game_id','operator':'is','value':id}
-      ]}, function (data) {
-      if(data.SUCCESS && data.MESSAGE.length>0){
-        let tot = {'Single':0,'Jori':0,'Patti':0};
-        let amt = {};
-        for(let i in data.MESSAGE){
-          if(!amt['n-'+data.MESSAGE[i].number])amt['n-'+data.MESSAGE[i].number]={amt:0,number:data.MESSAGE[i].number,type:data.MESSAGE[i].type};
-          amt['n-'+data.MESSAGE[i].number].amt += data.MESSAGE[i].amt;
-        }
-        
-        let item = [];
-        for (let i in amt) {
-          item.push([i, amt[i]]);
-        }
-
-        item.sort(function(a, b) {
-            return a[1].amt - b[1].amt;
-        });
-
-        for(let i in item){
-          tot[item[i][1].type] += item[i][1].amt;
-          $(`.lottery`+item[i][1].type).append(`
-              <div class="innerNumLottery" data-no="${item[i][1].number}">
-              ${item[i][1].number}
-              <p>${item[i][1].amt}</p>
-              <div class="tooltiptext">Price: ${(item[i][1].amt*price[gameCode][item[i][1].type.toLowerCase()])}</div>
-            </div>
-          `);
-        }
-        // $('.lotterySingleTotal').html(`Single Total Game: <b>${tot['Single']}</b>`);
-        // $('.lotteryJoriTotal').html(`Jori Total Game: <b>${tot['Jori']}</b>`);
-        // $('.lotteryPattiTotal').html(`Patti Total Game: <b>${tot['Patti']}</b>`);
-        $('#totalBet').html(tot['Single']+tot['Jori']+tot['Patti']);
-      }
-    });
-  }
-
   function popupResult(){
     let id = $(this).closest('.game').attr('data-gameid');
     if(curGame){
       let cGame = curGame.find((a)=>{return a.id==id;});
       if(cGame){
-        if(gameCode == 'nifty' || gameCode=='sensex'){
-          lotteryResult(id,cGame);
+        if(gameCode == 'gameChance'){
+          gameChanceResult(id,cGame);
           return;
         }
         generateResultPopup(cGame);
@@ -190,9 +138,9 @@
                 amt = Math.round(parseFloat(amt) + parseFloat(amtTmp));
                 amtAll = Math.round(parseFloat(amtAll) + parseFloat(data.MESSAGE[i].amt));
                 if($(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).hasClass('head')){
-                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price[gameCode].single)+'</br>Bet: '+amt);
+                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price.single)+'</br>Bet: '+amt);
                 }else{
-                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price[gameCode].patti)+'</br>Bet: '+amt);
+                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price.patti)+'</br>Bet: '+amt);
                 }
                 $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('p').html(amt);
                 $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).attr('data-amt',amt);
@@ -321,6 +269,66 @@
     }
     $('#gameList').html(htm);
     DM_TEMPLATE.showBtnLoader(elq('.searchGame'), false);
+  }
+
+  function gameChanceResult(id,cGame){
+    let gameStatus = 'Upcoming';
+    if(cGame.status==1){
+      gameStatus = 'Running';
+    }else if(cGame.status==2){
+      gameStatus = 'Completed';
+    }else if(cGame.status==3){
+      gameStatus = 'Cancel';
+    }
+    
+    $(`#sitePopup`).html(`<div class="popup-content pattiList" style="width: 98%; max-width: 98%;" data-id="${cGame.id}">
+          <span class="close" id="closePopup">&times;</span>
+          <h2>Game: ${$('#gameName option:selected').text()} - ${cGame.name} <span>${gameStatus}</span></h2>
+          <p>Game timing: ${moment(cGame.start).format("HH:mm")} to ${moment(cGame.end).format("HH:mm")}</p>
+          <p>Total Game: <span id="totalBet">0</span></p>
+          <div class="container">
+            <div class="row gameChanceHtm" >
+              
+              <div class="gameChanceSingleTotal"></div>
+              <div class="gameChanceSingle"></div>
+            </div>
+          </div>
+        </div>`);
+        popup.style.display = "block";
+
+      backendSource.getObject(gameCode, null, {where:[
+        {'key':'game_id','operator':'is','value':id}
+      ]}, function (data) {
+      if(data.SUCCESS && data.MESSAGE.length>0){
+        let tot = {'Single':0};
+        let amt = {};
+        for(let i in data.MESSAGE){
+          if(!amt['n-'+data.MESSAGE[i].number])amt['n-'+data.MESSAGE[i].number]={amt:0,number:data.MESSAGE[i].number,type:data.MESSAGE[i].type};
+          amt['n-'+data.MESSAGE[i].number].amt += data.MESSAGE[i].amt;
+        }
+        
+        let item = [];
+        for (let i in amt) {
+          item.push([i, amt[i]]);
+        }
+
+        item.sort(function(a, b) {
+            return a[1].amt - b[1].amt;
+        });
+        for(let i in item){
+          tot[item[i][1].type] += item[i][1].amt;
+          $(`.gameChance`+item[i][1].type).append(`
+              <div class="innerNumGameChance" data-no="${item[i][1].number}">
+              ${item[i][1].number}
+              <p>${item[i][1].amt}</p>
+              <div class="tooltiptext">Price: ${(item[i][1].amt*price[item[i][1].type.toLowerCase()])}</div>
+            </div>
+          `);
+        }
+        $('.gameChanceSingleTotal').html(`Single Total Game: <b>${tot['Single']}</b>`);
+        $('#totalBet').html(tot['Single']);
+      }
+    });
   }
 
 })();

@@ -4,17 +4,26 @@ const gameLib = function () {
 }
 
 gameLib.prototype.executeTask = function (obj) {
-  let _ = this;
-  let msg = {SUCCESS:false,MESSAGE:'There is some issue.'};
+  const cls = require('./'+obj.TYPE+'.js');
+  let game = new cls();
+  let msg = {SUCCESS:false,MESSAGE:'There is some issue executeGameRequest.'};
   return new Promise(async function (result) {
-    if(obj.TYPE == 'fatafat'){
-      msg = await _.gameFatafat(obj.TASK,obj.DATA);
-    }else if(obj.TYPE == 'fatafatSuper'){
-      msg = await _.gameFatafatSuper(obj.TASK,obj.DATA);
-    }else if(obj.TYPE == 'nifty'){
-      msg = await _.gameNifty(obj.TASK,obj.DATA);
-    }else if(obj.TYPE == 'sensex'){
-      msg = await _.gameSensex(obj.TASK,obj.DATA);
+    switch(obj.TASK){
+      case 'start':
+        msg = await game.startGame();
+        break;
+      case 'generate':
+        msg = await game.generateGame(obj.DATA);
+        break;
+      case 'result':
+        msg = await game.generateResult(obj.DATA);
+        break;
+      case 'cancelBet':
+        msg = await game.cancelAllBet(obj.DATA);
+        break;
+      case 'gameInfo':
+        msg = await game.getGameInfo(obj.DATA);
+        break;
     }
     result(msg);
   });
@@ -26,10 +35,8 @@ gameLib.prototype.startGame = function (type) {
       this.gameFatafat('start');
     }else if(type[i] == 'fatafatSuper'){
       this.gameFatafatSuper('start');
-    }else if(type[i] == 'nifty'){
-      this.gameNifty('start');
-    }else if(type[i] == 'sensex'){
-      this.gameSensex('start');
+    }else if(type[i] == 'gameChance'){
+      this.gameGameChance('start');
     }
   }
 }
@@ -40,86 +47,25 @@ gameLib.prototype.generateGame = function (type) {
       this.gameFatafat('generate');
     }else if(type[i] == 'fatafatSuper'){
       this.gameFatafatSuper('generate');
-    }else if(type[i] == 'nifty'){
-      this.gameNifty('generate');
-    }else if(type[i] == 'sensex'){
-      this.gameSensex('generate');
+    }else if(type[i] == 'gameChance'){
+      this.gameGameChance('generate');
     }
   }
+}
+
+gameLib.prototype.removeOldData = function (days) {
+  const cls = require('./general.js');
+  let obj = new cls();
+  return new Promise(async function (result) {
+     let msg = await obj.removeOldData(days);
+     result(msg);
+  })
 }
 
 gameLib.prototype.gameFatafat = function (task,data) {
   const cls = require('./fatafat.js');
   let game = new cls();
-  let msg = {SUCCESS:false,MESSAGE:'There is some issue.'};
-  return new Promise(async function (result) {
-    switch(task){
-      case 'start':
-        msg = await game.startGame();
-        break;
-      case 'generate':
-        msg = await game.generateGame(data);
-        break;
-      case 'result':
-        msg = await game.generateResult(data);
-        break;
-      case 'cancelBet':
-        msg = await game.cancelAllBet(data);
-        break;
-    }
-    result(msg);
-  });
-}
-gameLib.prototype.gameFatafatSuper = function (task,data) {
-  const cls = require('./fatafatSuper.js');
-  let game = new cls();
-  let msg = {SUCCESS:false,MESSAGE:'There is some issue.'};
-  return new Promise(async function (result) {
-    switch(task){
-      case 'start':
-        msg = await game.startGame();
-        break;
-      case 'generate':
-        msg = await game.generateGame(data);
-        break;
-      case 'result':
-        msg = await game.generateResult(data);
-        break;
-      case 'cancelBet':
-        msg = await game.cancelAllBet(data);
-        break;
-    }
-    result(msg);
-  });
-}
-
-gameLib.prototype.gameNifty = function (task,data) {
-  const cls = require('./nifty.js');
-  let game = new cls();
-  let msg = {SUCCESS:false,MESSAGE:'There is some issue.'};
-  return new Promise(async function (result) {
-    switch(task){
-      case 'start':
-        msg = await game.startGame();
-        break;
-      case 'generate':
-        msg = await game.generateGame(data);
-        break;
-      case 'result':
-        msg = await game.generateResult(data);
-        break;
-      case 'cancelBet':
-        msg = await game.cancelAllBet(data);
-        break;
-    }
-    result(msg);
-  });
-}
-
-gameLib.prototype.gameSensex = function (task,data) {
-  const cls = require('./sensex.js');
-  let game = new cls();
-  let msg = {SUCCESS:false,MESSAGE:'There is some issue.'};
+  let msg = {SUCCESS:false,MESSAGE:'There is some issue in game fatafat.'};
   return new Promise(async function (result) {
     switch(task){
       case 'start':
