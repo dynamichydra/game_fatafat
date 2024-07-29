@@ -1,0 +1,62 @@
+<link href="APPS/sports/css/style.css" rel="stylesheet">
+
+<div id="sportsMenuWrapper">
+    <div class="mr-auto" id="sportsMenu"></div>
+</div>
+
+  <div class="profile adminUserSrc">
+    <div class="walletContainer">
+      <div class="container">
+        <div class="row">
+          <div class=" col-2 input-containe">
+            <input type="text" id="uName" placeholder="Name"/>
+          </div>
+          <div class=" col-2 input-containe">
+            <input type="text" id="uId" placeholder="User ID"/>
+          </div>
+          <div class=" col-2 input-containe">
+            <input type="text" id="uPhone" placeholder="Phone no"/>
+          </div>
+          <div class=" col-2 input-containe">
+            <select type="text" id="uStatus">
+              <option value="1">Enable</option>
+              <option value="2">Disable</option>
+            </select>
+          </div>
+          <div class=" col-2">
+            <div class="gameButton searchUser"> <i class="bi bi-binoculars"></i> </div>
+          </div>
+          <div class=" col-2">
+            <div class="gameButton createUser"> <i class="bi bi-person-plus"></i> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="row" style="justify-content: space-around;text-align: center;">
+      <div class="conBox col-12 my-5">
+        <h3><span id="backResult" style="float: left;display:none;"><i class="bi bi-arrow-left"></i></span>User List : <span id="mainUser"></span></h3>
+        <table class="table table-striped" id="tblUser">
+          <thead>
+            <tr>
+              <th scope="col" style="display: none;">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">UID</th>
+              <th scope="col">Type</th>
+              <th scope="col">Status</th>
+              <th scope="col">%</th>
+              <th scope="col">Balance</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <script src="APPS/user/modules/user.js"></script>

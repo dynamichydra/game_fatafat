@@ -1,0 +1,64 @@
+<link href="APPS/sports/css/style.css" rel="stylesheet">
+
+<div id="sportsMenuWrapper">
+    <div class="mr-auto" id="sportsMenu"></div>
+</div>
+
+  <div class="profile adminUserSrc">
+    <div class="walletContainer">
+      <div class="container">
+        <div class="row">
+          <div class=" col-2 input-containe">
+            <input type="text" id="uName" placeholder="Name"/>
+          </div>
+          <div class=" col-2 input-containe">
+            <select id="uType">
+              <option value="">All</option>
+              <option value="International">International</option>
+              <option value="Domestic">Domestic</option>
+            </select>
+          </div>
+          <div class=" col-2 input-containe">
+            <select id="uGame"></select>
+          </div>
+          <div class=" col-2 input-containe">
+            <select id="uStatus">
+              <option value="1">Enable</option>
+              <option value="2">Disable</option>
+            </select>
+          </div>
+          <div class=" col-2">
+            <div class="gameButton searchTeam"> <i class="bi bi-binoculars"></i> </div>
+          </div>
+          <div class=" col-2">
+            <div class="gameButton createTeam"> <i class="bi bi-person-plus"></i> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="row" style="justify-content: space-around;text-align: center;">
+      <div class="conBox col-12 my-5">
+        <h3>Team List</h3>
+        <table class="table table-striped" id="tblTeam">
+          <thead>
+            <tr>
+              <th scope="col" style="display: none;">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Game</th>
+              <th scope="col">Type</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <script src="APPS/sports/modules/team.js"></script>

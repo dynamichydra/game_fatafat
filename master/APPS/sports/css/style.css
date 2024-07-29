@@ -1,0 +1,22 @@
+#sportsMenuWrapper{
+    margin: auto;
+    justify-content: center;
+    z-index: 9999;
+    max-width: 100%;
+    overflow-x: auto;
+    background: linear-gradient(-180deg,#00d96e 0,#228a38 100%);
+  }
+  #sportsMenu{
+    width: max-content;
+    margin: auto;
+  }
+  #sportsMenu div{
+    width: max-content;
+    padding: 5px 12px;
+    float: left;
+    border-right: 1px solid #fff;
+  }
+  #sportsMenu div a {
+    color: #fff;
+    text-decoration: none;
+}

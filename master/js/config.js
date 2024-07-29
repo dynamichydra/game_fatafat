@@ -5,6 +5,7 @@ var DM_CORE_CONFIG = {
   BACKEND_URL: 'http://localhost:3005/',
   URL_SUFIX: 'task/submit', 
   URL_GAME: 'game', 
+  URL_SPORTS: 'sports', 
   DOKUME_PLATFORM: 'private',
   SUBDOMAIN_WHITELABEL: true, // load a subdomain depending whitelabel
   AUTH_MODE: 'private', // private, landing, public, mix

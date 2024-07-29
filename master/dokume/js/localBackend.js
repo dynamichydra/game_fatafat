@@ -36,6 +36,27 @@
     _.executeRequest(DM_CORE_CONFIG.SERVER_URL+DM_CORE_CONFIG.URL_GAME, requestOptions, callback, 'getObject');
   };
 
+  DokuMe_LocalBackend.prototype.sportsRequest = function(object,task, params, callback) {
+    if (!object) return false;
+    let _ = this;
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify({
+      "TYPE": object,
+      "TASK": task,
+      "DATA": params
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    _.executeRequest(DM_CORE_CONFIG.SERVER_URL+DM_CORE_CONFIG.URL_SPORTS, requestOptions, callback, 'getObject');
+  };
+
   DokuMe_LocalBackend.prototype.getObject = function(object, instance, params, callback) {
     if (!object) return false;
     var _ = this;

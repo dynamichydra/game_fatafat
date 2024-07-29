@@ -1,0 +1,58 @@
+<link href="APPS/sports/css/style.css" rel="stylesheet">
+
+<div id="sportsMenuWrapper">
+    <div class="mr-auto" id="sportsMenu"></div>
+</div>
+
+  <div class="profile adminUserSrc">
+    <div class="walletContainer">
+      <div class="container">
+        <div class="row">
+          <div class=" col-3 input-containe">
+            <select id="mGame"></select>
+          </div>
+          <div class=" col-3 input-containe">
+            <input type="date" id="mDate"/>
+          </div>
+          
+          <div class=" col-2 input-containe">
+            <select id="mStatus">
+              <option value="1">Enable</option>
+              <option value="2">Disable</option>
+            </select>
+          </div>
+          <div class=" col-2">
+            <div class="gameButton searchMatch"> <i class="bi bi-binoculars"></i> </div>
+          </div>
+          <div class=" col-2">
+            <div class="gameButton createMatch"> <i class="bi bi-person-plus"></i> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="row" style="justify-content: space-around;text-align: center;">
+      <div class="conBox col-12 my-5">
+        <h3>Match List</h3>
+        <table class="table table-striped" id="tblMatch">
+          <thead>
+            <tr>
+              <th scope="col" style="display: none;">#</th>
+              <th scope="col">Game</th>
+              <th scope="col">Team One</th>
+              <th scope="col">Team Two</th>
+              <th scope="col">Date Time</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <script src="APPS/sports/modules/match.js"></script>

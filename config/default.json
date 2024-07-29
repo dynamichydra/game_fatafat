@@ -17,7 +17,8 @@
     "fatafatSuper":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
     "gameChance":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
     "transaction_log":["id","user_id","amt","tdate","type","ref_no","description"],
-    "transfer_log":["id","fid","amt","tdate","tid","type"]
+    "transfer_log":["id","fid","amt","tdate","tid","type"],
+    "s_team":["id","name","sports","type","status"]
   },
   "db": {
     "mysql": {

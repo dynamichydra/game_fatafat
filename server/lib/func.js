@@ -6,6 +6,32 @@ const impFunction = function () {
   
 }
 
+impFunction.prototype.readJson = function(file,name){
+  console.log(file,name)
+  return new Promise(async function (result) {
+    let msg = {'SUCCESS':false,'MESSAGE':'??'};
+    fs.readFile(file, 'utf8', (err, data) => {
+      if (err) {
+        msg = {'SUCCESS':false,'MESSAGE':err};
+      }else{
+        try {
+          let arr = {};
+          const jsonData = JSON.parse(data);
+          if(name){
+            arr = jsonData[name];
+          }else{
+            arr = jsonData;
+          }
+          msg = {'SUCCESS':true,'MESSAGE':arr};
+        } catch (parseError) {
+          msg = {'SUCCESS':false,'MESSAGE':parseError};
+        }
+      }
+      result(msg);
+    });
+  });
+}
+
 impFunction.prototype.readGameJson = function(file,name,par){
   console.log(file,par)
   return new Promise(async function (result) {
