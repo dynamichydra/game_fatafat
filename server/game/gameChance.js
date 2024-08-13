@@ -8,7 +8,6 @@ const gameChance = function () {
   this.code = 'gameChance';
   this.func = new libFunc();
   this.gnrl = new generalCls();
-  // this.price = {'patti':250,'jori':75,'single':9};
 }
 
 gameChance.prototype.getGameInfo = async function(data){

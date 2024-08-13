@@ -25,12 +25,10 @@
   }
 
   function getLiveResult(){
-    console.log(typeof DM_GENERAL)
     if(typeof DM_GENERAL == 'undefined'){
       setTimeout(getLiveResult,1000);
       return;
     }
-    console.log(DM_GENERAL)
     $('#resultArea').html('');
     getFatafatLiveResult(gameCode);
   }

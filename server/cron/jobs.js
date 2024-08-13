@@ -1,30 +1,25 @@
 const cron = require('node-cron');
-const gameLib = require('../game/game.js');
-
-const lib = new gameLib();
-
-
-
-let task1 = cron.schedule('* * * * *', () => {
-  lib.generateGame(['motka']);
-});
-task1.start();
-
+const game = require('../game/game.js');
+const libFunc = require('../lib/func.js');
+const moment =  require('moment');
+const func = new libFunc();
 
 // const task = cron.schedule('0 9,10,11,12,13,14,15,16,17,18,19,20 * * *', () => {
-const task = cron.schedule('* * * * *', () => {
-  lib.startGame(['fatafat']);
+const task = cron.schedule('* * * * *', async () => {
+  const cronJson = await func.readGameJson('config/game.json',null,{key:['cron']});
+  if(cronJson.SUCCESS){
+    let curTime = moment().format("HH:mm:ss");
+    if(cronJson.MESSAGE.cron[curTime]){
+      const gObj = new game();
+      gObj.executeTask({TYPE:cronJson.MESSAGE.cron[curTime],TASK:'start'}).then(function(result){
+      }).catch(function(error){
+          console.log(error);
+      });
+    }
+  }
 }, {
   scheduled: true,
   timezone: "Asia/Kolkata"
 });
+
 task.start();
-
-
-//cron job to generate a game at 6 AM morning
-cron.schedule('0 6 * * *', () => {
-  lib.generateGame(['fatafat']);
-}, {
-  scheduled: true,
-  timezone: "Asia/Kolkata"
-});

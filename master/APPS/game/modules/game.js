@@ -13,10 +13,7 @@
       'nine':[9,900,234,333,180,360,270,450,199,117,469,126,667,478,135,225,144,379,559,289,388,577,568],
       'zero':[0,'000',127,190,280,370,460,550,235,118,578,145,479,668,299,334,488,389,226,569,677,136,244]
     };
-  let price = {'fatafat':{'patti':100,'single':9},
-        'fatafatSuper':{'patti':125,'single':9.1},
-        'gameChance':{'patti':250,'jori':75,'single':9}
-      };
+  let price = null;
   let curGame = null;
   let gameCode = null;
   const popup = document.getElementById("sitePopup");
@@ -230,8 +227,7 @@
 
   function balanceUpdate(){
     let id = $(this).closest('.game').attr('data-gameid');
-    console.log(id);
-
+    
     backendSource.customRequest('general', null, {
       id: id,
       game:$('#gameName').val(),
@@ -268,7 +264,7 @@
       let jori = $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()}"]`).find('p').html();
       // let patti = $(`.innerNumLottery[data-no="${$('.pattiNum.one').html()+''+$('.pattiNum.two').html()+''+$('.pattiNum.three').html()}"]`).find('p').html();
       
-      jori = jori?parseFloat(jori)*price.jori:0;
+      jori = jori?parseFloat(jori)* parseFloat(price.jori):0;
       // $('.singlePrice').html('Price: <b>'+single+'</b>');
       $('.joriPrice').html('Price: <b>'+jori+'</b>');
       // $('.pattiPrice').html('Price: <b>'+patti+'</b>');
@@ -371,7 +367,7 @@
               <div class="innerNumLottery" data-no="${item[i][1].number}">
               ${item[i][1].number}
               <p>${item[i][1].amt}</p>
-              <div class="tooltiptext">Price: ${(item[i][1].amt*price[item[i][1].type.toLowerCase()])}</div>
+              <div class="tooltiptext">Price: ${(item[i][1].amt * parseFloat(price[item[i][1].type.toLowerCase()]))}</div>
             </div>
           `);
         }
@@ -403,9 +399,9 @@
                 amt = parseFloat(amt) + parseFloat(data.MESSAGE[i].amt);
                 $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).css('background-color','#f7ff00');
                 if($(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).hasClass('head')){
-                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price.single)+'</br>Bet: '+amt);
+                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt * parseFloat(price.single))+'</br>Bet: '+amt);
                 }else{
-                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price.patti)+'</br>Bet: '+amt);
+                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt * parseFloat(price.patti))+'</br>Bet: '+amt);
                 }
                 $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('p').html(amt);
               }

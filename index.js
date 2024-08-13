@@ -1,6 +1,7 @@
 let config = require('config');
 const DokuMe_DatabaseConnector = require('./server/taskexecutor.js');
 const DokuMe_DatabaseWebInterface = require('./server/sync_interface.js');
+const DM_CronJob = require('./server/cron/jobs.js');
 
   // setup webserver
 const expressApp = require('./server/express.js')

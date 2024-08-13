@@ -135,7 +135,6 @@
     let usr = await DM_GENERAL.userData(ph,'ph');
     usr = usr.MESSAGE[0];
     if(usr.type=='user')return;
-    console.log(usr)
     cUser = usr.id;
     cType = usr.type;
     $('#transUser').html(usr.ph);

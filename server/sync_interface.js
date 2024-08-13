@@ -32,21 +32,10 @@ DokuMe_SyncInterface.prototype.start = function(){
             res.json(error);
         });
       }
-    //   gObj.generateGame(['fatafat','fatafatSuper','gameChance']);
-
-    //     gObj.executeTask(obj).then(function(result){
-    //         if(result){
-    //             res.json(result);
-    //         }else{
-    //             res.json(result);
-    //         }
-    //     }).catch(function(error){
-    //         console.log(error);
-    //         res.json(error);
-    //     });
         
       res.json({STATUS:true,MESSAGE:'done'});
     });
+
     _.app.get('/game/start/fatafat', function (req, res) {
       const gObj = new game();
     //   for(let i of ['fatafat','fatafatSuper','gameChance']){
@@ -60,6 +49,7 @@ DokuMe_SyncInterface.prototype.start = function(){
     //   gObj.startGame(['fatafat']);
       res.json({STATUS:true,MESSAGE:'done'});
   });
+  
     _.app.get('/game/start/fatafatSuper', function (req, res) {
       const gObj = new game();
       gObj.executeTask({TYPE:'fatafatSuper',TASK:'start'}).then(function(result){

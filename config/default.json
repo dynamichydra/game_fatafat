@@ -5,7 +5,7 @@
     "banner":["id","name","path","subdomain"],
     "notification":["id","notification","category","subdomain"],
     "category":["id","name","icon","small_icon","subdomain","show_count"],
-    "game":["id","name","rule","category","subdomain","bg_type","bg","status"],
+    "game":["id","name","rule","category","subdomain","bg_type","bg","status", "sort_text"],
     "user":["id","name","ph","email","pid","pwd","access_token","login_time","for_dev","change_pwd","type","status","balance","percentage"],
     "game_inplay":["id","name", "game_code", "start", "end", "duration","result_one","result_two","result_three", "status","result_done"],
     "user_bank":["id","bank_name","name","acc_no","city","ifsc","email","ph","branch","user_id"],

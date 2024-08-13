@@ -63,7 +63,7 @@ exports.init = {
               for(let i in data.bet){
                 // const service = (parseFloat(data.bet[i].a) * 2)/100;
                 let amtLmt = await commonObj.customSQL("SELECT sum(amt) amt FROM `"+gameType+"` WHERE number="+data.bet[i].n+" AND game_id ="+data.game_id+" AND user_id="+user.id+" AND type = '"+data.type+"'");
-                let bajiLimit = data.type=='Patti'?10000:100000;
+                let bajiLimit = data.type=='Patti'?100:2000;
                 
                 const service = 0;
                 const amt = parseFloat(data.bet[i].a) - service;

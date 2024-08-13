@@ -220,7 +220,6 @@ var DM_CORE = (function () {
     let menu = `<div><a href="#/home">Home</a></div>`;
     if(auth.config.type == 'admin'){
       menu += `<div><a href="#/game">Game</a></div>
-      <div><a href="#/sports">Sports</a></div>
       `;
     }
     menu += `<div><a href="#/user">Users</a></div>
@@ -229,9 +228,10 @@ var DM_CORE = (function () {
     <div><a href="#/chart">Chart</a></div>
     <div><a href="#/report/transfer">Transfer Log</a></div>
     <div><a href="#/report/bet_log">Bet Log</a></div>
-    ${auth.config.type == 'admin'?`<div><a href="#/report/user">User Log</a></div>`:``}
-    <div><a href="#/profile/changepwd">Password</a></div>
-    <div><a class="logoutBTN" id="logoutBTN">Logout</a></div>
+    ${auth.config.type == 'admin'?`
+      <div><a href="#/report/user">User Log</a></div>
+      `:``}
+      <div><a href="#/settings">Settings</a></div>
     `;
     $('#topMenu').html(menu);
 

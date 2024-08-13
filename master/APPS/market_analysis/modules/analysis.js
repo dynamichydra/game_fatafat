@@ -13,10 +13,7 @@
       'nine':[9,900,234,333,180,360,270,450,199,117,469,126,667,478,135,225,144,379,559,289,388,577,568],
       'zero':[0,'000',127,190,280,370,460,550,235,118,578,145,479,668,299,334,488,389,226,569,677,136,244]
     };
-  let price = {'fatafat':{'patti':100,'single':9},
-      'fatafatSuper':{'patti':125,'single':9.1},
-      'gameChance':{'patti':250,'jori':75,'single':9}
-    };
+  let price =null;
   let curGame = null;
   let gameCode = null;
   const popup = document.getElementById("sitePopup");
@@ -82,9 +79,9 @@
             amt = amtAll
           }
           if($(`.innerNum[data-no="${gameSet[i][j]}"]`).hasClass('head')){
-            $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('.tooltiptext').html('Price: '+(amt*price.single)+'</br>Bet: '+amt);
+            $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('.tooltiptext').html('Price: '+(amt * parseFloat(price.single))+'</br>Bet: '+amt);
           }else{
-            $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('.tooltiptext').html('Price: '+(amt*price.patti)+'</br>Bet: '+amt);
+            $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('.tooltiptext').html('Price: '+(amt * parseFloat(price.patti))+'</br>Bet: '+amt);
           }
           $(`.innerNum[data-no="${gameSet[i][j]}"]`).find('p').html(amt);
         }
@@ -138,9 +135,9 @@
                 amt = Math.round(parseFloat(amt) + parseFloat(amtTmp));
                 amtAll = Math.round(parseFloat(amtAll) + parseFloat(data.MESSAGE[i].amt));
                 if($(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).hasClass('head')){
-                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price.single)+'</br>Bet: '+amt);
+                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt * parseFloat(price.single))+'</br>Bet: '+amt);
                 }else{
-                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt*price.patti)+'</br>Bet: '+amt);
+                  $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('.tooltiptext').html('Price: '+(amt * parseFloat(price.patti))+'</br>Bet: '+amt);
                 }
                 $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).find('p').html(amt);
                 $(`.innerNum[data-no="${data.MESSAGE[i].number}"]`).attr('data-amt',amt);
@@ -321,7 +318,7 @@
               <div class="innerNumGameChance" data-no="${item[i][1].number}">
               ${item[i][1].number}
               <p>${item[i][1].amt}</p>
-              <div class="tooltiptext">Price: ${(item[i][1].amt*price[item[i][1].type.toLowerCase()])}</div>
+              <div class="tooltiptext">Price: ${(item[i][1].amt* parseFloat(price[item[i][1].type.toLowerCase()]))}</div>
             </div>
           `);
         }

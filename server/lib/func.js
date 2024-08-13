@@ -7,7 +7,6 @@ const impFunction = function () {
 }
 
 impFunction.prototype.readJson = function(file,name){
-  console.log(file,name)
   return new Promise(async function (result) {
     let msg = {'SUCCESS':false,'MESSAGE':'??'};
     fs.readFile(file, 'utf8', (err, data) => {
@@ -33,7 +32,6 @@ impFunction.prototype.readJson = function(file,name){
 }
 
 impFunction.prototype.readGameJson = function(file,name,par){
-  console.log(file,par)
   return new Promise(async function (result) {
     let msg = {'SUCCESS':false,'MESSAGE':'??'};
     fs.readFile(file, 'utf8', (err, data) => {
@@ -43,10 +41,15 @@ impFunction.prototype.readGameJson = function(file,name,par){
         try {
           let arr = {};
           const jsonData = JSON.parse(data);
-          if(par.key && par.key.length >0){
+
+          if( par && par.key && par.key.length >0){
             for(let i in par.key){
               // if(!arr[data[i]])
+              if(name){
                 arr[par.key[i]] = jsonData[par.key[i]][name];
+              }else{
+                arr[par.key[i]] = jsonData[par.key[i]];
+              }
             }
           }else{
             arr = jsonData;
@@ -58,6 +61,18 @@ impFunction.prototype.readGameJson = function(file,name,par){
       }
       result(msg);
     });
+  });
+}
+
+impFunction.prototype.writeJsonFileSync = function(filePath, data) {
+  return new Promise(async function (result) {
+    try {
+      const jsonData = JSON.stringify(data, null, 2);
+      fs.writeFileSync(filePath, jsonData, 'utf8');
+      result({'SUCCESS':true,'MESSAGE':1});
+    } catch (err) {
+      result({'SUCCESS':false,'MESSAGE':0});
+    }
   });
 }
 
