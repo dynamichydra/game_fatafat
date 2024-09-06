@@ -232,6 +232,7 @@ var DM_CORE = (function () {
       <div><a href="#/report/user">User Log</a></div>
       `:``}
       <div><a href="#/settings">Settings</a></div>
+      <div><a class="logoutBTN" id="logoutBTN">Logout</a></div>
     `;
     $('#topMenu').html(menu);
 

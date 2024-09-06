@@ -1,22 +1,22 @@
-let mysql = require('mysql');
+// let mysql = require('mysql');
 const moment =  require('moment');
 require('../../corefunction');
 let config = require('config');
-
+const connectToDatabase = require('../../modules/mysql/dbConnection');
 let db = null;
 
-let mysqlPool = mysql.createPool({
-  host: config.get('db.mysql.host'),
-  user: config.get('db.mysql.user'),
-  password: config.get('db.mysql.pass'),
-  port: config.get('db.mysql.port'),
-  connectionLimit: 100,
-  acquireTimeout: 60000,
-  idleTimeoutMillis:60000,
-  debug: false,
-  timezone: 'Asia/Kolkata',
-  database: config.get('db.mysql.dbname')
-});
+// let mysqlPool = mysql.createPool({
+//   host: config.get('db.mysql.host'),
+//   user: config.get('db.mysql.user'),
+//   password: config.get('db.mysql.pass'),
+//   port: config.get('db.mysql.port'),
+//   connectionLimit: 100,
+//   acquireTimeout: 60000,
+//   idleTimeoutMillis:60000,
+//   debug: false,
+//   timezone: 'Asia/Kolkata',
+//   database: config.get('db.mysql.dbname')
+// });
 
 
 
@@ -31,14 +31,8 @@ exports.init = {
   },
   connectDB : async function(){
     return new Promise(async function (result) {
-      mysqlPool.getConnection(function (err, connection) {
-        if (err){
-            console.log(err);
-            throw err;
-        }
-        db = connection;
-        result(db)
-      });
+      db = await connectToDatabase();
+      result(db);
     });
   },
   startTransaction : async function(){

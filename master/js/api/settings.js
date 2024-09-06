@@ -15,8 +15,7 @@ const DM_SETTINGS = (function () {
       menu += `<div><a href="#/settings/detail">Game Detail</a></div>`;
       // menu += `<div><a href="#/settings/corn">Corn Job</a></div>`;
     }
-    menu += `<div><a href="#/profile/changepwd">Password</a></div>
-    <div><a class="logoutBTN" id="logoutBTN">Logout</a></div>`;
+    menu += `<div><a href="#/profile/changepwd">Password</a></div>`;
     $('#settingsMenu').html(menu);
   }
 

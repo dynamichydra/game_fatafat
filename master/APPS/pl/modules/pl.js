@@ -141,7 +141,7 @@
                     id:data.MESSAGE[i].u3id,
                     name:data.MESSAGE[i].u3name,
                     type:data.MESSAGE[i].u3type,
-                    pct:data.MESSAGE[i].u3pct,
+                    pct:100-data.MESSAGE[i].u3pct,
                     amt:0,
                     price:0
                   }
@@ -154,7 +154,7 @@
                     id:data.MESSAGE[i].u4id,
                     name:data.MESSAGE[i].u4name,
                     type:data.MESSAGE[i].u4type,
-                    pct:data.MESSAGE[i].u4pct,
+                    pct:100-data.MESSAGE[i].u4pct,
                     amt:0,
                     price:0
                   }
@@ -170,7 +170,7 @@
                     id:data.MESSAGE[i].u2id,
                     name:data.MESSAGE[i].u2name,
                     type:data.MESSAGE[i].u2type,
-                    pct:data.MESSAGE[i].u2pct,
+                    pct:100-data.MESSAGE[i].u2pct,
                     amt:0,
                     price:0
                   }
@@ -183,7 +183,7 @@
                     id:data.MESSAGE[i].u3id,
                     name:data.MESSAGE[i].u3name,
                     type:data.MESSAGE[i].u3type,
-                    pct:data.MESSAGE[i].u3pct,
+                    pct:100-data.MESSAGE[i].u3pct,
                     amt:0,
                     price:0
                   }
@@ -199,7 +199,7 @@
                     id:data.MESSAGE[i].u1id,
                     name:data.MESSAGE[i].u1name,
                     type:data.MESSAGE[i].u1type,
-                    pct:data.MESSAGE[i].u1pct,
+                    pct:100-data.MESSAGE[i].u1pct,
                     amt:0,
                     price:0
                   }
@@ -212,7 +212,7 @@
                     id:data.MESSAGE[i].u2id,
                     name:data.MESSAGE[i].u2name,
                     type:data.MESSAGE[i].u2type,
-                    pct:data.MESSAGE[i].u2pct,
+                    pct:100-data.MESSAGE[i].u2pct,
                     amt:0,
                     price:0
                   }
@@ -227,7 +227,7 @@
                   id:data.MESSAGE[i].u1id,
                   name:data.MESSAGE[i].u1name,
                   type:data.MESSAGE[i].u1type,
-                  pct:data.MESSAGE[i].u1pct,
+                  pct:100-data.MESSAGE[i].u1pct,
                   amt:0,
                   price:0
                 }
