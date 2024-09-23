@@ -936,10 +936,10 @@ footer {
 }
 
 .discover-content h2 {
-    font-size: 72px;
-    line-height: 72px;
+    font-size: 50px;
+    line-height: 50px;
     font-weight: bold;
-    margin-bottom: 29px;
+    /* margin-bottom: 29px; */
 }
 
 .discover-button {
@@ -1124,8 +1124,8 @@ footer {
   }
 
   .discover-content h2 {
-      font-size: 60px;
-      line-height: 60px;
+      font-size: 40px;
+      line-height: 40px;
   }
 
   .discover-img {
@@ -1161,8 +1161,8 @@ footer {
   }
 
   .discover-content h2 {
-      font-size: 36px;
-      line-height: 46px;
+      font-size: 25px;
+      line-height: 25px;
   }
 }
 

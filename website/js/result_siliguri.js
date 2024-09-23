@@ -16,9 +16,9 @@
   }
 
   function bindEvents() {
-    $('#liveResult').on('click',getLiveResult);
-    $('#gameName').on('change',getLiveResult);
-    $('#oldResult').on('click','.monthResult',getMonthlyResult);
+    $('#liveResultSiliguri').on('click',getLiveResult);
+    // $('#gameName').on('change',getLiveResult);
+    $('#oldResultSiliguri').on('click','.monthResult',getMonthlyResult);
     $('#sitePopup').on('click','#closePopup,.closePattiList',function(){
       popup.style.display = "none";
     });
@@ -29,8 +29,8 @@
       setTimeout(getLiveResult,1000);
       return;
     }
-    $('#resultArea').html('');
-    getFatafatLiveResult(gameCode);
+    $('#resultAreaSiliguri').html('');
+    getFatafatLiveResult(gameCodeSiliguri);
   }
 
   function generateOldMonth(){
@@ -55,27 +55,27 @@
       }
       year--;
     }
-    $('#oldResult').html(htm);
+    $('#oldResultSiliguri').html(htm);
   }
 
   function scrollToResult(){
     $("html, body").animate({
-      scrollTop: $("#resultArea").offset().top - 100
+      scrollTop: $("#resultAreaSiliguri").offset().top - 100
     }, 1000);
   }
 
   function getMonthlyResult(){
-    $('#resultArea').html('');
+    $('#resultAreaSiliguri').html('');
     let month = $(this).attr('data-month');
     let year = $(this).attr('data-year');
-    getFatafatMonthResult(gameCode,month,year);
+    getFatafatMonthResult(gameCodeSiliguri,month,year);
   }
 
-  function getFatafatMonthResult(gameCode,month,year){
+  function getFatafatMonthResult(gameCodeSiliguri,month,year){
     let htm = `<p>No data found.</p>`;
     let gameName = 'Bazi';
     backendSource.getObject('game_inplay', null, {where:[
-      {'key':'game_code','operator':'is','value':gameCode},
+      {'key':'game_code','operator':'is','value':gameCodeSiliguri},
       {'key':'start','operator':'higher','value':year+'-'+month+'-01 00:00:00'},
       {'key':'end','operator':'lower','value':year+'-'+month+'-31 23:59:59'},
     ],
@@ -125,17 +125,17 @@
           }
         }
       }
-      $('#resultArea').html(htm);
+      $('#resultAreaSiliguri').html(htm);
       scrollToResult();
     });
   }
 
-  async function getFatafatLiveResult(gameCode){
+  async function getFatafatLiveResult(gameCodeSiliguri){
     let toDay = moment().format('YYYY-MM-DD');
     
     let gameName = 'Bazi';
     let game = await DM_GENERAL.fetchInplayGame([
-      {'key':'game_code','operator':'is','value':gameCode},
+      {'key':'game_code','operator':'is','value':gameCodeSiliguri},
       {'key':'start','operator':'higher','value':toDay+' 00:00:00'},
       {'key':'end','operator':'lower','value':toDay+' 23:59:59'},
     ]);
@@ -185,7 +185,7 @@
           ${single}
         </tr>
       </table>`;
-    $('#resultArea').html(htm);
+    $('#resultAreaSiliguri').html(htm);
     scrollToResult();
   }
 
