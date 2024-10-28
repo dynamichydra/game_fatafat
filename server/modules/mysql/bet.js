@@ -128,34 +128,59 @@ exports.init = {
 
     betMotka(commonObj,data,user){
       return new Promise(async function (result) {
-        if(parseFloat(data.amt) < parseFloat(user.balance)){
-          let game = await commonObj.getData('game_inplay', {where:[
-            {key:"id", operator:"is", value : data.game_id}
-          ]});
-          if(game.SUCCESS && parseInt(game.MESSAGE.status) == 1){
-            data.service = (parseFloat(data.amt) * 2)/100;
-            data.amt = parseFloat(data.amt) - parseFloat(data.service);
-            let t = await commonObj.setData('motka_bet', data);
-
-            let bal = parseFloat(user.balance) - (data.amt + data.service);
-            t = await commonObj.setData('user', {id:user.id, 
-              balance:bal
-              });
-
-            t = await commonObj.setData('transaction_log', {
-                user_id : user.id, 
-                amt : (data.amt + data.service) ,
-                ref_no : data.game_id,
-                description : "Motka bet "+(data.number??'')+' '+(data.size??'')+' '+(data.color??'')
-              });
+        let game = await commonObj.getData('game_inplay', {where:[
+          {key:"id", operator:"is", value : data.game_id}
+        ]});
+        if(game.SUCCESS && (parseInt(game.MESSAGE.status) == 1 || parseInt(game.MESSAGE.status) == 0)){
+          const endTime = moment(game.MESSAGE.end, 'YYYY-MM-DD HH:mm:ss');
+          const startTime = moment(game.MESSAGE.start, 'YYYY-MM-DD HH:mm:ss');
+          
+          if (startTime.isBefore(endTime)){
+            if(parseFloat(data.amt) < parseFloat(user.balance)){
+              // data.service = (parseFloat(data.amt) * 2)/100;
+              data.service = 0;
+              data.amt = parseFloat(data.amt) - parseFloat(data.service);
             
-            result(t);
+              await commonObj.startTransaction();
+              let insertSql = `INSERT INTO motka SET id='${Date.now()}.${user.id}', amt='${data.amt}', 
+                  bname='${data.bname}', btype='${data.btype}', ${data.color?`color='`+data.color+`',`:``} 
+                  service='${data.service}', game_id='${data.game_id}', ${(data.number?`number='`+data.number+`', `:'')} 
+                  ${(data.size?`size='`+data.size+`',`:'')} user_id='${data.user_id}' `;
+              let t = await commonObj.customSQL(insertSql);
+              if(t.SUCCESS){
+                let bal = parseFloat(user.balance) - (data.amt+data.service);
+                t = await commonObj.setData('user', {id:user.id, 
+                  balance:bal
+                  });
+                if(t.SUCCESS){
+                  let insertSql = `INSERT INTO transaction_log SET id='b-${Date.now()}.${user.id}', 
+                      user_id='${user.id}', amt='${(data.amt+data.service)}', ref_no='${data.game_id}',
+                      description='Motka bet ${(data.number??'')+' '+(data.size??'')+' '+(data.color??'')}' `;
+                  t = await commonObj.customSQL(insertSql);
+                  if(t.SUCCESS){
+                    await commonObj.commitTransaction();
+                    result(t);
+                  }else{
+                    await commonObj.rollbackTransaction();
+                    result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE,sql:insertSql});
+                  }
+                }else{
+                  await commonObj.rollbackTransaction();
+                  result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE,sql:insertSql});
+                }
+              }else{
+                await commonObj.rollbackTransaction();
+                result({SUCCESS:false,MESSAGE:'Unable to commit the transaction now. Please try letter.',ERR:t.MESSAGE,sql:insertSql});
+              }
+            }else{
+              result({SUCCESS:false,MESSAGE: 'Not sufficient balance.'});
+            }
           }else{
             result({SUCCESS:false,MESSAGE: 'Game already over.'});
-          }
+          } 
         }else{
-          result({SUCCESS:false,MESSAGE: 'Not sufficient balance.'});
-        }
+          result({SUCCESS:false,MESSAGE: 'Game already over.'});
+        }        
       });
     }
 

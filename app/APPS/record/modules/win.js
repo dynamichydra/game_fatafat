@@ -59,7 +59,11 @@
               htm += `<tr ${bgColor}>
               <td scope="col">${item.name}</br>${'2'+item.game_id.toString().padStart(5, "0")}</td>
               <td scope="col">${moment(item.bdate).format('DD.MMM.YYYY H:mm')}</td>
-              <td scope="col">${item.type}</br>${item.number??''}</td>
+              ${gameCode=='motka'?`
+                <td scope="col">${item.bname}</td>
+                `:`
+                <td scope="col">${item.type}</br>${item.number??''}</td>
+                `}
               <td scope="col">${item.amt}</br>${item.price}</td>
               <td scope="col">${item.id}</td>
             </tr>`;

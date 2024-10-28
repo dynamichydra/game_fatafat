@@ -15,7 +15,7 @@
   }
 
   function getMyBet(){
-    backendSource.getObject('motka_bet', null, {
+    backendSource.getObject('motka', null, {
       where:[
         {'key':'user_id','operator':'is','value':auth.config.id}
       ],

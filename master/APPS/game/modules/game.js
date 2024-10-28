@@ -59,9 +59,11 @@
     $('#gameName').html('');
     backendSource.getObject('game', null, {}, function (data) {
       data.MESSAGE.map(e=>{
-        $('#gameName').append(`
-          <option value="${e.code}">${e.name}</option>
-        `);
+        if(e.code != 'motka'){
+          $('#gameName').append(`
+            <option value="${e.code}">${e.name}</option>
+          `);
+        }
       });
       gameCode = $('#gameName').val();
       getGameInfo();

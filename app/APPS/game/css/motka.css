@@ -1,0 +1,394 @@
+
+.van-popup {
+    position: fixed;
+    max-height: 100%;
+    overflow-y: auto;
+    background-color: #fff;
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s;
+    transition: transform .3s,-webkit-transform .3s;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .van-popup--bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .van-popup--bottom.van-popup--round {
+    border-radius: 0.53333rem 0.53333rem 0 0;
+  }
+  
+  .van-popup {
+    z-index: 99999!important;
+    display: none;
+  }
+  
+  .betting-mark .box {
+    position: relative;
+  }
+  
+  .betting-mark .head .box {
+    border-radius: 0.4rem 0.4rem 0 0;
+    padding: 0.53333rem 0.4rem 0.8rem;
+    background-size: 100% 100%;
+  }
+  
+  .betting-mark[data-bettype="bet0"] .box {
+    background-color: #fb4e4e;
+    background-image: linear-gradient(to bottom right,#fb4e4e 50%,#eb43dd 0)!important;
+  }
+  
+  .betting-mark[data-color="green"] .box .color{
+    color: #5cba47;
+  }
+  
+  .betting-mark[data-color="yellow"] .betMoney.active,
+  .betting-mark[data-color="yellow"] .betTimes.active,
+  .betting-mark[data-color="yellow"] .multipleChange.active,
+  .betting-mark[data-color="yellow"] .betSubmitButton,
+  .betting-mark[data-color="yellow"] .box {
+    background-color: #f5bb00;
+  }
+  
+  .betting-mark[data-color="yellow"] .box .color{
+    color: #f5bb00;
+  }
+  
+  .betting-mark[data-color="red"] .box .color {
+    color: #fb4e4e;
+  }
+  
+  .betting-mark[data-bettype="bet5"] .box {
+    background-color: #5cba47;
+    background-image: linear-gradient(to bottom right,#5cba47 50%,#eb43dd 0);
+  }
+  
+  
+  .betting-mark[data-bettype="betviolet"] .box .color{
+    color: #eb43dd;
+  }
+  
+  .betting-mark .head .box .con {
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    padding: 20px;
+  }
+  
+  .betting-mark .head .box .color {
+    text-align: center;
+    width: 70%;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 5px auto 20px;
+    font-size: 15px;
+    padding: 5px;
+  }
+  .p-l-10 {
+    padding-left: 0.26667rem!important;
+  }
+  
+  .game .betting-mark .box {
+      background-color: #fb4e4e;
+      background-image: linear-gradient(to bottom right,#fb4e4e 50%,#eb43dd 0)!important;
+      background-size: 100% 100%;
+      height: 50%;
+  }
+  
+    
+    /* Apply styles to the table */
+    #gameId {
+      width: 100%; /* Make the table width 100% of its container */
+      border-collapse: collapse; /* Collapse borders for a clean look */
+    }
+    
+    #gameId td {
+      padding: 8px; /* Add padding to the table cells for spacing */
+      border: 1px solid #000; /* Add borders to table cells, change color as needed */
+    }
+    /* Style the container */
+    .color-box {
+      display: flex;
+      justify-content: space-evenly;
+      margin: 20px auto;
+    }
+    
+    /* Style the buttons */
+    .bigButton{
+      border-radius: 0 25px 0 25px;
+      height: 50px;
+      width: 25vw;
+      border: none;
+      color:#fff;
+    }
+    .greenBg {
+      background-color: #5cba47;
+    }
+  
+    .violetBg {
+      background-color: #db5fd1;
+    }
+  
+    .redBg {
+      background-color: #fb4e4e;
+    }
+  
+    /* Assign different colors to each button */
+    
+  
+    .roundBttn {
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 15vw;
+      height: 15vw;
+      outline-offset: 1px;
+      outline-style: solid;
+      font-size: 25px;
+      outline-width: 1px;
+    }
+  
+    .redVioletRound {
+      background-image: linear-gradient(to bottom right,#fb4e4e 50%,#eb43dd 0)!important;
+      outline-color: #fb4e4e;
+    }
+  
+    .greenRound {
+      background-color: rgb(77, 201, 77);
+      outline-color: rgb(77, 201, 77);
+    }
+  
+    .redRound  {
+      background-color:#fb4e4e;
+      outline-color: #fb4e4e;
+    }
+  
+    .greenVioletRound {
+      background-image: linear-gradient(to bottom right,#5cba47 50%,#eb43dd 0)!important;
+      outline-color: rgb(77, 201, 77);
+    }
+    
+    .number-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      background-color: #f0f6fa;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    
+    .button-container {
+      display: flex;
+      gap: 10px;
+    }
+  
+    .randomBetting{
+      font-size: 15px;
+      background-color: #fff;
+      color: #333;
+      padding: 0px 10px;
+      border: 2px solid #f2413b;
+      border-radius: 5px;
+    }
+  
+    .xItem {
+      width: max-content;
+      line-height: 40px;
+      text-align: center;
+      font-size: 15px;
+      border-radius: 5px;
+      margin: 0px 2px;
+      background-color: rgb(240, 240, 240);
+      color: rgb(0, 0, 0);
+      border: #5cba47 1px solid;
+      padding: 0px 5px;
+  }
+  .xItem.active{
+    background-color: rgb(92, 186, 71); 
+    color: rgb(255, 255, 255);
+  }
+  
+  
+  .itemYellow {
+      width: 160px;
+      height: 50px;
+      border: none;
+      background-color: #ffc511;
+      border-radius: 1.06667rem 0 0 1.06667rem;
+      box-shadow: 0 0 0.21333rem 0.02667rem rgba(255,197,17,.47);
+      color: #fff;
+  }
+  .itemGreen {
+      width: 160px;
+      height: 50px;
+      border: none;
+      background-color: #5cba47;
+      border-radius: 0 1.06667rem 1.06667rem 0;
+      box-shadow: 0 0 0.21333rem 0.02667rem rgba(92,186,71,.72);
+      color: #fff;
+  }
+  .txtChart {
+      background-color: #eaeefc;
+      border: 0.02667rem solid #747cc7;
+      border-radius: 10%;
+      display: block;
+      height: 45px;
+      width: 85px;;
+      text-align: center;
+      font-size: 14px;
+      word-break: all;
+  }
+  .txtRecord {
+      background-color: #eaeefc;
+      border-radius: 10%;
+      box-shadow: 0.02667rem 0.02667rem 0.13333rem 0.13333rem #fbedf3;
+      padding: 15px 20px;
+      width: 100%;
+  }
+  .game-list .list .wrap {
+      padding: 0.4rem;
+      width: 100%;
+      height: 20%;
+      background-color: #fbedf3;
+      border-top-right-radius: 0.26667rem;
+      border-top-left-radius: 0.26667rem;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+  }
+  .c-tc .van-row{
+      width: 30%;
+  }
+  
+  
+  
+  /* for cancel button */
+  .left{
+    height: 15%;
+    width: 35%;
+    text-align: center;
+    background: #25253c;
+    color: hsla(0,0%,100%,.4);
+  }
+  
+  /* for total price button */
+  .right{
+    height: 15%;
+    width: 65%;
+    background: #fa574a;
+    color: #fff;
+    text-align: center;
+  }
+  .betting-mark .info .item {
+    height: 0.8rem;
+    line-height: .8rem;
+    margin-top: 0.4rem;
+  }
+  
+  .betting-mark .info .item {
+    font-size: 10px;
+    height: 10px;
+    line-height: 5px;
+    margin-top: 10px;
+  }
+  /* for Agrree text section */
+  .agreeTxt{
+    font-size: 12px;
+  }
+  
+  .li-minus{
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    margin-left: 75px;
+    margin-right: 10px;
+  }
+  .li-plus{
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    margin-left: 10px;
+  }
+  
+  #gameBody{
+    box-shadow: 0px 5px 5px 5px #e7e7e7;
+    border-radius: 25px;
+    padding: 10px;
+    margin-top: 20px;
+    position: relative;
+  }
+  
+  .betMoney, .betTimes{
+    width: max-content;
+    background-color: rgb(240, 240, 240);
+    color: rgb(0, 0, 0);
+    margin: 0px 3px;
+    padding: 5px 12px;
+  }
+  
+  .betMoney.active, .multipleChange.active,.betTimes.active{
+    color: rgb(255, 255, 255);
+  }
+  
+  .multipleChange{
+    text-align: center;
+    background-color: #f0f0f0;
+    color: #909090;
+    font-size: 20px;
+  }
+  
+  #betMultiple{
+    width: 100%;
+    text-align: center;
+  }
+  
+  #presaleBttn{
+    color: #da2031;
+  }
+  .bet-foot{
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .cancelButton{
+    width: 35%;
+    background: #25253c;
+    color: hsla(0,0%,100%,.4);
+    padding: 15px 0px;
+  }
+  
+  .betSubmitButton{
+    width: 65%;
+    color: #fff;
+    padding: 15px 0px;
+  }
+  
+  #gameBody .mark-box {
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,.7);
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    font-weight: 600;
+    color: #fff;
+    font-size: 150px;
+    justify-content:space-around;
+    align-items:center;
+  }
+  
+  #gameBody .mark-box .item {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 0 20px;
+    background-color: #fb4e4e;
+  }

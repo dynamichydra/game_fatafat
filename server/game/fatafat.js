@@ -16,7 +16,7 @@ fatafat.prototype.startGame = async function () {
   let curDate = moment().format('YYYY-MM-DD H:mm')+':00';
   let t = await sql.customSQL("UPDATE game_inplay SET status = '2' WHERE game_code ='"+_.code+"' AND status = '1' AND end <= '"+curDate+"'");
   t = await sql.customSQL("UPDATE game_inplay SET status = '1' WHERE game_code ='"+_.code+"' AND status = '0' AND start <= '"+curDate+"'");
-  conn.release();
+  // conn.release();
 }
 
 fatafat.prototype.generateGame = async function (data) {
@@ -58,7 +58,7 @@ fatafat.prototype.cancelAllBet = async function (data) {
         await sql.commitTransaction();
       }
     }
-    conn.release();
+    // conn.release();
     result({SUCCESS:true,MESSAGE:'Success'});
   });
 }
@@ -82,6 +82,7 @@ fatafat.prototype.generateResult = async function (data) {
       let t = await sql.setData('game_inplay',{'id':inPlay.id,'status':'2','result_one':data.num,'result_two':data.single});
       if(t.SUCCESS){
         t = await sql.customSQL("CALL setFatafatResult("+inPlay.id+",'"+_.code+"','"+gameInfo.patti+"','"+gameInfo.single+"')");
+        console.log("CALL setFatafatResult("+inPlay.id+",'"+_.code+"','"+gameInfo.patti+"','"+gameInfo.single+"')")
         if(!t.SUCCESS){
           errorFound = true;
         }
@@ -94,7 +95,7 @@ fatafat.prototype.generateResult = async function (data) {
         await sql.commitTransaction();
       }
     }
-    conn.release();
+    // conn.release();
     if(errorFound){
       result({SUCCESS:false,MESSAGE:'There is some issue to generate result'});
     }else{

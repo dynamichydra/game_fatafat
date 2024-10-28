@@ -80,6 +80,27 @@ generalGame.prototype.removeOldData = async function (days) {
       t = await sql.customSQL(query);
       if(!t.SUCCESS)err = true;
     }
+
+    // clear for motka table
+    query = `SELECT * FROM motka WHERE bdate < '${thirtyDaysAgo}'`;
+    t = await sql.customSQL(query);
+    if(t.SUCCESS && t.MESSAGE.length>0){
+      query = 'INSERT INTO zz_motka (id, game_id, user_id,amt,service,number,bdate,status,price,btype,size,color,bname) VALUES ?';
+      const values = t.MESSAGE.map(e => [e.id, e.game_id, e.user_id, e.amt, e.service, e.number, e.bdate, e.status, e.price, e.btype, e.size,e.color,e.bname]);
+      t = await sql.customSQLPar(query,values);
+      if(!t.SUCCESS)err = true;
+
+      query = `SELECT SUM(amt) amt,SUM(price) price,user_id FROM motka WHERE bdate < '${thirtyDaysAgo}' GROUP BY user_id`;
+      t = await sql.customSQL(query);
+      for(let item of t.MESSAGE){
+        insArr.push([Date.now()+'-'+'0'+item.user_id, item.user_id, 0, item.amt, 'AJ']);
+        insArr.push([Date.now()+'-'+'1'+item.user_id, 0, item.user_id, item.price, 'AJ']);
+      }
+
+      query = `DELETE FROM motka WHERE bdate < '${thirtyDaysAgo}'`;
+      t = await sql.customSQL(query);
+      if(!t.SUCCESS)err = true;
+    }
     
     // clear for transaction_log table
     query = `SELECT * FROM transaction_log WHERE tdate < '${thirtyDaysAgo}'`;
@@ -129,7 +150,7 @@ generalGame.prototype.removeOldData = async function (days) {
     }else{
       t = await sql.commitTransaction();
     }
-    conn.release();
+    // conn.release();
     result(err);
   });
 }
@@ -161,7 +182,7 @@ generalGame.prototype.generateGame = function (code,date, gameInfo, func) {
         }
       }
     }
-    conn.release();
+    // conn.release();
     result(res);
   });
 }
@@ -196,7 +217,7 @@ generalGame.prototype.startGame = async function () {
         'status':1});
     }
   }
-  conn.release();
+  // conn.release();
 }
 
 module.exports = generalGame; 

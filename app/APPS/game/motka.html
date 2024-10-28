@@ -1,0 +1,163 @@
+<link href="APPS/game/css/motka.css" rel="stylesheet">
+
+<div class="container my-3">
+  <div id="gameHead"></div>
+
+<div id="gameBody" class="con-Box">
+  <div class="mark-box c-row c-row-middle-center" style="display: none;"></div>
+  <div id="colorBox" class="color-box">
+      <button type="button" class="bigButton greenBg betButton" data-color="green" data-type="color" data-name="green">Green</button>
+      <button type="button" class="bigButton violetBg betButton" data-color="violet" data-type="color" data-name="violet">Violet</button>
+      <button type="button" class="bigButton redBg betButton" data-color="red" data-type="color" data-name="red">Red</button>
+  </div>
+  <div class="number-box">
+    <div class="button-container">
+        <button type="button" class="roundBttn redVioletRound betButton" data-color="red" data-type="number" data-name="0"><div><span class="txt">0</span></div></button>
+        <button type="button" class="roundBttn greenRound betButton" data-color="green" data-type="number" data-name="1"><div><span class="txt">1</span></div></button>
+        <button type="button" class="roundBttn redRound betButton" data-color="red" data-type="number" data-name="2"><div><span class="txt">2</span></div></button>
+        <button type="button" class="roundBttn greenRound betButton" data-color="green" data-type="number" data-name="3"><div><span class="txt">3</span></div></button>
+        <button type="button" class="roundBttn redRound betButton" data-color="red" data-type="number" data-name="4"><div><span class="txt">4</span></div></button>
+    </div>
+    <div class="button-container">
+        <button type="button" class="roundBttn greenVioletRound betButton" data-color="green" data-type="number" data-name="5"><div><span class="txt">5</span></div></button>
+        <button type="button" class="roundBttn redRound betButton" data-color="red"  data-type="number" data-name="6"><div><span class="txt">6</span></div></button>
+        <button type="button" class="roundBttn greenRound betButton" data-color="green" data-type="number" data-name="7"><div><span class="txt">7</span></div></button>
+        <button type="button" class="roundBttn redRound betButton" data-color="red" data-type="number" data-name="8"><div><span class="txt">8</span></div></button>
+        <button type="button" class="roundBttn greenRound betButton" data-color="green" data-type="number" data-name="9"><div><span class="txt">9</span></div></button>
+    </div>  
+    <div class="c-row c-row-between random-box">
+      <button style="display: none;" class="randomBetting">Random</button>
+
+      <div style="display: flex;">
+        <div class="xItem active" data-times="1">X1</div>
+        <div class="xItem" data-times="5"> X5 </div>
+        <div class="xItem" data-times="10"> X10 </div>
+        <div class="xItem" data-times="20"> X20 </div>
+        <div class="xItem" data-times="50"> X50 </div>
+        <div class="xItem" data-times="100"> X100 </div>
+      </div>
+    </div>
+    <div class="btn-box c-row">
+      <button class="itemYellow betButton" data-color="yellow" data-type="set" data-name="big"> BIG </button>
+      <button class="itemGreen betButton" data-color="green" data-type="set" data-name="small"> SMALL </button>
+    </div>
+  </div>
+        
+
+</div>
+<div id="gameResult">
+  <div class="game-list p-b-20">
+    <div class="tab c-row c-row-between">
+      <div class="li c-row c-row-center">
+        <span class="txtRecord showWin"> Win Record </span>
+      </div>
+      <div class="li c-row c-row-center" style="display: none;">
+        <span class="txtChart"> Chart tren </span>
+      </div>
+      <div class="li c-row c-row-center">
+        <span class="txtRecord showMyWin"> My bet Record </span>
+      </div>
+    </div>
+    <div class="con-box container" >
+      <table class="table table-striped" id="tblBetWin">
+        <thead>
+          <tr>
+            <th scope="col">Period</th>
+            <th scope="col">Number</th>
+            <th scope="col">Size</th>
+            <th scope="col">Color</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+      <table class="table table-striped" id="tblMyWin" style="display: none;">
+        <thead>
+          <tr>
+            <th scope="col">Period</th>
+            <th scope="col">Number</th>
+            <th scope="col">Size</th>
+            <th scope="col">Color</th>
+            <th scope="col">Amt</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  <div class="mt-5"></div>
+  </div>
+  </div>
+</div>
+
+
+<div class="van-popup van-popup--round van-popup--bottom" style="left: auto; z-index: 2012;">
+  <div class="betting-mark">
+    
+    <div class="head">
+      <div class="box">
+        <div class="con gameDuration"></div>
+        <div class="color">
+          Select <span class="p-l-10">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-4">Money</div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-3 betMoney active" data-money="1">1</div>
+            <div class="col-3 betMoney" data-money="10">10</div>
+            <div class="col-3 betMoney" data-money="100">100</div>
+            <div class="col-3 betMoney" data-money="1000">1000</div>
+          </div>
+        </div>
+
+        <div class="col-4 mt-4">Multiple</div>
+        <div class="col-8 mt-4">
+          <div class="row">
+            <div class="col-2 multipleChange" data-sign="-">-</div>
+            <div class="col-7"><input type="number" id="betMultiple" value="1"/></div>
+            <div class="col-2 multipleChange active" data-sign="+">+</div>
+            <div class="col-1">&nbsp;</div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-4">
+          <div class="row" style="justify-content: center;">
+            <div class="betTimes active" data-times="1">X1</div>
+            <div class="betTimes" data-times="5"> X5 </div>
+            <div class="betTimes" data-times="10"> X10 </div>
+            <div class="betTimes" data-times="20"> X20 </div>
+            <div class="betTimes" data-times="50"> X50 </div>
+            <div class="betTimes" data-times="100"> X100 </div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-4">
+          <div class="row" style="justify-content: center;">
+            <div class="col-2" style="text-align: center;"><input type="checkbox" id="agreePresale" checked/></div>
+            <div class="col-10" for="agreePresale">I Agree <span id="presaleBttn">Presale Rule</span></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="bet-foot">
+      <div class="cancelButton"> Cancel </div>
+      <div class="betSubmitButton">
+        <span class="p-r-5">Total Price</span>
+        <span class="totalPrice">0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="APPS/game/modules/motka.js"></script>

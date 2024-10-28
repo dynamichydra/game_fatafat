@@ -1,10 +1,11 @@
 let mysql = require('mysql');
 let config = require('config');
-let connection;
+var connection;
 
 async function connectToDatabase() {
     return new Promise(async function (result) {
         if (!connection) {
+            console.log(1)
             let sqlClient = mysql.createPool({
                 host: config.get('db.mysql.host'),
                 user: config.get('db.mysql.user'),
@@ -18,15 +19,16 @@ async function connectToDatabase() {
                 database: config.get('db.mysql.dbname')
             });
 
-            sqlClient.getConnection(function (err, connection) {
+            sqlClient.getConnection(function (err, con) {
                 if (err){
                     console.log(err);
                     throw err;
                 }
-                // db = connection;
+                connection = con;
                 result(connection)
             });
         }else{
+            console.log(2)
             result(connection)
         }
     });

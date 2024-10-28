@@ -12,7 +12,7 @@
     "settings":["id","upi_acc","upi_qr"],
     "payment":["id","user_id","pdate","ref_no","pamt","upi_acc","order_no","status","amt","type"],
     "withdraw":["id","user_id","wdate","status","amt"],
-    "motka_bet":["id","user_id","game_id","amt","service","number","size","color","bdate","btype","bname", "status","price"],
+    "motka":["id","user_id","game_id","amt","service","number","size","color","bdate","btype","bname", "status","price"],
     "fatafat":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
     "fatafatSuper":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],
     "gameChance":["id","user_id","game_id","amt","service","number","bdate", "status","price","type"],

@@ -5,7 +5,8 @@
   let baji = {
     'fatafat':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
     'fatafatSuper':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
-    'gameChance':['All','DL1','DL2','DL3']
+    'gameChance':['All','DL1','DL2','DL3'],
+    'motka':['All']
   };
   let gameCode = null;
 
@@ -83,7 +84,11 @@
                 <td>${e.id}</td>
                 <td>${e.ph}</td>
                 <td>${e.gname} - ${'2'+e.game_id.toString().padStart(5, "0")}</td>
-                <td>${e.type} - ${e.number}</td>
+                ${gCode=='motka'?`
+                  <td scope="col">${e.bname}</td>
+                  `:`
+                  <td scope="col">${e.type}</br>${e.number??''}</td>
+                  `}
                 <td>${moment(e.bdate).format('DD.MMM.YYYY hh:mm')}</td>
                 <td>${e.amt}</td>
                 <td>${e.price}</td>

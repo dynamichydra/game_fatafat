@@ -115,6 +115,8 @@ exports.init = {
             sql += "UNION ";
             sql += "(SELECT name,ph,balance, T.id, 'Receive' note, 0 de, amt cr, tdate dt FROM `transfer_log` T INNER JOIN `user` U ON U.id = T.tid "+cnd+" )";
             sql += " UNION ";
+            sql += "(SELECT name,ph,balance, T.id, 'Color Fun' note, amt de, price cr, bdate dt  FROM `motka` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
+            sql += " UNION ";
             sql += "(SELECT name,ph,balance, T.id, 'Game of Chance' note, amt de, price cr, bdate dt  FROM `gameChance` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";
             sql += "UNION  ";
             sql += "(SELECT name,ph,balance, T.id, 'Kolkata fatafat' note, amt de, price cr, bdate dt  FROM `fatafat` T INNER JOIN `user` U ON U.id = T.user_id "+cnd+" )";

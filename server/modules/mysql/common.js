@@ -141,7 +141,7 @@ exports.init = {
           }
         }
         let sql = `SELECT ${select} FROM ${type} ${join} ${cnd} ${order} ${limit}`;
-        //console.log(sql)
+        // console.log(sql)
         db.query(sql, (err, rows) => {
             if (err) {
               result({SUCCESS:false,MESSAGE:err.message});

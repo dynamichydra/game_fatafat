@@ -12,6 +12,7 @@
     'fatafat':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
     'fatafatSuper':['All','Bazi1','Bazi2','Bazi3','Bazi4','Bazi5','Bazi6','Bazi7','Bazi8'],
     'gameChance':['All','DL1','DL2','DL3'],
+    'motka':['All']
   };
   init();
 
