@@ -41,11 +41,12 @@
     backendSource.getObject('game_inplay', null, {
       where: [{'key':'game_code','operator':'is','value':'motka'},
       {'key':'status','operator':'is','value':2}],
-      limit:{'start':0,'end':100},
+      limit:{'start':0,'end':20},
       order:{'by':'id','type':'DESC'},
       }, function (data) {
         if(data.SUCCESS){
           let htm = ``;
+          let count = 0;
           for(const item of data.MESSAGE){
             if(item.result_one && item.result_two && item.result_three){
               const colorArr = item.result_two.split(",");
@@ -58,10 +59,33 @@
                   ${colorArr[1]?`<div class="betColor ${colorArr[1]}"></div>`:``}
                 </td>
               </tr>`;
+
+              if(count==0){
+                $(`#gameBody .result-box`).html(`
+                  <div class="item ${colorArr[0]}">
+                    <div class="itemInner ${colorArr[1]??''}">
+                      <span class="number">${item.result_one}</span>
+                      <span class="type">${item.result_three}</span>
+                    </div>
+                  </div>
+                  `);
+                $(`#gameBody .result-box`).fadeIn(1000);
+
+                $(`#gameHead .lastWin`).html(`
+                  <div class="txt">${item.result_one}  ${item.result_three}</div>
+                  <div class="txt">
+                  <div class="betColor ${colorArr[0]}"></div>
+                  ${colorArr[1]?`<div class="betColor ${colorArr[1]}"></div>`:``}</div>
+                  `);
+              }
+              count++;
             }
             
           }
           $('#tblBetWin tbody').html(htm);
+          setTimeout(() => {
+            $(`#gameBody .result-box`).fadeOut(1000);
+          }, 3000);
         }
       });
   }
@@ -72,7 +96,7 @@
         {'key':'user_id','operator':'is','value':auth.config.id},
         {'key':'status','operator':'is','value':'1'},
       ],
-      limit:{'start':0,'end':100},
+      limit:{'start':0,'end':20},
       order:{'by':'id','type':'DESC'},
       }, function (data) {
         if(data.SUCCESS){

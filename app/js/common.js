@@ -122,6 +122,7 @@ var DM_COMMON = (function () {
         <div class="txt"></div>
         <div class="number"></div>
       </div>
+      <div class="lastWin"></div>
       <div class="out">
         <div class="txt"> Left time to buy </div>
         <div class="number c-row c-row-middle c-flew-end">

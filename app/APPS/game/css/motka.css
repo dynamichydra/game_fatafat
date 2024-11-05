@@ -125,15 +125,15 @@
       border: none;
       color:#fff;
     }
-    .greenBg {
+    .greenBg, #gameBody .result-box .green {
       background-color: #5cba47;
     }
   
-    .violetBg {
+    .violetBg, #gameBody .result-box .violet  {
       background-color: #db5fd1;
     }
   
-    .redBg {
+    .redBg, #gameBody .result-box .red {
       background-color: #fb4e4e;
     }
   
@@ -371,7 +371,7 @@
     padding: 15px 0px;
   }
   
-  #gameBody .mark-box {
+  #gameBody .mark-box, #gameBody .result-box {
     height: 100%;
     width: 100%;
     background: rgba(0,0,0,.7);
@@ -385,10 +385,59 @@
     justify-content:space-around;
     align-items:center;
   }
+
+  #gameBody .result-box div{
+    display: inline-block;
+    border-radius: 20px;
+    padding:  40px;
+    text-align: center;
+  }
+
+  #gameBody .result-box .itemInner{
+    padding: 20px;
+  }
+
+  #gameBody .result-box .type{
+    font-size: 15px;
+  }
+  
   
   #gameBody .mark-box .item {
     display: inline-block;
     border-radius: 20px;
     padding: 0 20px;
     background-color: #fb4e4e;
+  }
+
+  @keyframes bounceLoop {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  
+  .itemInner {
+    animation: bounceLoop .5s ease-in-out infinite;
+  }
+  
+  #colorBox div{
+    text-align: center;
+  }
+
+  .priceInfo{
+    color: #909090;
+    font-size: 12px;
+  }
+
+  #gameHead .lastWin{
+    padding: 20px 0px;
+  }
+  #gameHead .lastWin .txt{
+    margin-bottom: 10px;
   }
